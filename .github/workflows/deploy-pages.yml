@@ -28,7 +28,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3.5"
-          bundler-cache: true
+          bundler: "4.0.4"
+          bundler-cache: false
+
+      - name: Install dependencies
+        run: |
+          bundle lock --add-platform x86_64-linux
+          bundle install --jobs 4 --retry 3
 
       - name: Build site
         env:
