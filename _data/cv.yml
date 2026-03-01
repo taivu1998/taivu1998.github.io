@@ -1,0 +1,298 @@
+cv:
+  name: "Tai Vu"
+  label: "Member of Technical Staff, Researcher"
+  email: "taiducvu1998@gmail.com"
+  location: "Menlo Park, CA, US"
+  image: "prof_pic.jpg"
+  summary: >
+    Member of Technical Staff, Researcher at OpenAI, specializing in
+    LLM post-training, reinforcement learning, and agent research. 
+    Previously Senior Machine Learning Engineer at Meta and Researcher at Stanford AI Lab. 
+    Stanford CS graduate with Highest Distinction. IMO Medalist.
+
+  social_networks:
+    - network: GitHub
+      username: taivu1998
+    - network: LinkedIn
+      username: taiducvu
+    - network: X
+      username: taivu1998
+
+  sections:
+    Work Experience:
+      - company: "OpenAI"
+        position: "Member of Technical Staff, Researcher"
+        location: "San Francisco, CA, US"
+        start_date: "2026-02"
+        end_date: "present"
+        summary: ""
+        highlights:
+          - "Conduct frontier AI research across LLM post-training, reinforcement learning, and test-time compute scaling for state-of-the-art foundation models and production-grade agents."
+
+      - company: "Meta"
+        position: "Senior Machine Learning Engineer"
+        location: "Menlo Park, CA, US"
+        start_date: "2022-07"
+        end_date: "2026-02"
+        summary: ""
+        highlights:
+          - "Spearheaded large-scale end-to-end ML-powered recommender systems."
+          - "Architected state-of-the-art ML techniques, including causal inference, model scaling and efficiency, knowledge distillation, sequence modeling, dynamic user interest modeling, contextual and multimodal representation learning, value-aware multi-objective learning, and data denoising."
+          - "Researched next-gen ML technologies, including LLMs, reinforcement learning, reward modeling, agentic recommendations, and content quality & safety alignment."
+
+      - company: "Meta"
+        position: "Software Engineering Intern"
+        location: "Menlo Park, CA, US"
+        start_date: "2021-06"
+        end_date: "2021-09"
+        summary: ""
+        highlights:
+          - "Worked on the Facebook Commerce Monetization team."
+          - "Developed large-scale ML models in PyTorch to generate contextual embeddings of users and ads, enhancing semantic understanding and fine-grained personalization in ad retrieval and ranking systems."
+          - "Designed and deployed representation learning frameworks for user-ad matching across multiple surfaces, significantly improving relevance and driving ad revenue growth."
+
+      - company: "Meta"
+        position: "Software Engineering Intern"
+        location: "Menlo Park, CA, US"
+        start_date: "2020-06"
+        end_date: "2020-09"
+        summary: ""
+        highlights:
+          - "Worked on the AI Mobile Platform team, contributing to the development of the PyTorch platform."
+          - "Enhanced latency profiling tools with module-level debugging. Achieved a 5x increase in runtime efficiency."
+          - "Accelerated Conv1D and channel shuffle operations through low-level kernel optimizations for the PyTorch framework, delivering up to 10x operator-level speedup for on-device speech and NLP models."
+
+      - company: "Vietnam Posts and Telecommunications Group"
+        position: "Software Engineering Intern"
+        location: "Hanoi, Vietnam"
+        start_date: "2019-06"
+        end_date: "2019-08"
+        summary: ""
+        highlights:
+          - "Developed deep learning and computer vision models to extract texts, numbers, and logos from images of bank cards, achieving 89% accuracy."
+          - "Embedded the models in iOS and Android apps, improving the experience of 40,000 users."
+
+    Research Experience:
+    #   - company: "Marin Lab"
+    #     position: "Open-source Researcher"
+    #     location: ""
+    #     start_date: "2026-02"
+    #     end_date: "present"
+    #     summary: ""
+    #     highlights:
+    #       - "Conduct research and development of Marin foundation model series, encompassing multimodality pre-training, post-training, reinforcement learning, inference-time compute scaling, synthetic data, and distillation."
+    #       - "Architect large-scale training recipes and high-performance training and evaluation infrastructure in JAX."
+
+      - company: "Stanford Artificial Intelligence Laboratory (SAIL)"
+        position: "Undergraduate Researcher"
+        location: "Stanford, CA, US"
+        start_date: "2020-04"
+        end_date: "2021-09"
+        summary: ""
+        highlights:
+          - "A member of the Stanford Machine Learning Group. Worked on the AI for Climate Change initiative under Prof. Andrew Ng's supervision."
+          - "Built large-scale data pipelines in Python, NumPy, and Pandas to ingest, align, and preprocess satellite imagery and global forest loss driver labels. Implemented advanced data augmentation and stratified sampling techniques to improve signal diversity and model robustness across diverse geographies."
+          - "Designed and trained deep learning models in PyTorch, including CNNs, LSTMs, and multimodal fusion architectures, to classify forest loss drivers from multi-temporal satellite imagery, achieving 80% classification accuracy and supporting scalable environment monitoring."
+
+      - company: "Computer Science Research Lab"
+        position: "Undergraduate Researcher"
+        location: "Stanford, CA, US"
+        start_date: "2019-09"
+        end_date: "2019-12"
+        summary: ""
+        highlights:
+          - "Researched model compression techniques, including structured pruning, regularization-based sparsity, and weight quantization, to reduce the computational footprint of deep convolutional networks."
+          - "Applied regularization and pruning strategies to ResNet, achieving a 15% reduction in FLOPs with a 2% improvement in accuracy, demonstrating efficient compression without performance trade-offs."
+
+    Education:
+      - institution: "Stanford University"
+        location: "Stanford, CA, US"
+        studyType: "B.S. in Computer Science (AI Specialization)"
+        start_date: 2018
+        end_date: 2022
+        score: "GPA: 4.18/4.0"
+        highlights:
+          - "Graduated with Distinction (Summa Cum Laude)."
+          - "CS Coursework: Machine Learning, Deep Learning, NLP, LLMs, Reinforcement Learning, Computer Vision, NLU, Spoken Language Processing, Information Retrieval, Data Mining, Graph ML, Data Structures & Algorithms, Parallel Computing, Systems, Web Applications."
+          - "Math Coursework: Linear Algebra, Probability & Statistics, Convex Optimization, Calculus & Real Analysis, Graph Theory, Game Theory."
+
+    Awards:
+      - title: "Phi Beta Kappa Award"
+        date: 2022
+        awarder: "Stanford University"
+      - title: "Frederick Emmons Terman Engineering Scholastic Award"
+        date: 2022
+        awarder: "Stanford University"
+      - title: "Top 50"
+        date: 2020
+        awarder: "William Lowell Putnam Mathematical Competition"
+      - title: "Bronze Medal"
+        date: 2016
+        awarder: "International Mathematical Olympiad"
+      - title: "Gold Medal (Rank #1)"
+        date: 2016
+        awarder: "Vietnamese Mathematical Olympiad"
+      - title: "Gold Medal"
+        date: 2016
+        awarder: "American Mathematics Competition"
+      - title: "Gold Medal"
+        date: 2015
+        awarder: "International Mathematics Local Tournament"
+      - title: "Silver Medal (Rank #2)"
+        date: 2015
+        awarder: "Vietnamese Mathematical Olympiad "
+      - title: "Gold Medal"
+        date: 2015
+        awarder: "Regional Mathematics Competition"
+      - title: "Gold Medal"
+        date: 2015
+        awarder: "Nam Dinh Province Mathematics Competition"
+      - title: "Gold Medal"
+        date: 2015
+        awarder: "High School for Gifted Students Olympiad"
+      - title: "Gold Medal"
+        date: 2014
+        awarder: "Hanoi Open Mathematics Competition"
+      - title: "Research Scholarship"
+        date: 2014
+        awarder: "National Program for Development of Mathematics"
+
+    Skills:
+      - name: "Languages"
+        keywords:
+          - "Python"
+          - "C"
+          - "C++"
+          - "JavaScript"
+          - "TypeScript"
+          - "Java"
+          - "SQL"
+          - "PHP"
+          - "R"
+      - name: "AI/ML"
+        keywords:
+          - "PyTorch"
+          - "JAX"
+          - "TensorFlow"
+          - "Keras"
+          - "vLLM"
+          - "HuggingFace"
+          - "TRL"
+          - "Unsloth"
+          - "Accelerate"
+          - "FSDP"
+          - "LangGraph"
+          - "OpenRLHF"
+          - "PrimeRL"
+          - "SkyRL"
+          - "Scikit-learn"
+          - "OpenCV"
+          - "NLTK"
+          - "SpaCy"
+          - "Detectron2"
+          - "FastAI"
+          - "XGBoost"
+      - name: "Data & Analytics"
+        keywords:
+          - "NumPy"
+          - "Pandas"
+          - "Spark"
+          - "Matplotlib"
+          - "Seaborn"
+          - "SciPy"
+          - "D3.js"
+          - "Tableau"
+      - name: "Full-stack Development"
+        keywords:
+          - "React"
+          - "React Native"
+          - "Node.js"
+          - "Express.js"
+          - "MongoDB"
+          - "Next.js"
+          - "Django"
+          - "HTML"
+          - "CSS"
+      - name: "Cloud & DevOps"
+        keywords:
+          - "AWS"
+          - "GCP"
+          - "Azure"
+          - "Heroku"
+          - "Git"
+          - "Linux"
+          - "Docker"
+
+    Volunteer Experience:
+      - company: "Stanford TreeHacks"
+        position: "Software Development Fellow"
+        location: "Stanford, CA, US"
+        start_date: "2020-06"
+        end_date: "2020-09"
+        summary: ""
+        highlights:
+          - "Developed a web application that allowed 2,000 hackers to create profiles, propose project ideas, browse the list of other participants, make connections, explore challenges, filter projects, and form teams. Used JavaScript, MongoDB, Express.js, React, Node.js, HTML, and Sass."
+          - "Deployed the website using Heroku and AWS."
+          - "Collaborated with a tech team of 3 software engineers on product development."
+
+      - company: "Ronald McDonald House Charities"
+        position: "Mobile App Developer"
+        location: "San Diego, CA, US"
+        start_date: "2020-07"
+        end_date: "2020-09"
+        summary: ""
+        highlights:
+          - "A member of the Develop for Good program. Worked with 3 software developers and 1 product designer."
+          - "Built a mobile application in JavaScript and React Native that provided contact information, check-in, daily events, maps, FAQs, and COVID-19 screening, supporting 130 local families daily."
+
+      - company: "The Stanford Daily"
+        position: "Web Developer"
+        location: "Stanford, CA, US"
+        start_date: "2020-04"
+        end_date: "2020-07"
+        summary: ""
+        highlights:
+          - "Built front-end components in TypeScript, React, HTML, CSS, and Next.js to enhance the responsiveness, content organization, and navigation design of article webpages, serving 1,000 readers daily."
+          - "Adopted the Agile project management methodology."
+
+      - company: "Tarjimly"
+        position: "Software Developer"
+        location: "Mountain View, CA, US"
+        start_date: "2019-10"
+        end_date: "2019-12"
+        summary: ""
+        highlights:
+          - "A member of the Code the Change program. Collaborated with 4 software engineers."
+          - "Implemented programs in Python, Java, and SQL to process data from server and filter 18,000 translators across 32 languages based on the daily requests of 21,000 users."
+          - "Performed data analytics using NumPy, Pandas, Matplotlib, and Seaborn to gain insights into the effectiveness of the mobile app."
+          - "Designed machine learning algorithms and pipelines using Scikit-learn, Pandas, and MLflow to optimize the process of matching users with translators, reducing the average wait time to 2 minutes."
+
+      - company: "Vietnam Summer School in Research"
+        position: "Student Researcher"
+        location: ""
+        start_date: "2019-07"
+        end_date: "2019-07"
+        summary: ""
+        highlights:
+          - "Attended academic lectures on international finance, macroeconomics and economic decision making with machine learning."
+          - "Collaborated with a team of 5 members to study Thailand's financial crisis and determine the effects of exchange rates on trade balances."
+          - "Implemented machine learning, statistical and econometric models in Python, R and Stata."
+
+      - company: "ViCare Corporation"
+        position: "Data Science Intern"
+        location: "Hanoi, Vietnam"
+        start_date: "2017-05"
+        end_date: "2017-07"
+        summary: ""
+        highlights:
+          - "Analyzed daily statistical data of 2 million customers, assisting managers in sales and marketing decisions."
+          - "Developed tools to automate data cleaning, analysis, and visualization, speeding up the data analytics pipeline by 10x."
+
+      - company: "Nam Dinh Mathematical Olympiad Team"
+        position: "IMO Mathematics Coach"
+        location: "Nam Dinh, Vietnam"
+        start_date: "2015-10"
+        end_date: "2017-06"
+        summary: ""
+        highlights:
+          - "Coached teams of 30+ members from Le Hong Phong High School on strategies to tackle advanced olympiad-level Math problems."

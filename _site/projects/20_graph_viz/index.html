@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      GraphViz: Force-Directed Graph Layout with Real-Time Qt Animation | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A C++ implementation of the Fruchterman-Reingold algorithm for visualizing nodes and edges in a graph">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/20_graph_viz/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">GraphViz: Force-Directed Graph Layout with Real-Time Qt Animation</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/GraphViz" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>GraphViz is a <strong>C++17 desktop application</strong> that implements a <strong>Fruchterman-Reingold force-directed graph layout algorithm</strong> with real-time animation via the Qt framework. The physics simulation applies <strong>Hooke’s-law attractive forces</strong> along edges (<code class="language-plaintext highlighter-rouge">F_attract = k * d²</code>) and <strong>Coulomb-like repulsive forces</strong> between all node pairs (<code class="language-plaintext highlighter-rouge">F_repel = k / d</code>), iterating in a tight computation loop on a <strong>worker thread</strong> while a Qt widget renders the evolving layout via <strong>signal-slot communication with semaphore-based frame dropping</strong>. The system starts from a <strong>uniform circular initial placement</strong> and converges to aesthetically pleasing layouts where connected nodes cluster and edge crossings are minimized. Ships with <strong>35 pre-built graph files</strong> spanning Platonic solids (cube, dodecahedron, icosahedron), named graphs from combinatorics (Petersen, Heawood, Desargues, Mobius-Kantor, Moser spindle), and parametric families (cliques up to K30, grids up to 10×10, binary trees up to 127 nodes).</p>
+
+<h2 id="force-directed-layout-algorithm">Force-Directed Layout Algorithm</h2>
+
+<h3 id="physics-model">Physics Model</h3>
+
+<p>The algorithm is a variant of <strong>Fruchterman-Reingold force-directed placement</strong> — a physics-based simulation where nodes are treated as charged particles connected by springs:</p>
+
+<p><strong>Attractive forces</strong> (Hooke’s law along edges):</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// For each edge (start, end): F_attract = k_attract * d²</span>
+<span class="kt">double</span> <span class="n">Fattract</span> <span class="o">=</span> <span class="n">kattract</span> <span class="o">*</span> <span class="p">(</span><span class="n">xDiff</span> <span class="o">*</span> <span class="n">xDiff</span> <span class="o">+</span> <span class="n">yDiff</span> <span class="o">*</span> <span class="n">yDiff</span><span class="p">);</span>
+<span class="kt">double</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">atan2</span><span class="p">(</span><span class="n">yDiff</span><span class="p">,</span> <span class="n">xDiff</span><span class="p">);</span>
+<span class="n">deltaX</span><span class="p">[</span><span class="n">edge</span><span class="p">.</span><span class="n">start</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Fattract</span> <span class="o">*</span> <span class="nf">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>   <span class="c1">// Pull start toward end</span>
+<span class="n">deltaY</span><span class="p">[</span><span class="n">edge</span><span class="p">.</span><span class="n">start</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Fattract</span> <span class="o">*</span> <span class="nf">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
+<span class="n">deltaX</span><span class="p">[</span><span class="n">edge</span><span class="p">.</span><span class="n">end</span><span class="p">]</span> <span class="o">-=</span> <span class="n">Fattract</span> <span class="o">*</span> <span class="nf">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>     <span class="c1">// Pull end toward start</span>
+<span class="n">deltaY</span><span class="p">[</span><span class="n">edge</span><span class="p">.</span><span class="n">end</span><span class="p">]</span> <span class="o">-=</span> <span class="n">Fattract</span> <span class="o">*</span> <span class="nf">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>Repulsive forces</strong> (Coulomb’s law between all node pairs):</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// For each pair (i, j): F_repel = k_repel / d</span>
+<span class="kt">double</span> <span class="n">Frepel</span> <span class="o">=</span> <span class="n">krepel</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">xDiff</span> <span class="o">*</span> <span class="n">xDiff</span> <span class="o">+</span> <span class="n">yDiff</span> <span class="o">*</span> <span class="n">yDiff</span><span class="p">);</span>
+<span class="kt">double</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">atan2</span><span class="p">(</span><span class="n">yDiff</span><span class="p">,</span> <span class="n">xDiff</span><span class="p">);</span>
+<span class="n">deltaX</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">Frepel</span> <span class="o">*</span> <span class="nf">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>   <span class="c1">// Push i away from j</span>
+<span class="n">deltaY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">Frepel</span> <span class="o">*</span> <span class="nf">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
+<span class="n">deltaX</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Frepel</span> <span class="o">*</span> <span class="nf">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>   <span class="c1">// Push j away from i</span>
+<span class="n">deltaY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Frepel</span> <span class="o">*</span> <span class="nf">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>With equal force constants (<code class="language-plaintext highlighter-rouge">k_attract = k_repel = 0.001</code>), the equilibrium edge length satisfies <code class="language-plaintext highlighter-rouge">k * d² = k / d</code> → <strong>d³ = 1</strong> → <strong>d = 1 unit</strong>, meaning the algorithm converges to layouts where edge lengths approach 1 in the internal coordinate system.</p>
+
+<h3 id="initial-placement-and-iteration">Initial Placement and Iteration</h3>
+
+<p>Nodes begin at <strong>uniformly-spaced positions on the unit circle</strong>:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">graph</span><span class="p">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">kPi</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span><span class="p">),</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">kPi</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span><span class="p">)};</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Each iteration accumulates force deltas into temporary vectors <code class="language-plaintext highlighter-rouge">deltaX[n]</code> and <code class="language-plaintext highlighter-rouge">deltaY[n]</code>, then applies them simultaneously — an <strong>Euler integration</strong> step. The simulation runs in a continuous loop for a user-specified duration (measured via <code class="language-plaintext highlighter-rouge">std::chrono::high_resolution_clock</code>), calling <code class="language-plaintext highlighter-rouge">DrawGraph()</code> after each iteration for real-time animation.</p>
+
+<h3 id="computational-complexity">Computational Complexity</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th style="text-align: center">Per Iteration</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Attractive forces</td>
+      <td style="text-align: center"><strong>O(|E|)</strong></td>
+      <td>Iterates over all edges</td>
+    </tr>
+    <tr>
+      <td>Repulsive forces</td>
+      <td style="text-align: center"><strong>O(|V|²)</strong></td>
+      <td>Iterates over all node pairs</td>
+    </tr>
+    <tr>
+      <td>Position update</td>
+      <td style="text-align: center"><strong>O(|V|)</strong></td>
+      <td>Apply accumulated deltas</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td style="text-align: center"><strong>O(|V|² + |E|)</strong></td>
+      <td>Dominated by repulsive force computation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For the largest included graph (127-node binary tree), this means ~8,001 pair comparisons per iteration.</p>
+
+<h2 id="multi-threaded-qt-rendering-architecture">Multi-Threaded Qt Rendering Architecture</h2>
+
+<h3 id="threading-model">Threading Model</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────┐      Qt Signal/Slot      ┌─────────────────────────┐
+│    WORKER THREAD         │ ──────────────────────→  │    MAIN (GUI) THREAD     │
+│                          │    graphUpdated(graph)    │                          │
+│  _userMain():            │                          │  QApplication::exec()    │
+│    parse graph file      │  ←── QSemaphore{1} ───  │  MyWidget::paintEvent()  │
+│    compute forces        │      (back-pressure)     │    QPainter rendering    │
+│    call DrawGraph()      │                          │    release semaphore     │
+└─────────────────────────┘                           └─────────────────────────┘
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>Main thread</strong>: Runs the Qt event loop, handles all GUI rendering via <code class="language-plaintext highlighter-rouge">QPainter</code>
+</li>
+  <li>
+<strong>Worker thread</strong>: <code class="language-plaintext highlighter-rouge">QThread</code> subclass running the force-directed simulation at maximum CPU speed</li>
+</ul>
+
+<h3 id="signal-slot-communication-with-frame-dropping">Signal-Slot Communication with Frame Dropping</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">SimpleGraph</span><span class="o">::</span><span class="n">drawGraph</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">semaphore</span><span class="p">.</span><span class="n">tryAcquire</span><span class="p">())</span> <span class="k">return</span><span class="p">;</span>   <span class="c1">// Frame drop if GUI still painting</span>
+    <span class="c1">// Copy graph data to widget, emit graphUpdated signal</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">MyWidget</span><span class="o">::</span><span class="n">paintEvent</span><span class="p">(</span><span class="n">QPaintEvent</span><span class="o">*</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ... render edges and nodes via QPainter ...</span>
+    <span class="n">semaphore</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>                    <span class="c1">// Signal readiness for next frame</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">QSemaphore{1}</code> acts as a <strong>lock-free back-pressure mechanism</strong>: the algorithm thread can only queue one redraw at a time. If computation outpaces rendering, frames are silently dropped via <code class="language-plaintext highlighter-rouge">tryAcquire()</code> — ensuring the physics simulation runs at maximum speed regardless of display refresh rate.</p>
+
+<h3 id="the-define-main-bridging-hack">The <code class="language-plaintext highlighter-rouge">#define main</code> Bridging Hack</h3>
+
+<p>A technically unusual pattern reconciles two conflicting requirements — Qt needs <code class="language-plaintext highlighter-rouge">main()</code> for <code class="language-plaintext highlighter-rouge">QApplication</code>, while the user’s algorithm also needs <code class="language-plaintext highlighter-rouge">main()</code>:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SimpleGraph.h: rename user's main</span>
+<span class="cp">#define main _userMain
+</span>
+<span class="c1">// SimpleGraph.cpp: restore and define the real main</span>
+<span class="cp">#undef main
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">QApplication</span> <span class="n">app</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+    <span class="n">WorkerThread</span> <span class="n">worker</span><span class="p">;</span>
+    <span class="n">worker</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>          <span class="c1">// Runs _userMain() on separate thread</span>
+    <span class="k">return</span> <span class="n">app</span><span class="p">.</span><span class="n">exec</span><span class="p">();</span>       <span class="c1">// Qt event loop on main thread</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="qpainter-rendering-engine">QPainter Rendering Engine</h2>
+
+<h3 id="dynamic-coordinate-normalization">Dynamic Coordinate Normalization</h3>
+
+<p>Node positions (arbitrary real-valued coordinates) are dynamically scaled to fit the 600×600 window every frame using min-max normalization:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">scale</span> <span class="o">=</span> <span class="p">[</span><span class="n">maxX</span><span class="p">,</span> <span class="n">maxY</span><span class="p">,</span> <span class="n">minX</span><span class="p">,</span> <span class="n">minY</span><span class="p">](</span><span class="k">const</span> <span class="n">Node</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">minX</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">kWindowWidth</span> <span class="o">-</span> <span class="n">kCircleDiameter</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="n">minX</span> <span class="o">+</span> <span class="n">maxX</span><span class="p">)</span> <span class="o">+</span> <span class="n">kCircleRadius</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">minY</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">kWindowHeight</span> <span class="o">-</span> <span class="n">kCircleDiameter</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="n">minY</span> <span class="o">+</span> <span class="n">maxY</span><span class="p">)</span> <span class="o">+</span> <span class="n">kCircleRadius</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>As the force-directed layout evolves and the bounding box changes, the visualization <strong>auto-rescales every frame</strong> — the graph always fills the window. A degenerate-case guard (all nodes collinear) prevents division by zero.</p>
+
+<h3 id="visual-design">Visual Design</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th style="text-align: center">Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Window</td>
+      <td style="text-align: center">600×600 pixels</td>
+    </tr>
+    <tr>
+      <td>Background</td>
+      <td style="text-align: center">Black (<code class="language-plaintext highlighter-rouge">#000000</code>)</td>
+    </tr>
+    <tr>
+      <td>Nodes</td>
+      <td style="text-align: center">14px cyan circles (<code class="language-plaintext highlighter-rouge">#92FCFF</code>) with dark borders (<code class="language-plaintext highlighter-rouge">#0d0d0d</code>)</td>
+    </tr>
+    <tr>
+      <td>Edges</td>
+      <td style="text-align: center">Medium gray lines (<code class="language-plaintext highlighter-rouge">#606060</code>)</td>
+    </tr>
+    <tr>
+      <td>Rendering order</td>
+      <td style="text-align: center">Background → edges → nodes (nodes on top)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="graph-data-structures">Graph Data Structures</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">Node</span> <span class="p">{</span> <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span> <span class="p">};</span>                       <span class="c1">// 2D position</span>
+<span class="k">struct</span> <span class="nc">Edge</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">;</span> <span class="p">};</span>            <span class="c1">// Undirected edge (index pair)</span>
+<span class="k">struct</span> <span class="nc">SimpleGraph</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">nodes</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">edges</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Edge list representation</strong> — two flat vectors for nodes and edges. This is memory-efficient for sparse graphs and natural for the force computation, which iterates over edges and node pairs independently. The <code class="language-plaintext highlighter-rouge">SimpleGraph</code> struct is transparently enhanced into a Qt <code class="language-plaintext highlighter-rouge">QObject</code> subclass via macro renaming for signal/slot support.</p>
+
+<h2 id="35-pre-built-graph-library">35 Pre-Built Graph Library</h2>
+
+<h3 id="platonic-solids">Platonic Solids</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Graph</th>
+      <th style="text-align: center">Nodes</th>
+      <th style="text-align: center">Edges</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">cube</code></td>
+      <td style="text-align: center">8</td>
+      <td style="text-align: center">12</td>
+      <td>Q3 hypercube</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">octahedron</code></td>
+      <td style="text-align: center">6</td>
+      <td style="text-align: center">12</td>
+      <td>K_{2,2,2}</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dodecahedron</code></td>
+      <td style="text-align: center">20</td>
+      <td style="text-align: center">30</td>
+      <td>Regular dodecahedron</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">icosahedron</code></td>
+      <td style="text-align: center">12</td>
+      <td style="text-align: center">30</td>
+      <td>Regular icosahedron</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="named-graphs-from-combinatorics">Named Graphs from Combinatorics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Graph</th>
+      <th style="text-align: center">Nodes</th>
+      <th style="text-align: center">Edges</th>
+      <th>Significance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">petersen</code></td>
+      <td style="text-align: center">10</td>
+      <td style="text-align: center">15</td>
+      <td>Famous counterexample in graph theory</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">heawood</code></td>
+      <td style="text-align: center">14</td>
+      <td style="text-align: center">21</td>
+      <td>Smallest cubic graph of girth 6</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">desargues</code></td>
+      <td style="text-align: center">20</td>
+      <td style="text-align: center">30</td>
+      <td>Desargues configuration graph</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mobius-kantor</code></td>
+      <td style="text-align: center">16</td>
+      <td style="text-align: center">24</td>
+      <td>Generalized Petersen GP(8,3)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">moser-spindle</code></td>
+      <td style="text-align: center">7</td>
+      <td style="text-align: center">11</td>
+      <td>Unit-distance graph requiring 4 colors</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">durer</code></td>
+      <td style="text-align: center">12</td>
+      <td style="text-align: center">18</td>
+      <td>Skeleton of Durer’s solid</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">tietze</code></td>
+      <td style="text-align: center">12</td>
+      <td style="text-align: center">18</td>
+      <td>Tietze’s graph</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">tesseract</code></td>
+      <td style="text-align: center">16</td>
+      <td style="text-align: center">32</td>
+      <td>4-dimensional hypercube Q4</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="parametric-graph-families">Parametric Graph Families</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Instances</th>
+      <th>Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+<strong>Complete graphs</strong> (K_n)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">5clique</code>, <code class="language-plaintext highlighter-rouge">10clique</code>, <code class="language-plaintext highlighter-rouge">30clique</code>
+</td>
+      <td>5–30 nodes</td>
+    </tr>
+    <tr>
+      <td><strong>Path graphs</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">2line</code>, <code class="language-plaintext highlighter-rouge">10line</code>, <code class="language-plaintext highlighter-rouge">50line</code>
+</td>
+      <td>2–50 nodes</td>
+    </tr>
+    <tr>
+      <td><strong>Cycle graphs</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">30cycle</code>, <code class="language-plaintext highlighter-rouge">60cycle</code>
+</td>
+      <td>30–60 nodes</td>
+    </tr>
+    <tr>
+      <td><strong>Grid graphs</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">3grid</code>, <code class="language-plaintext highlighter-rouge">5grid</code>, <code class="language-plaintext highlighter-rouge">10grid</code>
+</td>
+      <td>3×3 to 10×10</td>
+    </tr>
+    <tr>
+      <td>
+<strong>Wheel graphs</strong> (W_n)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">8wheel</code>, <code class="language-plaintext highlighter-rouge">32wheel</code>, <code class="language-plaintext highlighter-rouge">64wheel</code>
+</td>
+      <td>8–64 nodes</td>
+    </tr>
+    <tr>
+      <td><strong>Binary trees</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">31binary-tree</code>, <code class="language-plaintext highlighter-rouge">63binary-tree</code>, <code class="language-plaintext highlighter-rouge">127binary-tree</code>
+</td>
+      <td>31–127 nodes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="graph-file-format">Graph File Format</h3>
+
+<p>Plain text with node count on line 1 followed by edge pairs:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8          ← 8 nodes (indexed 0-7)
+0 1        ← edge between node 0 and node 1
+1 2
+2 3
+3 0
+4 5
+5 6
+6 7
+7 4
+0 4
+1 5
+2 6
+3 7        ← cube graph (Q3)
+</code></pre></div></div>
+
+<h2 id="animation-effect">Animation Effect</h2>
+
+<p>The user observes a real-time convergence process:</p>
+
+<ol>
+  <li>
+<strong>Initial state</strong>: Nodes arranged in a perfect circle (uniform angular spacing)</li>
+  <li>
+<strong>During simulation</strong>: Nodes visibly migrate — connected nodes attract, all nodes repel, edge crossings reduce</li>
+  <li>
+<strong>At equilibrium</strong>: Aesthetically pleasing layout with roughly uniform edge lengths and well-separated nodes</li>
+</ol>
+
+<p>The animation runs for a user-specified duration, with the force-directed algorithm computing at maximum CPU throughput while the Qt renderer displays frames at display speed.</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>C++17, Qt (QWidget, QPainter, QThread, signals/slots, QSemaphore, qmake), STL (<code class="language-plaintext highlighter-rouge">std::vector</code>, <code class="language-plaintext highlighter-rouge">std::transform</code>, <code class="language-plaintext highlighter-rouge">std::chrono</code>, <code class="language-plaintext highlighter-rouge">std::move</code>, lambdas, range-based for)</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

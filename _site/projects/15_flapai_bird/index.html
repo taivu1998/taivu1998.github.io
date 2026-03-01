@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      FlapAI Bird: Deep Reinforcement Learning for Flappy Bird | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A Flappy Bird agent that achieved superhuman performance using reinforcement learning algorithms">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/15_flapai_bird/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">FlapAI Bird: Deep Reinforcement Learning for Flappy Bird</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/FlapAI-Bird" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a>
+<a href="https://arxiv.org/abs/2003.09579" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/Paper-Read_paper-brightgreen?logo=affinity-publisher" alt=""></a>
+<a href="https://taivu1998.github.io/assets/files/projects/FlapAI-Bird_Poster.pdf" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/Poster-View_poster-orange?logo=styleshare" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Published as <a href="https://arxiv.org/abs/2003.09579" rel="external nofollow noopener" target="_blank">arXiv:2003.09579</a>, FlapAI Bird implements <strong>six progressively sophisticated value-based RL algorithms</strong> — from a random baseline through tabular SARSA and Q-Learning, linear function approximation, feed-forward DQN, to convolutional DQN with experience replay — all evaluated on the same Flappy Bird environment via OpenAI Gym wrappers around the PyGame Learning Environment (PLE). The system achieves <strong>superhuman performance of 2,069 pipes</strong> (vs. human baseline of ~20–50) after 10,000 training episodes. Two key design innovations drive performance: (1) <strong>backward trajectory processing</strong> that propagates the −1000 death penalty in reverse chronological order for dramatically faster credit assignment, and (2) <strong>biased exploration priors</strong> via a tunable <code class="language-plaintext highlighter-rouge">probFlap</code> parameter (default 0.1) encoding domain knowledge that no-flap is the safer action. The convolutional DQN operates directly on <strong>80×80 binary-thresholded pixel frames</strong> with a 50,000-transition experience replay buffer, while tabular methods use a 3-feature discretized state representation. All agents share a unified Gym wrapper interface with shaped rewards (+0.5 survival, +5.0 pipe passage, −1000 death) and undiscounted returns (γ=1.0).</p>
+
+<h2 id="six-rl-algorithm-progression">Six RL Algorithm Progression</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Agent</th>
+      <th>Algorithm</th>
+      <th style="text-align: center">State Input</th>
+      <th style="text-align: center">Value Storage</th>
+      <th style="text-align: center">Parameters</th>
+      <th style="text-align: center">Update</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Baseline</strong></td>
+      <td>Random (probFlap)</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">None</td>
+    </tr>
+    <tr>
+      <td><strong>SARSA</strong></td>
+      <td>On-policy TD(0)</td>
+      <td style="text-align: center">Discretized string</td>
+      <td style="text-align: center">Dict</td>
+      <td style="text-align: center">O(|S|×|A|)</td>
+      <td style="text-align: center">Tabular</td>
+    </tr>
+    <tr>
+      <td><strong>Q-Learning</strong></td>
+      <td>Off-policy TD(0)</td>
+      <td style="text-align: center">Discretized string</td>
+      <td style="text-align: center">Dict</td>
+      <td style="text-align: center">O(|S|×|A|)</td>
+      <td style="text-align: center">Tabular</td>
+    </tr>
+    <tr>
+      <td><strong>Linear FA</strong></td>
+      <td>Semi-gradient TD</td>
+      <td style="text-align: center">5 normalized features</td>
+      <td style="text-align: center">Weight vector</td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">Manual SGD</td>
+    </tr>
+    <tr>
+      <td><strong>DNN-DQN</strong></td>
+      <td>DQN (3-layer MLP)</td>
+      <td style="text-align: center">3 continuous</td>
+      <td style="text-align: center">Neural net</td>
+      <td style="text-align: center">1,262</td>
+      <td style="text-align: center">PyTorch SGD</td>
+    </tr>
+    <tr>
+      <td><strong>CNN-DQN</strong></td>
+      <td>DQN + Experience Replay</td>
+      <td style="text-align: center">80×80 pixels</td>
+      <td style="text-align: center">Neural net</td>
+      <td style="text-align: center">31,746</td>
+      <td style="text-align: center">PyTorch Adam</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="state-representations">State Representations</h2>
+
+<p>The system provides <strong>four specialized Gym wrappers</strong> (<code class="language-plaintext highlighter-rouge">FlappyBirdNormal</code>, <code class="language-plaintext highlighter-rouge">FlappyBirdLR</code>, <code class="language-plaintext highlighter-rouge">FlappyBirdDNN</code>, <code class="language-plaintext highlighter-rouge">FlappyBirdCNN</code>), each exposing algorithm-appropriate state representations from the same underlying PLE environment:</p>
+
+<p><strong>Tabular methods</strong> (SARSA, Q-Learning): Three features discretized via <code class="language-plaintext highlighter-rouge">discretize(x, rounding) = rounding × ⌊x / rounding⌋</code> — <code class="language-plaintext highlighter-rouge">player_vel</code>, <code class="language-plaintext highlighter-rouge">hor_dist_to_next_pipe</code>, <code class="language-plaintext highlighter-rouge">ver_dist_to_next_pipe</code> — concatenated into a string key for dictionary-based Q-tables. The <code class="language-plaintext highlighter-rouge">rounding</code> parameter controls a bias-variance trade-off: too fine yields sparse tables with slow convergence; too coarse causes state aliasing.</p>
+
+<p><strong>Linear FA</strong>: Five normalized features — <code class="language-plaintext highlighter-rouge">player_vel/10</code>, <code class="language-plaintext highlighter-rouge">hor_dist/288</code> (screen width), <code class="language-plaintext highlighter-rouge">ver_dist/512</code> (screen height), action, bias — with sparse dictionary-based weight vectors and manual semi-gradient updates.</p>
+
+<p><strong>DNN-DQN</strong>: Raw 3D continuous vector <code class="language-plaintext highlighter-rouge">[player_vel, hor_dist, ver_dist]</code> without normalization.</p>
+
+<p><strong>CNN-DQN</strong>: 80×80 binary-thresholded pixel frames (see Frame Preprocessing Pipeline below).</p>
+
+<h2 id="reward-shaping">Reward Shaping</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th style="text-align: center">Reward</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Surviving a timestep</td>
+      <td style="text-align: center"><strong>+0.5</strong></td>
+      <td>Continuous survival incentive</td>
+    </tr>
+    <tr>
+      <td>Passing through a pipe</td>
+      <td style="text-align: center"><strong>+5.0</strong></td>
+      <td>Milestone reward (PLE returns +1, reshaped to +5)</td>
+    </tr>
+    <tr>
+      <td>Death/collision</td>
+      <td style="text-align: center"><strong>−1000</strong></td>
+      <td>Large terminal penalty for credit assignment</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>With undiscounted returns (γ=1.0), the −1000 death penalty treats all future rewards equally, appropriate for Flappy Bird where survival at any future point is equally valuable — but Q-values can grow unboundedly for long episodes.</p>
+
+<h2 id="tabular-methods-sarsa-vs-q-learning">Tabular Methods: SARSA vs. Q-Learning</h2>
+
+<p>Both use <code class="language-plaintext highlighter-rouge">defaultdict(float)</code> Q-tables with the same epsilon-greedy exploration, differing only in their TD targets:</p>
+
+<p><strong>SARSA</strong> (on-policy): <code class="language-plaintext highlighter-rouge">Q(s,a) ← (1−η)·Q(s,a) + η·(r + γ·Q(s',a'))</code> where <code class="language-plaintext highlighter-rouge">a'</code> is the action <strong>actually selected</strong> by the current epsilon-greedy policy — the next action is chosen <em>before</em> the update, making transitions <code class="language-plaintext highlighter-rouge">(s, a, r, s', a')</code>.</p>
+
+<p><strong>Q-Learning</strong> (off-policy): <code class="language-plaintext highlighter-rouge">Q(s,a) ← (1−η)·Q(s,a) + η·(r + γ·max_{a'} Q(s',a'))</code> using the greedy max over all next actions regardless of the exploration policy.</p>
+
+<p>This makes SARSA more conservative — it accounts for the “cost of exploration” since it evaluates the policy it’s following, while Q-Learning always targets the optimal policy.</p>
+
+<h2 id="backward-trajectory-processing">Backward Trajectory Processing</h2>
+
+<p>One of the most impactful design decisions: transitions within an episode can be processed in <strong>reverse chronological order</strong> (<code class="language-plaintext highlighter-rouge">--order backward</code>). The large −1000 death penalty at episode termination is propagated backward through the trajectory <em>before</em> earlier transitions are updated, dramatically improving credit assignment for long episodes where the death signal would otherwise take many episodes to propagate to early states through forward processing alone. Q-Learning with backward updates achieves the strongest overall performance.</p>
+
+<h2 id="neural-network-architectures">Neural Network Architectures</h2>
+
+<h3 id="feed-forward-dnn-1262-parameters">Feed-Forward DNN (1,262 parameters)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input [3] → Linear(3→50) → ReLU → Linear(50→20) → ReLU → Linear(20→2) → ReLU → Output [2]
+</code></pre></div></div>
+
+<p>Per-transition online updates via SGD (<code class="language-plaintext highlighter-rouge">lr=0.1</code>), no experience replay. Uses MSE loss between <code class="language-plaintext highlighter-rouge">Q(s,a)</code> and <code class="language-plaintext highlighter-rouge">r + γ·max_{a'} Q(s',a')</code>.</p>
+
+<h3 id="convolutional-dqn-31746-parameters">Convolutional DQN (31,746 parameters)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input [1×80×80] → Conv2d(1→16, k=5, s=2) → ReLU → Conv2d(16→32, k=5, s=2) → ReLU
+  → Flatten [9,248] → Linear(9248→2) → Output [2]
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th style="text-align: center">Input → Output</th>
+      <th style="text-align: center">Config</th>
+      <th style="text-align: center">Parameters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Conv2d 1</td>
+      <td style="text-align: center">1×80×80 → 16×38×38</td>
+      <td style="text-align: center">k=5, s=2</td>
+      <td style="text-align: center">416</td>
+    </tr>
+    <tr>
+      <td>Conv2d 2</td>
+      <td style="text-align: center">16×38×38 → 32×17×17</td>
+      <td style="text-align: center">k=5, s=2</td>
+      <td style="text-align: center">12,832</td>
+    </tr>
+    <tr>
+      <td>Linear</td>
+      <td style="text-align: center">9,248 → 2</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">18,498</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Deliberately compact compared to the original Atari DQN (~1.7M parameters). Uses Adam optimizer, minibatch size 32, and 50,000-transition experience replay buffer with 5,000-step warm-up. Actions encoded as one-hot vectors via <code class="language-plaintext highlighter-rouge">torch.eye(2)</code> with Q-value selection via element-wise multiplication — an elegant vectorized alternative to index-based selection. The <code class="language-plaintext highlighter-rouge">survived</code> mask (1 − done) zeros out the bootstrap term for terminal states.</p>
+
+<h2 id="experience-replay-cnn-agent">Experience Replay (CNN Agent)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th style="text-align: center">Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Buffer</td>
+      <td style="text-align: center">
+<code class="language-plaintext highlighter-rouge">collections.deque(maxlen=50,000)</code> — FIFO ring buffer</td>
+    </tr>
+    <tr>
+      <td>Transition</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">(state, action_onehot, reward, nextState, survived)</code></td>
+    </tr>
+    <tr>
+      <td>Sampling</td>
+      <td style="text-align: center">Uniform random without replacement</td>
+    </tr>
+    <tr>
+      <td>Warm-up</td>
+      <td style="text-align: center">5,000 transitions before training begins</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td style="text-align: center">32</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>During warm-up, the agent explores and stores transitions but does not call <code class="language-plaintext highlighter-rouge">updateWeights</code>, ensuring sufficient replay diversity before gradient updates start.</p>
+
+<h2 id="frame-preprocessing-pipeline">Frame Preprocessing Pipeline</h2>
+
+<p>The CNN agent processes raw game frames through a <code class="language-plaintext highlighter-rouge">torchvision.transforms.Compose</code> chain:</p>
+
+<ol>
+  <li>
+<strong>Crop</strong>: <code class="language-plaintext highlighter-rouge">frame[:404]</code> — removes bottom score display from the 512-pixel-high frame</li>
+  <li>
+<strong>Grayscale</strong>: 3 RGB channels → 1 intensity channel</li>
+  <li>
+<strong>Resize</strong>: ~288×404 → 80×80 pixels (significant spatial compression)</li>
+  <li>
+<strong>Binary threshold</strong>: Otsu-style at intensity 128 — all pixels &gt;128 become 255 (white), others 0 (black)</li>
+  <li>
+<strong>Tensor conversion</strong>: <code class="language-plaintext highlighter-rouge">ToTensor()</code> normalizes to <code class="language-plaintext highlighter-rouge">[0, 1]</code>
+</li>
+  <li>
+<strong>Batch dimension</strong>: Final output <code class="language-plaintext highlighter-rouge">[1, 1, 80, 80]</code>
+</li>
+</ol>
+
+<p>The aggressive binarization eliminates color variation, texture noise, and lighting effects, reducing the visual problem to pure structural/positional information. Unlike the original Atari DQN which stacks 4 consecutive frames to capture motion, this implementation uses <strong>single frames only</strong> — the network must infer dynamics purely from static positions.</p>
+
+<h2 id="exploration-biased-epsilon-greedy">Exploration: Biased Epsilon-Greedy</h2>
+
+<p>All agents use <strong>biased random action selection</strong> during exploration:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">randomAct</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">random</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">probFlap</span> <span class="k">else</span> <span class="mi">1</span>  <span class="c1"># flap only 10% of the time
+</span></code></pre></div></div>
+
+<p>Rather than uniform random actions, the <code class="language-plaintext highlighter-rouge">probFlap</code> parameter (default 0.1) encodes domain knowledge that no-flap is the safer action — a form of informed exploration prior. With probability ε, the agent executes this biased random action; otherwise, it selects the greedy action (ties broken by <code class="language-plaintext highlighter-rouge">randomAct</code>).</p>
+
+<p><strong>Decay schedules</strong> (Robbins-Monro conditions): <code class="language-plaintext highlighter-rouge">ε_t = ε₀ / (t + 1)</code> (harmonic epsilon decay), <code class="language-plaintext highlighter-rouge">η_t = η · (t+1) / (t+2)</code> (slow learning rate decay).</p>
+
+<h2 id="training-configuration">Training Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th style="text-align: center">Tabular</th>
+      <th style="text-align: center">Linear FA</th>
+      <th style="text-align: center">DNN</th>
+      <th style="text-align: center">CNN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Training episodes</td>
+      <td style="text-align: center">10,000</td>
+      <td style="text-align: center">10,000</td>
+      <td style="text-align: center">10,000</td>
+      <td style="text-align: center">10,000</td>
+    </tr>
+    <tr>
+      <td>Eval frequency</td>
+      <td style="text-align: center">Every 250</td>
+      <td style="text-align: center">Every 250</td>
+      <td style="text-align: center">Every 250</td>
+      <td style="text-align: center">Every 250</td>
+    </tr>
+    <tr>
+      <td>Learning rate</td>
+      <td style="text-align: center">0.8</td>
+      <td style="text-align: center">0.1</td>
+      <td style="text-align: center">0.1</td>
+      <td style="text-align: center">0.1</td>
+    </tr>
+    <tr>
+      <td>Discount (γ)</td>
+      <td style="text-align: center">1.0</td>
+      <td style="text-align: center">1.0</td>
+      <td style="text-align: center">1.0</td>
+      <td style="text-align: center">1.0</td>
+    </tr>
+    <tr>
+      <td>Optimizer</td>
+      <td style="text-align: center">Direct update</td>
+      <td style="text-align: center">Manual SGD</td>
+      <td style="text-align: center">PyTorch SGD</td>
+      <td style="text-align: center">PyTorch Adam</td>
+    </tr>
+    <tr>
+      <td>Replay buffer</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">50,000</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">1 (online)</td>
+      <td style="text-align: center">32</td>
+    </tr>
+    <tr>
+      <td>Update timing</td>
+      <td style="text-align: center">Once per episode</td>
+      <td style="text-align: center">Once per episode</td>
+      <td style="text-align: center">Once per episode</td>
+      <td style="text-align: center">Every timestep</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="results">Results</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th style="text-align: center">Peak Score</th>
+      <th style="text-align: center">Consistent Performance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Human baseline</td>
+      <td style="text-align: center">20–50 pipes</td>
+      <td style="text-align: center">—</td>
+    </tr>
+    <tr>
+      <td>Q-Learning (backward, η=0.8)</td>
+      <td style="text-align: center"><strong>2,069 pipes</strong></td>
+      <td style="text-align: center">
+<strong>&gt;1,400 pipes</strong> after 10K episodes</td>
+    </tr>
+    <tr>
+      <td>SARSA (backward)</td>
+      <td style="text-align: center">~1,800 pipes</td>
+      <td style="text-align: center">&gt;1,200 pipes</td>
+    </tr>
+    <tr>
+      <td>CNN-DQN (with replay)</td>
+      <td style="text-align: center">~1,000 pipes</td>
+      <td style="text-align: center">Improving with more training</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key findings</strong>: (1) <strong>Backward trajectory processing</strong> provides the single largest performance boost by efficiently propagating the −1000 death signal. (2) <strong>Off-policy Q-Learning outperforms on-policy SARSA</strong> — learning the optimal policy regardless of exploration noise. (3) <strong>State discretization critically impacts tabular methods</strong> — the <code class="language-plaintext highlighter-rouge">rounding</code> parameter controls a bias-variance trade-off. (4) CNN agents learn directly from pixels but require higher sample complexity, demonstrating the cost of learning visual features from scratch vs. hand-crafted state representations.</p>
+
+<h2 id="demo">Demo</h2>
+
+<div class="row">
+    <div class="col-sm-6 mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/FlapAI-Bird_Demo-480.webp 480w,/assets/img/projects/FlapAI-Bird_Demo-800.webp 800w,/assets/img/projects/FlapAI-Bird_Demo-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/FlapAI-Bird_Demo.gif" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="FlapAI Bird Demo" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/FlapAI-Bird_Poster-480.webp 480w,/assets/img/projects/FlapAI-Bird_Poster-800.webp 800w,/assets/img/projects/FlapAI-Bird_Poster-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/FlapAI-Bird_Poster.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="FlapAI Bird Poster" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.7+), PyTorch (neural networks + autograd), OpenAI Gym (environment interface), PyGame Learning Environment (Flappy Bird simulator), torchvision (frame preprocessing), OpenCV (binary thresholding), NumPy</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

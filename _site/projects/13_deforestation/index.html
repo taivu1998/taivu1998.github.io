@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Global Deforestation: Classifying Forest Loss Drivers from Satellite Imagery | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A deep learning classification framework of deforestation drivers from multi-temporal Landsat imagery">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/13_deforestation/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Global Deforestation: Classifying Forest Loss Drivers from Satellite Imagery</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/aicc-spr20-deforest-global" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Developed under the <strong>Stanford AI for Climate Change (AICC)</strong> initiative, this system classifies the <strong>drivers</strong> of global deforestation — commodity agriculture, shifting cultivation, forestry, wildfire, and urbanization — from multi-temporal Landsat satellite imagery (2000–2018) at 15m/pixel resolution. Understanding <em>why</em> forests are lost (not just where or when) is essential for targeted policy interventions: commodity-driven deforestation requires supply-chain regulation, while wildfire demands fire management and shifting agriculture needs sustainable farming support. The system implements a complete pipeline from satellite image acquisition (Descartes Labs API with multi-sensor fallback across Landsat 8/7/5) through cloud-masked median compositing, 82-feature geospatial enrichment, and deep learning classification via <strong>14 CNN backbone architectures</strong>, an <strong>LRCN temporal model</strong> (CNN + LSTM), and a <strong>FusionNet multimodal late fusion</strong> architecture combining visual features with geographic coordinates, fire radiative power, population density, and forest loss metrics. Achieves <strong>~80% classification accuracy</strong> across 5 driver categories on a global test set.</p>
+
+<h2 id="five-deforestation-driver-categories">Five Deforestation Driver Categories</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Class</th>
+      <th>Definition</th>
+      <th style="text-align: center">Training Distribution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Commodity-Driven</strong></td>
+      <td>Permanent conversion to agriculture/mining</td>
+      <td style="text-align: center">18.7%</td>
+    </tr>
+    <tr>
+      <td><strong>Shifting Agriculture</strong></td>
+      <td>Small-scale rotational cultivation</td>
+      <td style="text-align: center">25.7%</td>
+    </tr>
+    <tr>
+      <td><strong>Forestry</strong></td>
+      <td>Large-scale timber harvesting (expected regrowth)</td>
+      <td style="text-align: center">34.2%</td>
+    </tr>
+    <tr>
+      <td><strong>Wildfire</strong></td>
+      <td>Natural or anthropogenic fire-driven loss</td>
+      <td style="text-align: center">16.5%</td>
+    </tr>
+    <tr>
+      <td><strong>Urbanization</strong></td>
+      <td>Settlement and infrastructure expansion</td>
+      <td style="text-align: center">4.9%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ground-truth labels from Curtis et al. (2018, <em>Science</em>); loss-year detection from Hansen Global Forest Change (Hansen et al., 2013, <em>Science</em>).</p>
+
+<h2 id="satellite-image-acquisition-pipeline">Satellite Image Acquisition Pipeline</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">TileDownloader</code> creates 10km × 10km tiles (666 × 666 pixels at 15m) centered on deforestation coordinates via <code class="language-plaintext highlighter-rouge">dl.scenes.DLTile.from_latlon()</code>, with a <strong>multi-sensor fallback chain</strong>: Landsat 8 → Landsat 7 → Landsat 5 — ensuring coverage across the full 2000–2018 period despite sensor availability gaps.</p>
+
+<p><strong>Band acquisition</strong>: RGB + NIR + SWIR1 + SWIR2 + cloud/quality bands. <strong>Cloud filtering</strong> applies a three-stage pipeline: scene-level cloud fraction threshold (0.5), per-pixel cloud masking using cloud-mask AND bright-mask bands, and NDVI quality control for Landsat 7 (mean NDVI &gt; 48,000). Clean pixels are composited via <strong>masked median</strong> of the top-5 lowest-cloud scenes into annual composites for temporal sequences.</p>
+
+<p><strong>Forest loss polygon extraction</strong>: Hansen GFC product is queried for loss-year masks (tree cover &gt; 30% threshold), then OpenCV contour detection (<code class="language-plaintext highlighter-rouge">cv2.findContours</code>) extracts polygon shapes, filtered by minimum size (&gt; 2 pixels), with areas normalized by <code class="language-plaintext highlighter-rouge">MAX_LOSS_AREA = 331,836.0</code>.</p>
+
+<h2 id="82-auxiliary-geospatial-features">82 Auxiliary Geospatial Features</h2>
+
+<p>Beyond satellite imagery, each sample is enriched with structured geospatial data:</p>
+
+<ul>
+  <li>
+<strong>Fire metrics (21 features)</strong>: Brightness, count, fire radiative power (FRP) at 1km and 10km scales with max/mean/sum aggregations</li>
+  <li>
+<strong>Forest loss metrics (14 features)</strong>: Fire-associated loss, total loss, loss-year differences at multi-scale</li>
+  <li>
+<strong>Forest gain metrics (7 features)</strong>: Gain at 10km scale with various aggregations</li>
+  <li>
+<strong>Land cover types (4 features)</strong>: Deciduous broadleaf, evergreen broadleaf, mixed, needleleaf</li>
+  <li>
+<strong>Population metrics (21 features)</strong>: Density in 2000/2015, population change, at multi-scale</li>
+  <li>
+<strong>Tree cover metrics (7 features)</strong>: Cover percentage in year 2000 at various spatial scales</li>
+  <li>
+<strong>Temporal patterns (10 features)</strong>: Loss-year difference features at 1km and 10km</li>
+</ul>
+
+<p>All auxiliary features are Z-score normalized using training set statistics, with values below −1e30 imputed as 0 (following Curtis et al.).</p>
+
+<h2 id="model-architectures">Model Architectures</h2>
+
+<h3 id="14-cnn-backbones">14 CNN Backbones</h3>
+
+<p>DenseNet121/161/201, ResNet18/34/101/152, Inceptionv3/v4, ResNeXt101, NASNetA, MNASNet, SENet154, SEResNeXt101 — sourced from both TorchVision and Cadene’s pretrained model zoo. <strong>Multi-temporal channel expansion</strong>: for temporal sequences, the first convolutional layer is expanded from 3 to <code class="language-plaintext highlighter-rouge">3 × 4 = 12</code> channels, with pretrained weights replicated across additional channels.</p>
+
+<h3 id="lrcn--long-term-recurrent-convolutional-network">LRCN — Long-term Recurrent Convolutional Network</h3>
+
+<p>Based on Donahue et al. (2015), processes temporal satellite image sequences:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: [B, C, S, H, W] → Reshape to [B×S, C, H, W]
+  → Shared-weight CNN backbone (feature extraction)
+  → Reshape to [B, S, num_features]
+  → LSTM (hidden=128, 1 layer, batch_first=True)
+  → Last hidden state → Linear classifier → 5 classes
+</code></pre></div></div>
+
+<p>Captures temporal dynamics of deforestation — distinguishing between permanent conversion (commodity) and cyclical patterns (shifting agriculture, forestry with regrowth).</p>
+
+<h3 id="fusionnet--multimodal-late-fusion">FusionNet — Multimodal Late Fusion</h3>
+
+<p>Combines CNN visual features with structured geospatial data:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CNN backbone → features → Linear(1024→128) → [128-dim]
+  + Sinusoidal lat/lon encoding [20-dim] (Vaswani et al. positional encoding)
+    OR one-hot region embedding [7-dim]
+  + Polygon loss area [1-dim]
+  + 82 auxiliary features [82-dim]
+  → Concatenated → MLP(→128, ReLU, Dropout(0.2), →128, ReLU, Dropout(0.2), →5)
+</code></pre></div></div>
+
+<p><strong>Positional encoding</strong> follows Vaswani et al. (2017): <code class="language-plaintext highlighter-rouge">sin(v / 10^(i/N))</code> and <code class="language-plaintext highlighter-rouge">cos(v / 10^(i/N))</code> for normalized lat/lon coordinates, producing 20-dimensional geographic embeddings. This enables the model to learn spatial patterns of deforestation drivers (e.g., commodity-driven deforestation clusters in South America and Southeast Asia).</p>
+
+<h3 id="regionmodel--per-continent-ensemble">RegionModel — Per-Continent Ensemble</h3>
+
+<p>Routes samples to 7 continent-specific model instances (NA, LA, EU, AF, AS, SEA, OC), exploiting the strong geographic clustering of deforestation drivers.</p>
+
+<h3 id="seco--self-supervised-pretraining">SeCo — Self-Supervised Pretraining</h3>
+
+<p>Seasonal Contrast (Manas et al., ICCV 2021) — ResNet-18/50 encoders pretrained on unlabeled satellite imagery using seasonal contrast learning, addressing limited labeled data in remote sensing. Four pretrained checkpoints (100K and 1M samples for each backbone).</p>
+
+<h3 id="baselines">Baselines</h3>
+
+<p><strong>Random Forest</strong> and <strong>Logistic Regression</strong> with grid search (n_estimators, max_depth, regularization), 5-fold cross-validation, and a <strong>nearest-neighbor fallback</strong> — when classifier confidence &lt; 0.5, predict the label of the geographically closest training sample, exploiting spatial autocorrelation of deforestation drivers.</p>
+
+<h2 id="training-configuration">Training Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Optimizer</td>
+      <td>Adam (<code class="language-plaintext highlighter-rouge">lr=3e-5</code>, <code class="language-plaintext highlighter-rouge">weight_decay=1e-2</code>)</td>
+    </tr>
+    <tr>
+      <td>LR scheduler</td>
+      <td>ReduceLROnPlateau (patience=4, monitoring val accuracy)</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td>10 (train), 1 (val/test)</td>
+    </tr>
+    <tr>
+      <td>Max epochs</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>Early stopping</td>
+      <td>Patience 25, monitoring val accuracy</td>
+    </tr>
+    <tr>
+      <td>Gradient clipping</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>Loss</td>
+      <td>Cross-entropy (optional class weighting inversely proportional to frequency)</td>
+    </tr>
+    <tr>
+      <td>Data parallel</td>
+      <td><code class="language-plaintext highlighter-rouge">distributed_backend="dp"</code></td>
+    </tr>
+    <tr>
+      <td>Augmentation</td>
+      <td>7 presets; production uses <strong>aggressive</strong>: salt-and-pepper (0–10%), flips, scale, translate, rotation, shear, elastic deformation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Hyperparameter optimization</strong>: Grid search via Launchpad (LR × weight decay × 20 samples), Bayesian optimization via NNI (TPE tuner, 50 max trials, 12 concurrent), and FusionNet-specific sweeps.</p>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<ul>
+  <li>
+<strong>Per-class precision, recall, F1</strong> via <code class="language-plaintext highlighter-rouge">sklearn.classification_report</code>
+</li>
+  <li>
+<strong>Loss-area-weighted evaluation</strong>: Metrics weighted by forest loss polygon area — prioritizing classification accuracy on large-scale deforestation events with greater environmental impact</li>
+  <li>
+<strong>Per-region breakdown</strong>: Separate reports for each of 7 continental regions</li>
+  <li>
+<strong>Normalized confusion matrices</strong>: Visualized as seaborn heatmaps</li>
+</ul>
+
+<h2 id="results">Results</h2>
+
+<p><strong>~80% classification accuracy</strong> across 5 deforestation driver categories on a global test set spanning all 7 continental regions. Per-region convergence epochs: OC=7, NA=7, EU=13, AS=14, SA=19, AF=25 — reflecting varying regional complexity and data availability.</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.7+), PyTorch, PyTorch Lightning (0.9), Descartes Labs API (satellite imagery), scikit-learn (baselines, metrics), pretrainedmodels (Cadene CNN zoo), imgaug (7 augmentation presets), NNI (Bayesian optimization), OpenCV (contour detection), SymPy, TensorBoard, CircleCI, Travis CI</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

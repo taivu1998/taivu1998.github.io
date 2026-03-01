@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Shiptivitas: Kanban Board with Dragula-React Reconciliation | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A full-stack to-do list web application based on a kanban board">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/8_shiptivitas/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Shiptivitas: Kanban Board with Dragula-React Reconciliation</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Shiptivitas-To-Do-App" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Shiptivitas is a <strong>full-stack kanban board</strong> for freight shipping logistics management, built as part of Y Combinator’s startup training program. The most technically interesting aspect is the <strong>Dragula-React cancel-and-reconcile pattern</strong> — resolving the fundamental conflict between Dragula’s imperative DOM mutations and React’s virtual DOM reconciliation by immediately canceling Dragula’s physical node moves (<code class="language-plaintext highlighter-rouge">drake.cancel(true)</code>) and delegating all rendering to React’s state-driven re-render cycle. The system features <strong>three-swimlane drag-and-drop</strong> (Backlog → In Progress → Complete) with <strong>ref-based container registration</strong>, a <strong>data-attribute bridge</strong> between Dragula’s DOM-centric world and React’s state-centric world, and <strong>sibling-relative insertion</strong> for drop positioning. The Express.js backend implements a <strong>fractional-priority insertion algorithm</strong> (<code class="language-plaintext highlighter-rouge">priority - 0.5</code> for contiguous reordering) with parameterized SQL queries against a better-sqlite3 database, versioned REST API (<code class="language-plaintext highlighter-rouge">/api/v1/</code>), and graceful shutdown handlers.</p>
+
+<h2 id="system-architecture">System Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[React SPA (port 3000)]  ←── HTTP/JSON ──→  [Express.js API (port 3001)]
+      │                                              │
+  Board.js (Dragula + state)                    server.js (REST endpoints)
+  ├── Swimlane × 3 (ref containers)             ├── GET /api/v1/clients
+  ├── Card × 20 (data-id attributes)            ├── GET /api/v1/clients/:id
+  └── drake.cancel(true) reconciliation         └── PUT /api/v1/clients/:id
+                                                      │
+                                                 better-sqlite3 (clients.db)
+</code></pre></div></div>
+
+<p>The application follows a <strong>decoupled client-server architecture</strong> with separate dependency trees, build processes, and startup scripts. The React SPA runs on port 3000 via Create React App, while the Express API runs on port 3001 with babel-watch for hot-reloading.</p>
+
+<h2 id="dragula-react-cancel-and-reconcile-pattern">Dragula-React Cancel-and-Reconcile Pattern</h2>
+
+<h3 id="the-fundamental-problem">The Fundamental Problem</h3>
+
+<p>Dragula is an imperative DOM manipulation library — when a user drops an element, Dragula physically moves the DOM node from one container to another. React, however, expects to be the sole authority over the DOM via virtual DOM reconciliation. If Dragula moves a node without React’s knowledge, the virtual DOM and actual DOM diverge, causing rendering corruption.</p>
+
+<h3 id="the-solution-cancel--extract--reconcile">The Solution: Cancel → Extract → Reconcile</h3>
+
+<p><strong>Step 1 — Container Registration</strong> (constructor + <code class="language-plaintext highlighter-rouge">componentDidMount</code>):</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create stable refs for Dragula container identification</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">swimlanes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">backlog</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nf">createRef</span><span class="p">(),</span>
+    <span class="na">inProgress</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nf">createRef</span><span class="p">(),</span>
+    <span class="na">complete</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nf">createRef</span><span class="p">(),</span>
+<span class="p">};</span>
+
+<span class="c1">// Register refs as Dragula drop containers</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">drake</span> <span class="o">=</span> <span class="nc">Dragula</span><span class="p">([</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">swimlanes</span><span class="p">.</span><span class="nx">backlog</span><span class="p">.</span><span class="nx">current</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">swimlanes</span><span class="p">.</span><span class="nx">inProgress</span><span class="p">.</span><span class="nx">current</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">swimlanes</span><span class="p">.</span><span class="nx">complete</span><span class="p">.</span><span class="nx">current</span><span class="p">,</span>
+<span class="p">]);</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">drake</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">drop</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">target</span><span class="p">,</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">sibling</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nf">updateClient</span><span class="p">(...));</span>
+</code></pre></div></div>
+
+<p><strong>Step 2 — Drop Event Handling</strong> (<code class="language-plaintext highlighter-rouge">updateClient</code>):</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// IMMEDIATELY revert all DOM mutations Dragula made</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">drake</span><span class="p">.</span><span class="nf">cancel</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>  <span class="c1">// true = revert to original source position</span>
+
+<span class="c1">// Identify target via ref identity comparison (not className or id)</span>
+<span class="kd">let</span> <span class="nx">targetSwimlane</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">backlog</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">if </span><span class="p">(</span><span class="nx">target</span> <span class="o">===</span> <span class="k">this</span><span class="p">.</span><span class="nx">swimlanes</span><span class="p">.</span><span class="nx">inProgress</span><span class="p">.</span><span class="nx">current</span><span class="p">)</span> <span class="nx">targetSwimlane</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">in-progress</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">target</span> <span class="o">===</span> <span class="k">this</span><span class="p">.</span><span class="nx">swimlanes</span><span class="p">.</span><span class="nx">complete</span><span class="p">.</span><span class="nx">current</span><span class="p">)</span> <span class="nx">targetSwimlane</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">complete</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Bridge from DOM to React state via data-id attribute</span>
+<span class="kd">const</span> <span class="nx">clientThatMoved</span> <span class="o">=</span> <span class="nx">clientsList</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="nx">c</span> <span class="o">=&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">el</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">clone</span> <span class="o">=</span> <span class="p">{</span> <span class="p">...</span><span class="nx">clientThatMoved</span><span class="p">,</span> <span class="na">status</span><span class="p">:</span> <span class="nx">targetSwimlane</span> <span class="p">};</span>
+
+<span class="c1">// Sibling-relative insertion: find drop position from sibling element</span>
+<span class="kd">const</span> <span class="nx">updatedClients</span> <span class="o">=</span> <span class="nx">clientsList</span><span class="p">.</span><span class="nf">filter</span><span class="p">(</span><span class="nx">c</span> <span class="o">=&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">id</span> <span class="o">!==</span> <span class="nx">clone</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">updatedClients</span><span class="p">.</span><span class="nf">findIndex</span><span class="p">(</span><span class="nx">c</span> <span class="o">=&gt;</span> <span class="nx">sibling</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">sibling</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="nx">updatedClients</span><span class="p">.</span><span class="nf">splice</span><span class="p">(</span><span class="nx">index</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span> <span class="p">?</span> <span class="nx">updatedClients</span><span class="p">.</span><span class="nx">length</span> <span class="p">:</span> <span class="nx">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">clone</span><span class="p">);</span>
+
+<span class="c1">// Let React's virtual DOM re-render from the authoritative state</span>
+<span class="k">this</span><span class="p">.</span><span class="nf">setState</span><span class="p">({</span> <span class="na">clients</span><span class="p">:</span> <span class="p">{</span> <span class="na">backlog</span><span class="p">:</span> <span class="p">...,</span> <span class="na">inProgress</span><span class="p">:</span> <span class="p">...,</span> <span class="na">complete</span><span class="p">:</span> <span class="p">...</span> <span class="p">}</span> <span class="p">});</span>
+</code></pre></div></div>
+
+<p><strong>Step 3 — Cleanup</strong> (<code class="language-plaintext highlighter-rouge">componentWillUnmount</code>): <code class="language-plaintext highlighter-rouge">this.drake.remove()</code> destroys the Dragula instance and event listeners.</p>
+
+<h3 id="key-technical-details">Key Technical Details</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mechanism</th>
+      <th>Implementation</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><code class="language-plaintext highlighter-rouge">drake.cancel(true)</code></strong></td>
+      <td>Reverts DOM node to original source position</td>
+      <td>Ensures Dragula’s mutations are fully undone before React re-renders</td>
+    </tr>
+    <tr>
+      <td><strong>Ref identity comparison</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">target === this.swimlanes.*.current</code></td>
+      <td>Reliable container identification via stable DOM node references</td>
+    </tr>
+    <tr>
+      <td><strong>Data-attribute bridge</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">el.dataset.id</code> ↔ <code class="language-plaintext highlighter-rouge">client.id</code>
+</td>
+      <td>Maps Dragula’s DOM elements to React state objects</td>
+    </tr>
+    <tr>
+      <td><strong>Sibling-relative insertion</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">Array.findIndex(sibling) → Array.splice(index)</code></td>
+      <td>Preserves exact drop position; <code class="language-plaintext highlighter-rouge">-1</code> fallback appends to end</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="component-architecture">Component Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>App (class) ─── manages selectedTab state
+ ├── Navigation (class) ─── Bootstrap nav-tabs, ARIA attributes, onClick callback
+ └── [Conditional: switch(selectedTab)]
+       ├── HomeTab (functional) ─── animated circle with cubic-bezier transition
+       └── Board (class) ─── owns all client state + Dragula lifecycle
+              ├── Swimlane "Backlog" (class) ─── grey cards, dragulaRef
+              ├── Swimlane "In Progress" (class) ─── blue cards, dragulaRef
+              └── Swimlane "Complete" (class) ─── green cards, dragulaRef
+                    └── Card × N (class) ─── data-id, data-status, color-coded
+</code></pre></div></div>
+
+<p><strong>State management</strong>: Pure React component-local state — no Redux, Context API, or external stores. <code class="language-plaintext highlighter-rouge">App.state.selectedTab</code> controls navigation; <code class="language-plaintext highlighter-rouge">Board.state.clients</code> (partitioned into <code class="language-plaintext highlighter-rouge">backlog</code>, <code class="language-plaintext highlighter-rouge">inProgress</code>, <code class="language-plaintext highlighter-rouge">complete</code> arrays) is the authoritative data source. The 3-level component tree (Board → Swimlane → Card) is shallow enough that prop drilling is appropriate.</p>
+
+<p><strong>Card rendering</strong>: Each Card renders <code class="language-plaintext highlighter-rouge">data-id</code> and <code class="language-plaintext highlighter-rouge">data-status</code> as HTML data attributes on its root element, which the Board’s drop handler reads via <code class="language-plaintext highlighter-rouge">el.dataset.*</code> — this is the bridge between Dragula’s DOM-centric world and React’s state-centric world. Cards are color-coded by status: grey (<code class="language-plaintext highlighter-rouge">rgba(167,158,158,0.671)</code>) for Backlog, sky blue for In Progress, muted green (<code class="language-plaintext highlighter-rouge">rgb(150,190,150)</code>) for Complete.</p>
+
+<h2 id="expressjs-rest-api">Express.js REST API</h2>
+
+<h3 id="endpoints">Endpoints</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Endpoint</th>
+      <th>Key Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/api/v1/clients</code></td>
+      <td>Optional <code class="language-plaintext highlighter-rouge">?status=</code> filter, parameterized SQL, 3-value validation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/api/v1/clients/:id</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">parseInt</code> + existence check via <code class="language-plaintext highlighter-rouge">validateId()</code>
+</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">PUT</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/api/v1/clients/:id</code></td>
+      <td>Fractional-priority insertion with batch reordering</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="fractional-priority-insertion-algorithm">Fractional-Priority Insertion Algorithm</h3>
+
+<p>The PUT endpoint implements a three-case reordering algorithm for maintaining contiguous integer priorities:</p>
+
+<p><strong>Case 1 — No-op</strong>: Same status and same priority → zero database writes.</p>
+
+<p><strong>Case 2 — Intra-swimlane reorder</strong>: Same status, different priority:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Given: [A:1, B:2, C:3, D:4], move D to position 2
+1. Set D.priority = 2 - 0.5 = 1.5         // Fractional insertion
+2. Sort by priority: [A:1, D:1.5, B:2, C:3]
+3. Renumber: [A:1, D:2, B:3, C:4]          // Restore contiguous integers
+</code></pre></div></div>
+
+<p><strong>Case 3 — Cross-swimlane move</strong>: Different status. The client is removed from its old status group and inserted into the new one using the same <code class="language-plaintext highlighter-rouge">priority - 0.5</code> fractional technique. Both old and new groups are independently renumbered. If no priority is specified, <code class="language-plaintext highlighter-rouge">Number.MAX_SAFE_INTEGER</code> places the item at the bottom.</p>
+
+<h3 id="database-layer">Database Layer</h3>
+
+<ul>
+  <li>
+<strong>Engine</strong>: SQLite via <code class="language-plaintext highlighter-rouge">better-sqlite3</code> (synchronous, zero-config embedded database)</li>
+  <li>
+<strong>Schema</strong>: <code class="language-plaintext highlighter-rouge">clients(id INTEGER PRIMARY KEY, name TEXT NOT NULL, description TEXT, status TEXT, priority INTEGER)</code>
+</li>
+  <li>
+<strong>Seed data</strong>: 20 client records — 11 Backlog, 5 In Progress, 4 Complete</li>
+  <li>
+<strong>Security</strong>: All queries use parameterized bindings (<code class="language-plaintext highlighter-rouge">?</code> placeholders) for SQL injection protection</li>
+  <li>
+<strong>Connection</strong>: Single persistent connection opened at module load; graceful shutdown on <code class="language-plaintext highlighter-rouge">SIGTERM</code>/<code class="language-plaintext highlighter-rouge">SIGINT</code> via <code class="language-plaintext highlighter-rouge">db.close()</code>
+</li>
+</ul>
+
+<h3 id="error-response-format">Error Response Format</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w"> </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Client not found"</span><span class="p">,</span><span class="w"> </span><span class="nl">"long_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No client with ID 99 exists in the database"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Structured dual-message format with short UI-friendly messages and longer developer-focused debugging information.</p>
+
+<h2 id="frontend-stack">Frontend Stack</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Version</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>React</td>
+      <td>16.7</td>
+      <td>Class components (pre-hooks era)</td>
+    </tr>
+    <tr>
+      <td>Dragula</td>
+      <td>3.7</td>
+      <td>Imperative drag-and-drop</td>
+    </tr>
+    <tr>
+      <td>Bootstrap</td>
+      <td>4.2</td>
+      <td>Grid layout (<code class="language-plaintext highlighter-rouge">col-md-4</code>), nav-tabs</td>
+    </tr>
+    <tr>
+      <td>Create React App</td>
+      <td>2.1</td>
+      <td>Webpack/Babel build toolchain</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Swimlane layout</strong>: Bootstrap responsive grid (<code class="language-plaintext highlighter-rouge">container-fluid</code> → <code class="language-plaintext highlighter-rouge">row</code> → <code class="language-plaintext highlighter-rouge">col-md-4</code> × 3) with each swimlane column at <code class="language-plaintext highlighter-rouge">height: calc(100vh - 100px)</code> and <code class="language-plaintext highlighter-rouge">overflow-y: auto</code> for vertical scrolling.</p>
+
+<h2 id="demo">Demo</h2>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/Shiptivitas_Demo-480.webp 480w,/assets/img/projects/Shiptivitas_Demo-800.webp 800w,/assets/img/projects/Shiptivitas_Demo-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/Shiptivitas_Demo.gif" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Shiptivitas Demo" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>JavaScript (ES6+), React (16.7), Dragula (3.7), Bootstrap (4.2), Express (4.16), better-sqlite3 (5.4), Babel 7 (babel-watch), Create React App, Node.js (11.10)</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

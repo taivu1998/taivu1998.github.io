@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      GapBuffer: Header-Only C++17 Text Editor Data Structure | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A simple C++ text editor that efficiently moves its cursor, accesses different positions, adds and removes characters, and edits texts">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/19_gap_buffer/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">GapBuffer: Header-Only C++17 Text Editor Data Structure</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/GapBuffer" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>GapBuffer is a <strong>header-only, fully-templated C++17 implementation</strong> of the gap buffer data structure — the foundational text-editor buffer used historically by Emacs. The core innovation is maintaining a <strong>contiguous internal gap</strong> at the cursor position, making insertions and deletions at the cursor <strong>O(1) amortized</strong> while preserving O(1) random access via transparent index translation. The implementation features a <strong>random-access iterator</strong> (<code class="language-plaintext highlighter-rouge">GapBufferIterator&lt;T&gt;</code>) that satisfies <code class="language-plaintext highlighter-rouge">std::sort</code> requirements, complete <strong>Rule-of-Five</strong> compliance with timing-validated move semantics (&lt;10 microseconds for 10,000-element moves), the <strong>Scott Meyers const-cast idiom</strong> for DRY const/non-const overloads, STL-compatible type aliases and comparison operators, and a <strong>2x doubling reallocation strategy</strong> with two-phase element transfer. The 41-test Qt Test harness covers edge cases including pathological self-assignment chains (<code class="language-plaintext highlighter-rouge">(buf = buf = buf) = buf</code>), nested <code class="language-plaintext highlighter-rouge">GapBuffer&lt;GapBuffer&lt;int&gt;&gt;</code> containers, and <code class="language-plaintext highlighter-rouge">std::sort</code> compatibility verification.</p>
+
+<h2 id="gap-buffer-physical-memory-layout">Gap Buffer: Physical Memory Layout</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ element_0 ... element_{cursor-1} | GAP_SLOTS | element_{cursor} ... element_{n-1} ]
+  ^─── pre-cursor content ─────^    ^── gap ──^   ^─── post-cursor content ─────^
+</code></pre></div></div>
+
+<p>Five member variables track the buffer state:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Invariant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_logical_size</code></td>
+      <td><code class="language-plaintext highlighter-rouge">size_t</code></td>
+      <td>Number of actual elements (excludes gap)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_buffer_size</code></td>
+      <td><code class="language-plaintext highlighter-rouge">size_t</code></td>
+      <td>Total allocated capacity (includes gap)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_cursor_index</code></td>
+      <td><code class="language-plaintext highlighter-rouge">size_t</code></td>
+      <td>Array index where the gap starts</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_gap_size</code></td>
+      <td><code class="language-plaintext highlighter-rouge">size_t</code></td>
+      <td>Number of unused slots in the gap</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_elems</code></td>
+      <td><code class="language-plaintext highlighter-rouge">T*</code></td>
+      <td>Raw pointer to the underlying array</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Fundamental invariant</strong>: <code class="language-plaintext highlighter-rouge">_buffer_size == _logical_size + _gap_size</code> must always hold.</p>
+
+<h2 id="core-operations">Core Operations</h2>
+
+<h3 id="o1-amortized-insertion-at-cursor">O(1) Amortized Insertion at Cursor</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">insert_at_cursor</span><span class="p">(</span><span class="n">const_reference</span> <span class="n">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_gap_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">reserve</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">_buffer_size</span><span class="p">);</span>  <span class="c1">// 2x doubling</span>
+    <span class="n">_elems</span><span class="p">[</span><span class="n">_cursor_index</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="p">;</span>
+    <span class="o">++</span><span class="n">_logical_size</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">_gap_size</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The element is placed directly into the gap slot at <code class="language-plaintext highlighter-rouge">_cursor_index</code>. When the gap is exhausted, the buffer doubles in size. An <strong>rvalue overload</strong> uses <code class="language-plaintext highlighter-rouge">std::move(element)</code> to avoid copying expensive types (e.g., <code class="language-plaintext highlighter-rouge">GapBuffer&lt;std::vector&lt;int&gt;&gt;</code>).</p>
+
+<h3 id="o1-deletion-at-cursor-backspace-semantics">O(1) Deletion at Cursor (Backspace Semantics)</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">delete_at_cursor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_cursor_index</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">--</span><span class="n">_cursor_index</span><span class="p">;</span>
+        <span class="o">--</span><span class="n">_logical_size</span><span class="p">;</span>
+        <span class="o">++</span><span class="n">_gap_size</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>No data is physically moved — the cursor retreats one position, growing the gap to “absorb” the element. Deletion at position 0 is a safe no-op.</p>
+
+<h3 id="odelta-cursor-movement">O(|delta|) Cursor Movement</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">move_cursor</span><span class="p">(</span><span class="kt">int</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Moving right: shift elements from after gap to before gap</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">begin_after_gap</span><span class="p">,</span> <span class="n">begin_after_gap</span> <span class="o">+</span> <span class="n">delta</span><span class="p">,</span> <span class="n">cursor_position</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// Moving left: shift elements from before gap to after gap</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">cursor_position</span> <span class="o">+</span> <span class="n">delta</span><span class="p">,</span> <span class="n">cursor_position</span><span class="p">,</span> <span class="n">destination_after_gap</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">_cursor_index</span> <span class="o">+=</span> <span class="n">delta</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Moving the cursor by <code class="language-plaintext highlighter-rouge">delta</code> positions requires physically relocating <code class="language-plaintext highlighter-rouge">|delta|</code> elements across the gap boundary via <code class="language-plaintext highlighter-rouge">std::move</code>. This is **O(</td>
+      <td>delta</td>
+      <td>)** — proportional to the distance moved, not the total buffer size. This matches text editor access patterns where edits are localized.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="transparent-index-translation">Transparent Index Translation</h2>
+
+<p>The gap is invisible to external users. Two private helpers translate between logical (external) and physical (array) indices:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">size_type</span> <span class="n">to_array_index</span><span class="p">(</span><span class="n">size_type</span> <span class="n">external_index</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">external_index</span> <span class="o">&lt;</span> <span class="n">_cursor_index</span><span class="p">)</span> <span class="k">return</span> <span class="n">external_index</span><span class="p">;</span>        <span class="c1">// Before gap: identity</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">external_index</span> <span class="o">+</span> <span class="n">_gap_size</span><span class="p">;</span>                           <span class="c1">// After gap: skip gap</span>
+<span class="p">}</span>
+
+<span class="n">size_type</span> <span class="n">to_external_index</span><span class="p">(</span><span class="n">size_type</span> <span class="n">array_index</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">array_index</span> <span class="o">&lt;</span> <span class="n">_cursor_index</span><span class="p">)</span> <span class="k">return</span> <span class="n">array_index</span><span class="p">;</span>              <span class="c1">// Before gap: identity</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">array_index</span> <span class="o">&gt;=</span> <span class="n">_cursor_index</span> <span class="o">+</span> <span class="n">_gap_size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">array_index</span> <span class="o">-</span> <span class="n">_gap_size</span><span class="p">;</span>                               <span class="c1">// After gap: subtract gap</span>
+    <span class="k">else</span> <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">"Inside gap: invalid"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="memory-management-2x-doubling-reallocation">Memory Management: 2x Doubling Reallocation</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">reserve</span><span class="p">(</span><span class="n">size_type</span> <span class="n">new_size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_logical_size</span> <span class="o">&gt;=</span> <span class="n">new_size</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>              <span class="c1">// No shrinking</span>
+    <span class="k">auto</span> <span class="n">new_elems</span> <span class="o">=</span> <span class="k">new</span> <span class="n">T</span><span class="p">[</span><span class="n">new_size</span><span class="p">];</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">_elems</span><span class="p">,</span> <span class="n">_elems</span> <span class="o">+</span> <span class="n">_cursor_index</span><span class="p">,</span> <span class="n">new_elems</span><span class="p">);</span>           <span class="c1">// Phase 1: pre-gap</span>
+    <span class="kt">size_t</span> <span class="n">new_gap_size</span> <span class="o">=</span> <span class="n">new_size</span> <span class="o">-</span> <span class="n">_logical_size</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">_elems</span> <span class="o">+</span> <span class="n">_cursor_index</span> <span class="o">+</span> <span class="n">_gap_size</span><span class="p">,</span>
+              <span class="n">_elems</span> <span class="o">+</span> <span class="n">_buffer_size</span><span class="p">,</span>
+              <span class="n">new_elems</span> <span class="o">+</span> <span class="n">_cursor_index</span> <span class="o">+</span> <span class="n">new_gap_size</span><span class="p">);</span>             <span class="c1">// Phase 2: post-gap</span>
+    <span class="k">delete</span><span class="p">[]</span> <span class="n">_elems</span><span class="p">;</span>
+    <span class="n">_elems</span> <span class="o">=</span> <span class="n">new_elems</span><span class="p">;</span>
+    <span class="n">_buffer_size</span> <span class="o">=</span> <span class="n">new_size</span><span class="p">;</span>
+    <span class="n">_gap_size</span> <span class="o">=</span> <span class="n">new_gap_size</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Two-phase element transfer</strong>: Pre-cursor elements are moved first, then post-cursor elements are repositioned after the enlarged gap. The old array is <code class="language-plaintext highlighter-rouge">delete[]</code>‘d only after the new one is fully populated — if <code class="language-plaintext highlighter-rouge">new</code> throws, <code class="language-plaintext highlighter-rouge">_elems</code> still points to valid data. Uses <code class="language-plaintext highlighter-rouge">std::move</code> for element transfer, avoiding unnecessary copies of complex types.</p>
+
+<h2 id="rule-of-five-complete-value-semantics">Rule-of-Five: Complete Value Semantics</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constructor/Operator</th>
+      <th>Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GapBuffer()</code></td>
+      <td>Default: 10-slot buffer (<code class="language-plaintext highlighter-rouge">kDefaultSize</code>), entire buffer is gap</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GapBuffer(count, val)</code></td>
+      <td>Fill: allocates <code class="language-plaintext highlighter-rouge">2*count</code> slots, fills <code class="language-plaintext highlighter-rouge">count</code> elements</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GapBuffer(initializer_list)</code></td>
+      <td>Delegates to fill, then copies from initializer</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GapBuffer(const GapBuffer&amp;)</code></td>
+      <td>Deep copy: new array, copies all elements</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GapBuffer(GapBuffer&amp;&amp;)</code></td>
+      <td>Pointer steal, nullifies source (<code class="language-plaintext highlighter-rouge">other._elems = nullptr</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">operator=(const GapBuffer&amp;)</code></td>
+      <td>Deep copy assignment with self-assignment check</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">operator=(GapBuffer&amp;&amp;)</code></td>
+      <td>Move assignment with self-assignment check</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">~GapBuffer()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">delete[] _elems</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="scott-meyers-const-cast-idiom">Scott Meyers Const-Cast Idiom</h2>
+
+<p>Non-const access methods delegate to their const counterparts to avoid code duplication:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reference</span> <span class="nf">get_at_cursor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">reference</span><span class="o">&gt;</span><span class="p">(</span>
+        <span class="k">static_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">GapBuffer</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_at_cursor</span><span class="p">()</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This pattern appears in <code class="language-plaintext highlighter-rouge">get_at_cursor()</code>, <code class="language-plaintext highlighter-rouge">at()</code>, and <code class="language-plaintext highlighter-rouge">operator[]</code>.</p>
+
+<h2 id="random-access-iterator">Random-Access Iterator</h2>
+
+<p><code class="language-plaintext highlighter-rouge">GapBufferIterator&lt;T&gt;</code> stores a pointer to the owning <code class="language-plaintext highlighter-rouge">GapBuffer</code> and a <strong>logical index</strong> (not array index). Dereferencing calls <code class="language-plaintext highlighter-rouge">_pointee-&gt;at(_index)</code>, which handles gap translation transparently.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Dereference</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">operator*()</code> → <code class="language-plaintext highlighter-rouge">_pointee-&gt;at(_index)</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Increment/Decrement</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">++</code>, <code class="language-plaintext highlighter-rouge">--</code> (pre and post)</td>
+    </tr>
+    <tr>
+      <td><strong>Random access</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">+=</code>, <code class="language-plaintext highlighter-rouge">-=</code>, <code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code> (iterator arithmetic)</td>
+    </tr>
+    <tr>
+      <td><strong>Difference</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">iter - iter</code> → <code class="language-plaintext highlighter-rouge">difference_type</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Comparison</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">==</code>, <code class="language-plaintext highlighter-rouge">!=</code>, <code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Subscript</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">operator[](n)</code> → <code class="language-plaintext highlighter-rouge">*(*this + n)</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The constructor is <strong>private</strong> — only <code class="language-plaintext highlighter-rouge">GapBuffer&lt;T&gt;</code> (declared <code class="language-plaintext highlighter-rouge">friend</code>) can create iterators. Users obtain them via <code class="language-plaintext highlighter-rouge">begin()</code>, <code class="language-plaintext highlighter-rouge">end()</code>, or <code class="language-plaintext highlighter-rouge">cursor()</code> (a gap-buffer-specific method returning an iterator at the cursor position).</p>
+
+<h3 id="stl-compatibility">STL Compatibility</h3>
+
+<p>The iterator satisfies random-access iterator requirements, verified by <code class="language-plaintext highlighter-rouge">std::sort</code> compatibility in the test suite (TEST5F).</p>
+
+<h2 id="stl-compatible-operator-overloads">STL-Compatible Operator Overloads</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">operator&lt;&lt;</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">{elem1, elem2, ^elem3, ...}</code> with <code class="language-plaintext highlighter-rouge">^</code> marking cursor position</td>
+    </tr>
+    <tr>
+      <td>
+<code class="language-plaintext highlighter-rouge">operator==</code> / <code class="language-plaintext highlighter-rouge">!=</code>
+</td>
+      <td>Element-wise via <code class="language-plaintext highlighter-rouge">std::equal</code>
+</td>
+    </tr>
+    <tr>
+      <td>
+<code class="language-plaintext highlighter-rouge">operator&lt;</code> / <code class="language-plaintext highlighter-rouge">&gt;</code> / <code class="language-plaintext highlighter-rouge">&lt;=</code> / <code class="language-plaintext highlighter-rouge">&gt;=</code>
+</td>
+      <td>Lexicographic via <code class="language-plaintext highlighter-rouge">std::lexicographical_compare</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th style="text-align: center">Complexity</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">insert_at_cursor</code></td>
+      <td style="text-align: center"><strong>O(1) amortized</strong></td>
+      <td>O(n) worst-case during reallocation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">delete_at_cursor</code></td>
+      <td style="text-align: center"><strong>O(1)</strong></td>
+      <td>Index adjustment only</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">move_cursor(delta)</code></td>
+      <td style="text-align: center"><strong>O(|delta|)</strong></td>
+      <td>Physical element transfer across gap</td>
+    </tr>
+    <tr>
+      <td>
+<code class="language-plaintext highlighter-rouge">at(pos)</code> / <code class="language-plaintext highlighter-rouge">operator[]</code>
+</td>
+      <td style="text-align: center"><strong>O(1)</strong></td>
+      <td>Index translation + array access</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">reserve(new_size)</code></td>
+      <td style="text-align: center"><strong>O(n)</strong></td>
+      <td>Two-phase element move</td>
+    </tr>
+    <tr>
+      <td>Move constructor</td>
+      <td style="text-align: center"><strong>O(1)</strong></td>
+      <td>Pointer steal (verified &lt;10 us for 10K elements)</td>
+    </tr>
+    <tr>
+      <td>Copy constructor</td>
+      <td style="text-align: center"><strong>O(n)</strong></td>
+      <td>Deep copy</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="why-gap-buffers-excel-for-text-editing">Why Gap Buffers Excel for Text Editing</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th style="text-align: center">Gap Buffer</th>
+      <th style="text-align: center">Rope</th>
+      <th style="text-align: center">Piece Table</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Insert at cursor</td>
+      <td style="text-align: center"><strong>O(1) amortized</strong></td>
+      <td style="text-align: center">O(log n)</td>
+      <td style="text-align: center">O(1) append</td>
+    </tr>
+    <tr>
+      <td>Delete at cursor</td>
+      <td style="text-align: center"><strong>O(1)</strong></td>
+      <td style="text-align: center">O(log n)</td>
+      <td style="text-align: center">O(k) split</td>
+    </tr>
+    <tr>
+      <td>Random access</td>
+      <td style="text-align: center"><strong>O(1)</strong></td>
+      <td style="text-align: center">O(log n)</td>
+      <td style="text-align: center">O(k) pieces</td>
+    </tr>
+    <tr>
+      <td>Cache locality</td>
+      <td style="text-align: center"><strong>Contiguous</strong></td>
+      <td style="text-align: center">Fragmented</td>
+      <td style="text-align: center">Fragmented</td>
+    </tr>
+    <tr>
+      <td>Move cursor by k</td>
+      <td style="text-align: center">O(k)</td>
+      <td style="text-align: center">O(log n)</td>
+      <td style="text-align: center">O(1)</td>
+    </tr>
+    <tr>
+      <td>Implementation</td>
+      <td style="text-align: center"><strong>~500 lines</strong></td>
+      <td style="text-align: center">Thousands</td>
+      <td style="text-align: center">Hundreds</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The gap buffer is optimal when edits are <strong>strongly localized</strong> (typing, backspacing, small cursor movements) — exactly the dominant pattern in text editors.</p>
+
+<h2 id="test-suite-41-qt-test-cases">Test Suite (41 Qt Test Cases)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th style="text-align: center">Tests</th>
+      <th>Coverage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Part 1: Basic Ops</strong></td>
+      <td style="text-align: center">11</td>
+      <td>Insert, delete, move_cursor, reserve, 10K-element stress test</td>
+    </tr>
+    <tr>
+      <td><strong>Part 2: Const</strong></td>
+      <td style="text-align: center">1</td>
+      <td>Mutable vs. const reference semantics</td>
+    </tr>
+    <tr>
+      <td><strong>Part 3: Operators</strong></td>
+      <td style="text-align: center">10</td>
+      <td>Fill constructor, <code class="language-plaintext highlighter-rouge">operator[]</code>, <code class="language-plaintext highlighter-rouge">operator&lt;&lt;</code>, <code class="language-plaintext highlighter-rouge">==</code>/<code class="language-plaintext highlighter-rouge">!=</code>, lexicographic <code class="language-plaintext highlighter-rouge">&lt;</code>/<code class="language-plaintext highlighter-rouge">&gt;</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Part 5: Iterators</strong></td>
+      <td style="text-align: center">6</td>
+      <td>Range-based for, bidirectional, random-access arithmetic, <strong><code class="language-plaintext highlighter-rouge">std::sort</code> compatibility</strong>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Part 6: Copy</strong></td>
+      <td style="text-align: center">6</td>
+      <td>Initializer list, deep copy, <strong>pathological self-assignment chains</strong>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Part 7: Move</strong></td>
+      <td style="text-align: center">8</td>
+      <td>Move constructor/assignment, <strong>timing tests (&lt;10 us)</strong>, rvalue insert, <code class="language-plaintext highlighter-rouge">GapBuffer&lt;GapBuffer&lt;int&gt;&gt;</code> nesting</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Edge cases tested: empty buffer ops, single-element buffers, deletion at position 0 (no-op), reserve smaller than logical size (no-op), self-assignment (<code class="language-plaintext highlighter-rouge">buf = buf</code>), chained self-assignment (<code class="language-plaintext highlighter-rouge">(buf = buf = buf) = buf</code>), self-move-assignment, nested containers (<code class="language-plaintext highlighter-rouge">GapBuffer&lt;std::vector&lt;int&gt;&gt;</code>, <code class="language-plaintext highlighter-rouge">GapBuffer&lt;GapBuffer&lt;int&gt;&gt;</code>).</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>C++17, Qt (qmake build system), Qt Test (QTest framework), STL (<code class="language-plaintext highlighter-rouge">std::move</code>, <code class="language-plaintext highlighter-rouge">std::equal</code>, <code class="language-plaintext highlighter-rouge">std::lexicographical_compare</code>, <code class="language-plaintext highlighter-rouge">std::fill</code>, <code class="language-plaintext highlighter-rouge">std::initializer_list</code>)</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

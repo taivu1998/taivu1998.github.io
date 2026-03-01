@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Efficient-Reasoner: Adaptive Compute Allocation via Reinforcement Learning | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="An RL-trained LLM routing between System 1 and System 2 reasoning">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/10_efficient_reasoner/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Efficient-Reasoner: Adaptive Compute Allocation via Reinforcement Learning</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Efficient-Reasoner" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Efficient-Reasoner treats tool invocation as a <strong>learnable policy</strong> rather than a fixed pipeline component, training a language model to dynamically route between fast direct reasoning (System 1) and slow tool-augmented retrieval (System 2) via <strong>Group Relative Policy Optimization (GRPO)</strong>. The core insight — inspired by Kahneman’s dual-process framework — is that most LLM agent systems invoke external tools unconditionally, but a significant fraction of queries can be answered from parametric memory alone. By designing a multi-component reward function that penalizes tool usage (<code class="language-plaintext highlighter-rouge">−0.05</code> per call) while bonusing correct direct answers (<code class="language-plaintext highlighter-rouge">+0.1</code>), the GRPO-trained 3B-parameter model discovers a cost-benefit decision boundary purely from the reward signal, <strong>maintaining ~65% accuracy while reducing token generation by 40% and tool calls by 60%</strong> compared to always-search baselines. The system implements a complete two-phase pipeline (SFT cold start → GRPO optimization) with a sub-millisecond mock retrieval environment enabling &gt;1,000 RL training steps/hour, Pareto frontier analysis for accuracy-vs-cost trade-off visualization, and 4-bit QLoRA training on consumer GPUs (8GB+ VRAM).</p>
+
+<h2 id="dual-process-reasoning-architecture">Dual-Process Reasoning Architecture</h2>
+
+<p>The model generates structured XML output following an agentic Think → Call → Observe → Answer protocol:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;thought&gt;</span>Step-by-step reasoning about whether retrieval is needed...<span class="nt">&lt;/thought&gt;</span>
+<span class="nt">&lt;call&gt;</span>search_wiki("query")<span class="nt">&lt;/call&gt;</span>
+<span class="nt">&lt;obs&gt;</span>Retrieved information from knowledge base...<span class="nt">&lt;/obs&gt;</span>
+<span class="nt">&lt;answer&gt;</span>Final answer<span class="nt">&lt;/answer&gt;</span>
+</code></pre></div></div>
+
+<p>The system prompt instructs the model to <strong>think before searching</strong> — if confident, output <code class="language-plaintext highlighter-rouge">&lt;answer&gt;</code> directly (System 1); if uncertain, invoke <code class="language-plaintext highlighter-rouge">&lt;call&gt;</code> for retrieval (System 2). After GRPO training, this routing behavior <strong>emerges naturally from the reward signal</strong> without explicit complexity classification — the model learns to skip retrieval for common knowledge questions and invoke it for obscure factual queries.</p>
+
+<p><strong>Custom stopping criteria</strong> (<code class="language-plaintext highlighter-rouge">StopOnXMLTags</code>) monitors generation for <code class="language-plaintext highlighter-rouge">&lt;/call&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;/answer&gt;</code> tags, enabling mid-generation tool execution: when <code class="language-plaintext highlighter-rouge">&lt;/call&gt;</code> is detected, generation pauses, the tool executes, results are injected as <code class="language-plaintext highlighter-rouge">&lt;obs&gt;</code> tags into context, and generation resumes.</p>
+
+<h2 id="two-phase-training-pipeline">Two-Phase Training Pipeline</h2>
+
+<h3 id="phase-1-sft-cold-start-30-min">Phase 1: SFT Cold Start (~30 min)</h3>
+
+<p>Format-tuning phase teaching the model the XML tool-call protocol. Synthetic reasoning traces are generated from HotpotQA data with a controlled distribution:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Trace Type</th>
+      <th style="text-align: center">Distribution</th>
+      <th>Pattern</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Direct answer</strong></td>
+      <td style="text-align: center">20%</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">&lt;thought&gt;</code> → <code class="language-plaintext highlighter-rouge">&lt;answer&gt;</code> (no tool calls)</td>
+    </tr>
+    <tr>
+      <td><strong>Single-search</strong></td>
+      <td style="text-align: center">60%</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">&lt;thought&gt;</code> → <code class="language-plaintext highlighter-rouge">&lt;call&gt;</code> → <code class="language-plaintext highlighter-rouge">&lt;obs&gt;</code> → <code class="language-plaintext highlighter-rouge">&lt;answer&gt;</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-hop</strong></td>
+      <td style="text-align: center">20%</td>
+      <td>Multiple <code class="language-plaintext highlighter-rouge">&lt;call&gt;</code>/<code class="language-plaintext highlighter-rouge">&lt;obs&gt;</code> pairs before <code class="language-plaintext highlighter-rouge">&lt;answer&gt;</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A heuristic <code class="language-plaintext highlighter-rouge">is_simple_question()</code> classifier routes questions to the appropriate trace type. Training uses <code class="language-plaintext highlighter-rouge">SFTTrainer</code> from TRL with <code class="language-plaintext highlighter-rouge">lr=2e-5</code>, batch size 4 × 2 gradient accumulation, 3 epochs, max sequence length 1,024.</p>
+
+<h3 id="phase-2-grpo-optimization-24-hrs-a100">Phase 2: GRPO Optimization (~2–4 hrs, A100)</h3>
+
+<p>The core policy optimization phase where the model learns <em>when</em> to use tools.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Algorithm</td>
+      <td>GRPO (Group Relative Policy Optimization)</td>
+    </tr>
+    <tr>
+      <td>Group size</td>
+      <td>8 completions per prompt</td>
+    </tr>
+    <tr>
+      <td>KL penalty (β)</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <td>Learning rate</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">2e-5</code> with cosine decay + 10% warmup</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td>4 × 4 gradient accumulation = <strong>16 effective</strong>
+</td>
+    </tr>
+    <tr>
+      <td>Max steps</td>
+      <td>500</td>
+    </tr>
+    <tr>
+      <td>Max prompt length</td>
+      <td>1,024 tokens</td>
+    </tr>
+    <tr>
+      <td>Max completion length</td>
+      <td>1,024 tokens</td>
+    </tr>
+    <tr>
+      <td>Checkpoint interval</td>
+      <td>Every 100 steps (max 3 kept)</td>
+    </tr>
+    <tr>
+      <td>Precision</td>
+      <td>bf16 (auto-detected)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why GRPO over PPO</strong>: GRPO eliminates the critic/value network entirely — instead of training a separate value head, advantages are computed <em>relative to the group</em> of 8 completions per prompt. This is more parameter-efficient (no critic parameters) and more stable for sequence-level rewards where per-token value estimation is unreliable.</p>
+
+<h2 id="multi-component-reward-function">Multi-Component Reward Function</h2>
+
+<p>The reward function encodes the cost-benefit trade-off between accuracy and computational efficiency:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R = Correctness + Format − Cost − IncompletePenalty + EfficientBonus
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Condition</th>
+      <th style="text-align: center">Value</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Correctness</strong></td>
+      <td>Answer matches ground truth</td>
+      <td style="text-align: center"><strong>+1.0</strong></td>
+      <td>Primary accuracy signal</td>
+    </tr>
+    <tr>
+      <td><strong>Correctness</strong></td>
+      <td>Wrong answer</td>
+      <td style="text-align: center">−0.5</td>
+      <td>Penalty for incorrect responses</td>
+    </tr>
+    <tr>
+      <td><strong>Format</strong></td>
+      <td>Valid XML structure</td>
+      <td style="text-align: center">+0.1</td>
+      <td>Encourage parseable output</td>
+    </tr>
+    <tr>
+      <td><strong>Format</strong></td>
+      <td>Invalid XML</td>
+      <td style="text-align: center">−0.5</td>
+      <td>Penalize unparseable output</td>
+    </tr>
+    <tr>
+      <td><strong>Tool Cost</strong></td>
+      <td>Per tool call executed</td>
+      <td style="text-align: center"><strong>−0.05</strong></td>
+      <td>Core efficiency pressure</td>
+    </tr>
+    <tr>
+      <td><strong>Incomplete</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">&lt;call&gt;</code> without matching <code class="language-plaintext highlighter-rouge">&lt;obs&gt;</code>
+</td>
+      <td style="text-align: center">−0.2</td>
+      <td>Penalize unfinished reasoning</td>
+    </tr>
+    <tr>
+      <td><strong>Efficient Bonus</strong></td>
+      <td>Correct without any tools</td>
+      <td style="text-align: center"><strong>+0.1</strong></td>
+      <td>Reward confident direct answers</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code class="language-plaintext highlighter-rouge">−0.05</code> per-call cost and <code class="language-plaintext highlighter-rouge">+0.1</code> efficient bonus create a clear incentive gradient: for questions answerable from parametric memory, direct answers yield <code class="language-plaintext highlighter-rouge">+1.0 + 0.1 + 0.1 = +1.2</code> reward, while unnecessary single-search answers yield <code class="language-plaintext highlighter-rouge">+1.0 + 0.1 − 0.05 = +1.05</code>. The 0.15 margin is sufficient for GRPO to learn the routing policy.</p>
+
+<p><strong>Correctness assessment</strong> uses fuzzy matching with multiple strategies: exact match (after normalization), case-insensitive comparison, containment detection, and word-level subset matching.</p>
+
+<h2 id="mock-retrieval-environment">Mock Retrieval Environment</h2>
+
+<p>A sub-millisecond knowledge base simulator enabling fast RL training without API latency:</p>
+
+<p><strong>Three-tier retrieval cascade</strong>:</p>
+<ol>
+  <li>
+<strong>O(1) exact match</strong> — Dictionary lookup on normalized titles</li>
+  <li>
+<strong>O(N) partial match</strong> — Substring search across all keys</li>
+  <li>
+<strong>O(N) content search</strong> — Full-text search across paragraph content</li>
+</ol>
+
+<p>Results are truncated to 500 characters maximum. The environment supports single-query (<code class="language-plaintext highlighter-rouge">search_wiki</code>), batch multi-query (<code class="language-plaintext highlighter-rouge">search_wiki_multi</code>), and entity lookup (<code class="language-plaintext highlighter-rouge">get_entity_info</code>) tool functions. Data is sourced from HotpotQA’s distractor subset (pre-built JSON indices or freshly constructed).</p>
+
+<p><strong>Performance impact</strong>: Sub-millisecond latency enables &gt;1,000 GRPO training steps/hour, compared to ~100 steps/hour with live Wikipedia API calls — a <strong>10× throughput improvement</strong> that makes RL training on agentic reasoning tractable.</p>
+
+<h2 id="model-architecture">Model Architecture</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Base Model</strong></td>
+      <td>Qwen2.5-3B-Instruct (3B parameters)</td>
+    </tr>
+    <tr>
+      <td><strong>Quantization</strong></td>
+      <td>4-bit NF4 with double quantization via bitsandbytes (~75% VRAM reduction)</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Rank / Alpha</strong></td>
+      <td>16 / 32 (alpha/r = 2.0)</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Targets</strong></td>
+      <td>All 7 projections: <code class="language-plaintext highlighter-rouge">q_proj</code>, <code class="language-plaintext highlighter-rouge">k_proj</code>, <code class="language-plaintext highlighter-rouge">v_proj</code>, <code class="language-plaintext highlighter-rouge">o_proj</code>, <code class="language-plaintext highlighter-rouge">gate_proj</code>, <code class="language-plaintext highlighter-rouge">up_proj</code>, <code class="language-plaintext highlighter-rouge">down_proj</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Dropout</strong></td>
+      <td>0.05</td>
+    </tr>
+    <tr>
+      <td><strong>Trainable parameters</strong></td>
+      <td>~0.5% of total</td>
+    </tr>
+    <tr>
+      <td><strong>Optimizer</strong></td>
+      <td>8-bit AdamW (memory-efficient)</td>
+    </tr>
+    <tr>
+      <td><strong>Gradient checkpointing</strong></td>
+      <td>Enabled</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Graceful degradation chain</strong>: Unsloth (4× faster training) → standard Transformers + bitsandbytes → CPU float32. Device detection: CUDA → MPS (Apple Silicon) → CPU.</p>
+
+<h2 id="agentic-inference-loop">Agentic Inference Loop</h2>
+
+<p>The inference system implements a Think → Call → Execute → Observe → Resume cycle with 5 safety mechanisms:</p>
+
+<ol>
+  <li>
+<strong>Max agentic steps</strong>: 5 (configurable) — bounds the reasoning depth</li>
+  <li>
+<strong>Per-step token budget</strong>: 256 new tokens maximum</li>
+  <li>
+<strong>Stuck detection</strong>: N-gram diversity analysis via <code class="language-plaintext highlighter-rouge">detect_stuck_generation()</code> — if diversity drops below threshold within 50 tokens, generation is terminated</li>
+  <li>
+<strong>Context length monitoring</strong>: 80% max context ratio triggers warning/truncation with 256-token safety margin</li>
+  <li>
+<strong>Unclosed tag detection</strong>: Regex-based detection of incomplete <code class="language-plaintext highlighter-rouge">&lt;call&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;obs&gt;</code> tags</li>
+</ol>
+
+<h2 id="results">Results</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th style="text-align: center">Accuracy</th>
+      <th style="text-align: center">Avg Tokens</th>
+      <th style="text-align: center">Avg Tool Calls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Base (zero-shot)</td>
+      <td style="text-align: center">~40%</td>
+      <td style="text-align: center">~200</td>
+      <td style="text-align: center">~1.5</td>
+    </tr>
+    <tr>
+      <td>SFT (always search)</td>
+      <td style="text-align: center">~65%</td>
+      <td style="text-align: center">~450</td>
+      <td style="text-align: center">~2.0</td>
+    </tr>
+    <tr>
+      <td><strong>GRPO (learned policy)</strong></td>
+      <td style="text-align: center"><strong>~65%</strong></td>
+      <td style="text-align: center"><strong>~270</strong></td>
+      <td style="text-align: center"><strong>~0.8</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key findings</strong>: (1) GRPO matches SFT accuracy while using <strong>40% fewer tokens</strong> and <strong>60% fewer tool calls</strong>, validating that tool-use is a learnable policy. (2) The model exhibits emergent dual-process behavior — fast direct answers for common knowledge, deliberate multi-hop retrieval for obscure facts — purely from the reward signal without explicit complexity classification. (3) Base model’s ~1.5 tool calls reflect uncontrolled, often malformed attempts, demonstrating that SFT is necessary for format learning before GRPO can optimize the policy.</p>
+
+<h2 id="pareto-frontier-analysis">Pareto Frontier Analysis</h2>
+
+<p>The evaluation framework generates accuracy-vs-tokens Pareto frontier visualizations via dominance checking (no point simultaneously higher accuracy and lower tokens). Models are color-coded (base: red, SFT: teal, GRPO: blue) with the “efficient zone” (top-left quadrant) highlighted. The GRPO checkpoint occupies the Pareto-optimal position — maximum accuracy at minimum computational cost.</p>
+
+<p><strong>Ablation support</strong>: Multi-checkpoint evaluation (<code class="language-plaintext highlighter-rouge">eval/benchmark.py</code>) automatically compares base, SFT, and GRPO configurations with result caching, GPU memory monitoring, and per-sample detailed results for post-hoc analysis.</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.10+), PyTorch (2.4+), Hugging Face Transformers (4.44+), TRL (GRPOTrainer, SFTTrainer), PEFT (LoRA), bitsandbytes (NF4), Accelerate, Unsloth (optional 4× speedup), Datasets (HotpotQA), Matplotlib, NumPy</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

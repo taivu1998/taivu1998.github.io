@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Visual-CoT: Pixel-Grounded Reasoning with Multi-Modal Chain-of-Thought | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="Fine-tuned VLM generating interleaved reasoning traces with bounding box coordinates, reducing object hallucination">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/6_visual_cot/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Visual-CoT: Pixel-Grounded Reasoning with Multi-Modal Chain-of-Thought</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Visual-CoT" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Visual-CoT fine-tunes a Vision-Language Model to produce <strong>spatially-grounded chain-of-thought reasoning traces</strong> — explanations that interleave natural language deduction with precise bounding box coordinates anchoring each claim to specific image regions. The model articulates <em>what</em> it observes, <em>where</em> it observes it (via <code class="language-plaintext highlighter-rouge">&lt;ref&gt;object&lt;/ref&gt;&lt;box&gt;[x1, y1, x2, y2]&lt;/box&gt;</code> annotations normalized to a 0–1000 coordinate space), and <em>how</em> it reaches conclusions. By training on 135K+ samples from the VisCOT dataset where <strong>100% of training examples contain valid bounding boxes</strong>, the system reduces object hallucination — every object mention must be backed by a verifiable spatial location. The framework uses <strong>QLoRA</strong> (rank 64, 7 target modules) on Qwen2.5-VL-7B-Instruct with a pre-tokenization strategy that sidesteps VLM multimodal collator issues, achieving a final training loss of ~0.62 over ~16,800 steps.</p>
+
+<h2 id="grounded-reasoning-format">Grounded Reasoning Format</h2>
+
+<p>The model’s output interleaves reasoning text with structured spatial references:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>First, I identify the &lt;ref&gt;red gear&lt;/ref&gt;&lt;box&gt;[100, 200, 300, 400]&lt;/box&gt; in the mechanism.
+Looking at how it connects to the &lt;ref&gt;blue lever&lt;/ref&gt;&lt;box&gt;[350, 180, 500, 250]&lt;/box&gt;...
+Therefore, when the gear rotates clockwise, the lever will move upward.
+</code></pre></div></div>
+
+<p>Bounding boxes are <strong>generated autoregressively as text tokens</strong> — there is no separate detection head. The model learns during fine-tuning to emit coordinate tokens as part of its language generation, leveraging Qwen2.5-VL’s pretrained spatial understanding. All coordinates use <strong>integers from 0 to 1000</strong> (where (0,0) is top-left, (1000,1000) is bottom-right), reducing token count per coordinate (3–4 tokens vs. 5–6 for floats) and avoiding floating-point precision issues in text generation.</p>
+
+<h2 id="training-data-pipeline">Training Data Pipeline</h2>
+
+<p><strong>Primary Source: VisCOT Dataset</strong> — 150,000+ samples with real bounding box annotations from <code class="language-plaintext highlighter-rouge">deepcs233/Visual-CoT</code> on HuggingFace. The conversion pipeline parses conversation turns, extracts bounding boxes via regex (handling both 0–1 float and 0–1000 integer formats with automatic normalization), and constructs the <code class="language-plaintext highlighter-rouge">&lt;ref&gt;/&lt;box&gt;</code> training format. Quality filtering (<code class="language-plaintext highlighter-rouge">filter_quality=True</code>) discards samples without valid bounding boxes, ensuring <strong>100% grounding coverage</strong> across training data.</p>
+
+<p><strong>Secondary Source: ScienceQA + GPT-4o Distillation</strong> — For image-containing ScienceQA samples, images are base64-encoded and sent to GPT-4o with a system prompt enforcing the <code class="language-plaintext highlighter-rouge">&lt;ref&gt;/&lt;box&gt;</code> format (“CRITICAL RULE: Whenever you mention a physical object… you MUST immediately follow it with its bounding box”). Rate-limited to 10 concurrent requests with exponential-backoff retries.</p>
+
+<p>Final split: <strong>135K training / 15K validation</strong> (90/10 split). Data quality analysis tracks <code class="language-plaintext highlighter-rouge">&lt;ref&gt;</code> tag coverage, V-CoT <code class="language-plaintext highlighter-rouge">&lt;box&gt;</code> tag density, and average response lengths.</p>
+
+<h2 id="model-architecture">Model Architecture</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Base VLM</strong></td>
+      <td>Qwen2.5-VL-7B-Instruct (4-bit NF4 quantization via Unsloth)</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Rank / Alpha</strong></td>
+      <td>64 / 128 (alpha/r = 2.0)</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Targets</strong></td>
+      <td>All 7 linear layers: <code class="language-plaintext highlighter-rouge">q_proj</code>, <code class="language-plaintext highlighter-rouge">k_proj</code>, <code class="language-plaintext highlighter-rouge">v_proj</code>, <code class="language-plaintext highlighter-rouge">o_proj</code>, <code class="language-plaintext highlighter-rouge">gate_proj</code>, <code class="language-plaintext highlighter-rouge">up_proj</code>, <code class="language-plaintext highlighter-rouge">down_proj</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Dropout</strong></td>
+      <td>0.05</td>
+    </tr>
+    <tr>
+      <td><strong>Gradient Checkpointing</strong></td>
+      <td>Unsloth-optimized variant</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Dual-path model loading</strong>: Auto-detects Unsloth’s <code class="language-plaintext highlighter-rouge">FastVisionModel</code> at import time; falls back to standard HuggingFace Transformers + PEFT + <code class="language-plaintext highlighter-rouge">BitsAndBytesConfig</code> (NF4, double quantization, float16 compute dtype) when Unsloth is unavailable. The model ID is automatically remapped from the Unsloth quantized variant to <code class="language-plaintext highlighter-rouge">Qwen/Qwen2.5-VL-7B-Instruct</code>.</p>
+
+<h2 id="pre-tokenization-strategy">Pre-Tokenization Strategy</h2>
+
+<p>A key engineering contribution addresses VLM multimodal collator issues during training. The approach:</p>
+
+<ol>
+  <li>
+<strong>Extracts the text-only tokenizer</strong> from the VLM processor (via <code class="language-plaintext highlighter-rouge">tokenizer.tokenizer</code>, <code class="language-plaintext highlighter-rouge">tokenizer.text_tokenizer</code>, or fallback to <code class="language-plaintext highlighter-rouge">AutoTokenizer</code>)</li>
+  <li>
+<strong>Converts multimodal messages to plain text</strong> using Qwen ChatML format (<code class="language-plaintext highlighter-rouge">&lt;|im_start|&gt;</code>/<code class="language-plaintext highlighter-rouge">&lt;|im_end|&gt;</code> tokens), stripping image references</li>
+  <li>
+<strong>Tokenizes with the text tokenizer only</strong>, producing standard <code class="language-plaintext highlighter-rouge">input_ids</code>, <code class="language-plaintext highlighter-rouge">attention_mask</code>, and <code class="language-plaintext highlighter-rouge">labels</code>
+</li>
+</ol>
+
+<p>This trades away pixel-level fine-tuning in exchange for training stability — the assumption is that Qwen2.5-VL’s pretrained visual understanding is already strong enough, and fine-tuning only needs to teach the structured <code class="language-plaintext highlighter-rouge">&lt;ref&gt;/&lt;box&gt;</code> output format. Uses <code class="language-plaintext highlighter-rouge">DataCollatorForSeq2Seq</code> with dynamic padding rather than the VLM’s multimodal collator.</p>
+
+<h2 id="training-configuration">Training Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Learning rate</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">1e-4</code> with cosine decay</td>
+    </tr>
+    <tr>
+      <td>Warmup ratio</td>
+      <td>3% of training</td>
+    </tr>
+    <tr>
+      <td>Epochs</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td>4 per device × 4 gradient accumulation = <strong>16 effective</strong>
+</td>
+    </tr>
+    <tr>
+      <td>Weight decay</td>
+      <td>0.01</td>
+    </tr>
+    <tr>
+      <td>Max gradient norm</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <td>Max sequence length</td>
+      <td>2,048 tokens</td>
+    </tr>
+    <tr>
+      <td>Optimizer</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">adamw_8bit</code> (memory-efficient)</td>
+    </tr>
+    <tr>
+      <td>NEFTune noise alpha</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Early stopping</td>
+      <td>Patience 3, monitoring <code class="language-plaintext highlighter-rouge">eval_loss</code> (δ &gt; 0.001)</td>
+    </tr>
+    <tr>
+      <td>Precision</td>
+      <td>BF16 if supported, else FP16</td>
+    </tr>
+    <tr>
+      <td>Logging</td>
+      <td>TensorBoard (every 50 steps)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>NEFTune</strong> (Jain et al., 2023) adds uniform random noise to the embedding layer during training, scaled by <code class="language-plaintext highlighter-rouge">alpha / sqrt(seq_length × hidden_dim)</code>. This regularization technique improves instruction-following quality and helps prevent the model from memorizing surface-level patterns.</p>
+
+<h2 id="hallucination-reduction-mechanism">Hallucination Reduction Mechanism</h2>
+
+<p>The system addresses object hallucination through four interconnected mechanisms: (1) <strong>Grounded training data</strong> — 100% of samples contain valid bounding boxes, teaching the model that every object claim must be spatially verifiable; (2) <strong>Structured output format</strong> — the <code class="language-plaintext highlighter-rouge">&lt;ref&gt;/&lt;box&gt;</code> format forces the model to commit to specific spatial locations, making hallucination harder than generating unconstrained text; (3) <strong>NEFTune regularization</strong> — noise injection prevents memorization of surface patterns; (4) <strong>Evaluation-time IoU verification</strong> — predicted boxes are extracted and validated against ground truth.</p>
+
+<h2 id="evaluation-framework">Evaluation Framework</h2>
+
+<p>Three metrics quantify grounding quality:</p>
+
+<p><strong>Grounding IoU</strong>: Standard Intersection-over-Union between predicted and ground-truth bounding boxes, with <code class="language-plaintext highlighter-rouge">1e-6</code> epsilon for numerical stability.</p>
+
+<p><strong>IoU Success Rate</strong>: Fraction of predicted boxes achieving IoU &gt; 0.5 against their best-matching ground truth.</p>
+
+<p><strong>Box Detection Rate</strong>: Percentage of model responses containing at least one valid <code class="language-plaintext highlighter-rouge">&lt;box&gt;</code> annotation — measures the model’s consistency in producing grounded outputs.</p>
+
+<p>Batch evaluation iterates over a JSONL evaluation set, runs greedy inference (<code class="language-plaintext highlighter-rouge">do_sample=False</code>, <code class="language-plaintext highlighter-rouge">repetition_penalty=1.2</code>) on each sample, parses predicted boxes, and aggregates per-sample IoU scores.</p>
+
+<h2 id="results">Results</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th style="text-align: center">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Training samples</td>
+      <td style="text-align: center">135,000</td>
+    </tr>
+    <tr>
+      <td>Validation samples</td>
+      <td style="text-align: center">15,000</td>
+    </tr>
+    <tr>
+      <td>Samples with bounding boxes</td>
+      <td style="text-align: center"><strong>100%</strong></td>
+    </tr>
+    <tr>
+      <td>Training steps</td>
+      <td style="text-align: center">~16,800</td>
+    </tr>
+    <tr>
+      <td>Final training loss</td>
+      <td style="text-align: center"><strong>~0.62</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Gradio demo provides <strong>real-time streaming</strong> visualization: a <code class="language-plaintext highlighter-rouge">TextIteratorStreamer</code> runs generation in a separate thread while the main thread continuously parses accumulated text for <code class="language-plaintext highlighter-rouge">&lt;ref&gt;/&lt;box&gt;</code> patterns, denormalizes coordinates to pixel space, draws green rectangles with labels via OpenCV, and yields updated images to the UI — bounding boxes appear on the image live as the model reasons.</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python, PyTorch (2.0+), Hugging Face Transformers (4.40+), TRL (SFTTrainer), PEFT (QLoRA), Unsloth (FastVisionModel), bitsandbytes (NF4), Qwen2.5-VL, OpenAI GPT-4o, Gradio, OpenCV, Datasets</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

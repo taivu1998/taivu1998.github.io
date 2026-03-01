@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Video-DPO: Temporal Alignment for Video Diffusion via Direct Preference Optimization | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="DPO for video diffusion models, aligning generation for temporal stability and motion smoothness">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/5_video_dpo/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Video-DPO: Temporal Alignment for Video Diffusion via Direct Preference Optimization</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Video-DPO" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Video-DPO adapts the Diffusion-DPO framework (Wallace et al., 2023) from image generation to <strong>video generation</strong>, targeting temporal consistency in AnimateDiff-based models. The core insight: temporal coherence can be framed as a preference learning problem — the model learns to prefer smoothly-transitioning videos over temporally jittery ones through synthetic preference pairs, without requiring a separate reward model. LoRA adapters are applied <strong>exclusively to motion module attention layers</strong>, preserving spatial generation quality while improving temporal coherence. A memory-optimized adapter-toggling scheme halves GPU memory requirements by eliminating the need for a separate reference model copy. On 47 evaluation samples, the method achieves <strong>25.7% reduction in optical-flow warping error</strong> and <strong>18.3% reduction in frame flickering</strong>.</p>
+
+<h2 id="diffusion-dpo-for-video">Diffusion-DPO for Video</h2>
+
+<p>The method extends DPO to the diffusion setting by defining an <strong>implicit reward</strong> as the denoising quality gap between the policy and a frozen reference model:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r(x) = ||ref_pred − noise||² − ||policy_pred − noise||²
+</code></pre></div></div>
+
+<p>The DPO loss maximizes the reward margin between winner (temporally consistent) and loser (jittery) videos:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>L_DPO = −log σ( β · (r_w − r_l) )
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">β = 2500</code> (notably higher than typical LLM DPO betas of 0.1–0.5, reflecting the different reward scale in diffusion MSE space). A critical design choice: <strong>identical noise vectors and timesteps</strong> are shared between winner and loser samples within each training step to ensure a fair comparison — any reward difference is attributable purely to the latent quality, not random noise variation.</p>
+
+<p><strong>Training operates entirely in VAE latent space</strong> — videos are pre-encoded offline as <code class="language-plaintext highlighter-rouge">[C=4, F=16, H=64, W=64]</code> tensors at 1/8 spatial resolution, decoupling expensive pixel-space operations from the training loop. Each <code class="language-plaintext highlighter-rouge">.pt</code> file stores <code class="language-plaintext highlighter-rouge">(latents_w, latents_l, prompt_embeds)</code> for efficient DataLoader throughput.</p>
+
+<h2 id="preference-data-construction">Preference Data Construction</h2>
+
+<p><strong>Winners</strong> are standard AnimateDiff outputs with smooth temporal transitions. <strong>Losers</strong> are synthetically degraded with temporal jitter via two methods:</p>
+
+<p><strong>Noise Injection (default, fast)</strong>: Independent per-frame Gaussian noise <code class="language-plaintext highlighter-rouge">N(0, s²)</code> plus random per-channel color shifts <code class="language-plaintext highlighter-rouge">U(-s/4, s/4)</code> with <code class="language-plaintext highlighter-rouge">s = 0.15</code>. Each frame receives different perturbations, breaking temporal coherence while preserving per-frame visual quality.</p>
+
+<p><strong>Img2Img Regeneration (higher quality)</strong>: Each frame is independently regenerated through <code class="language-plaintext highlighter-rouge">StableDiffusionImg2ImgPipeline</code> with a <strong>unique random seed per frame</strong> — semantically coherent but temporally inconsistent because each frame’s generation is stochastically independent.</p>
+
+<p>Multi-prompt training (8 diverse prompts covering cinematic shots, drone footage, slow motion, timelapse, wildlife, etc.) ensures the temporal preference signal generalizes across content types.</p>
+
+<h2 id="architecture-and-lora-targeting">Architecture and LoRA Targeting</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SD Backbone</strong></td>
+      <td>epiCRealism (Stable Diffusion 1.5 fine-tune)</td>
+    </tr>
+    <tr>
+      <td><strong>Motion Adapter</strong></td>
+      <td>AnimateDiff v1.5.2 (<code class="language-plaintext highlighter-rouge">guoyww/animatediff-motion-adapter-v1-5-2</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Targets</strong></td>
+      <td>Motion module attention only: <code class="language-plaintext highlighter-rouge">to_q</code>, <code class="language-plaintext highlighter-rouge">to_k</code>, <code class="language-plaintext highlighter-rouge">to_v</code>, <code class="language-plaintext highlighter-rouge">to_out.0</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>LoRA Rank/Alpha</strong></td>
+      <td>32 / 64 (A100), 16 / 32 (L4), 4 / 8 (T4)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The LoRA targeting strategy is critical: by training <strong>only temporal attention projections</strong> within <code class="language-plaintext highlighter-rouge">motion_modules</code>, the base UNet’s spatial generation weights remain frozen — the model learns better temporal coherence without degrading spatial fidelity. Target modules are identified via named module traversal with a regex fallback: <code class="language-plaintext highlighter-rouge">r".*motion_modules.*(to_q|to_k|to_v|to_out\.0)$"</code>.</p>
+
+<h2 id="memory-optimized-reference-model">Memory-Optimized Reference Model</h2>
+
+<p>Two modes for computing the frozen reference model’s predictions:</p>
+
+<p><strong>Standard mode</strong>: Deep-copies the full UNet before LoRA injection (~8GB additional VRAM). Reference and policy are separate model copies.</p>
+
+<p><strong>Memory-optimized mode</strong> (adapter toggling): No deep copy. The reference forward pass temporarily disables LoRA adapters:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="nf">disable_adapter_layers</span><span class="p">()</span>    <span class="c1"># → Reference model
+</span><span class="n">ref_pred</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">prompt_embeds</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nf">enable_adapter_layers</span><span class="p">()</span>     <span class="c1"># → Policy model
+</span><span class="n">policy_pred</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">prompt_embeds</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This saves <strong>~50% GPU memory</strong> at the cost of additional forward passes, enabling training on 16GB GPUs (T4).</p>
+
+<h2 id="training-configuration">Training Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Optimizer</td>
+      <td>AdamW (<code class="language-plaintext highlighter-rouge">lr=1e-5</code>, <code class="language-plaintext highlighter-rouge">weight_decay=0.01</code>)</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td>1 (with 4-step gradient accumulation → effective 4)</td>
+    </tr>
+    <tr>
+      <td>Mixed precision</td>
+      <td>fp16 via Accelerate</td>
+    </tr>
+    <tr>
+      <td>Max gradient norm</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>Noise scheduler</td>
+      <td>DDPM (1,000 diffusion timesteps)</td>
+    </tr>
+    <tr>
+      <td>Inference scheduler</td>
+      <td>DDIM (25 steps)</td>
+    </tr>
+    <tr>
+      <td>Checkpointing</td>
+      <td>Every 200 steps, LoRA-only saves via PEFT</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>At inference, LoRA weights are merged into the base UNet via <code class="language-plaintext highlighter-rouge">PeftModel.merge_and_unload()</code> for zero-overhead generation.</p>
+
+<h2 id="evaluation-optical-flow-warping-error">Evaluation: Optical Flow Warping Error</h2>
+
+<p>Two temporal consistency metrics, both computed over consecutive frame pairs:</p>
+
+<p><strong>Warping Error (primary)</strong>: Computes simplified Lucas-Kanade optical flow between frames <code class="language-plaintext highlighter-rouge">t</code> and <code class="language-plaintext highlighter-rouge">t+1</code> (Sobel gradients + regularized least squares), warps frame <code class="language-plaintext highlighter-rouge">t</code> forward via <code class="language-plaintext highlighter-rouge">F.grid_sample</code> with bilinear interpolation, and measures MSE against actual frame <code class="language-plaintext highlighter-rouge">t+1</code>. Lower warping error indicates the model produces frame transitions that are well-predicted by optical flow — i.e., smooth, physically plausible motion.</p>
+
+<p><strong>Frame Difference</strong>: Average absolute pixel difference between consecutive frames — a direct measure of flickering intensity.</p>
+
+<h2 id="results">Results</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th style="text-align: center">Base Model</th>
+      <th style="text-align: center">DPO Model</th>
+      <th style="text-align: center">Improvement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Warping Error</strong></td>
+      <td style="text-align: center">150.32</td>
+      <td style="text-align: center"><strong>111.62</strong></td>
+      <td style="text-align: center"><strong>−25.7%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Frame Difference</strong></td>
+      <td style="text-align: center">7.20</td>
+      <td style="text-align: center"><strong>5.88</strong></td>
+      <td style="text-align: center"><strong>−18.3%</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Evaluated on 47 video samples generated with <strong>identical seeds</strong> for direct comparison — differences are attributable solely to the LoRA weights, not random variation. DPO loss converges from ~0.7 to near zero with consistent <code class="language-plaintext highlighter-rouge">reward_w &gt; reward_l</code> separation throughout training.</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python, PyTorch (2.1+), Diffusers (AnimateDiffPipeline, DDPMScheduler, DDIMScheduler), PEFT (LoRA), Hugging Face Transformers, Accelerate, OpenCV, imageio, NumPy</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

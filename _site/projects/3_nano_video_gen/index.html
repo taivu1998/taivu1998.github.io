@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Nano-Video-Gen: Spacetime Diffusion Transformer with Rectified Flow Matching | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A Diffusion Transformer video generator from scratch with 3D spacetime patch embeddings and Rectified Flow Matching">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/3_nano_video_gen/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Nano-Video-Gen: Spacetime Diffusion Transformer with Rectified Flow Matching</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Nano-Sora" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Nano-Video-Gen is a research-grade, from-scratch implementation of a Sora-style video generation model that combines three frontier ideas in generative modeling: <strong>Diffusion Transformers (DiT)</strong>, <strong>3D spacetime patch tokenization (tubelets)</strong>, and <strong>Rectified Flow Matching</strong>. The model treats video as a unified 4D spacetime manifold — tokenized via Conv3D tubelets, processed through DiT blocks with AdaLN-Zero conditioning and Flash Attention, and trained under a velocity-prediction flow matching objective — enabling <strong>10x faster sampling</strong> than DDPM (50 ODE steps vs. 1,000 diffusion steps). The entire architecture is implemented from scratch in pure PyTorch with no dependency on external diffusion libraries.</p>
+
+<h2 id="architecture">Architecture</h2>
+
+<p><strong>Generation Pipeline</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw Video (B, 1, 16, 64, 64)
+  → PatchEmbed3D (Conv3D tubelet tokenizer) → 512 spacetime tokens
+  → + Learned Positional Embeddings
+  → 8× DiTBlock (AdaLN-Zero + Flash Attention + MLP)
+  → Final AdaLN + Linear projection
+  → Velocity field patches (B, 512, 128)
+  → Unpatchify → Predicted velocity (B, 1, 16, 64, 64)
+</code></pre></div></div>
+
+<h3 id="3d-spacetime-patch-tokenization-tubelets">3D Spacetime Patch Tokenization (Tubelets)</h3>
+
+<p>Following Sora’s architecture, videos are tokenized as joint spatiotemporal patches via a <code class="language-plaintext highlighter-rouge">Conv3D</code> layer with <code class="language-plaintext highlighter-rouge">kernel_size = stride = (2, 8, 8)</code>. Each “tubelet” spans 2 temporal frames × 8 height × 8 width pixels, encoding 128 raw pixel values into a single token. A 16×64×64 video produces <code class="language-plaintext highlighter-rouge">(16/2) × (64/8) × (64/8)</code> = <strong>512 spacetime tokens</strong>, enabling unified spatiotemporal attention without separate spatial/temporal mechanisms. Higher-fidelity configs use (2, 4, 4) patches for <strong>2,048 tokens</strong> at the cost of quadratically more attention compute.</p>
+
+<h3 id="dit-blocks-with-adaln-zero-conditioning">DiT Blocks with AdaLN-Zero Conditioning</h3>
+
+<p>Each of the 8 transformer blocks implements the DiT architecture:</p>
+
+<ol>
+  <li>
+    <p><strong>Adaptive Layer Norm (AdaLN-Zero)</strong>: Timestep embeddings (sinusoidal positional encoding → 2-layer MLP with SiLU) are projected to 6 per-block modulation parameters <code class="language-plaintext highlighter-rouge">(shift_msa, scale_msa, gate_msa, shift_mlp, scale_mlp, gate_mlp)</code> via a <strong>zero-initialized</strong> linear layer — ensuring each block acts as an identity function at initialization for stable training.</p>
+  </li>
+  <li>
+    <p><strong>Flash Attention</strong>: Uses PyTorch 2.0+’s <code class="language-plaintext highlighter-rouge">F.scaled_dot_product_attention</code>, which auto-dispatches to Flash Attention kernels for O(N) memory complexity — critical for the 2,048-token configurations.</p>
+  </li>
+  <li>
+    <p><strong>MLP</strong>: GELU-activated (tanh approximation) with 4× expansion ratio (384 → 1,536 → 384).</p>
+  </li>
+  <li>
+    <p><strong>Final Output Head</strong>: AdaLN modulation followed by a <strong>zero-initialized</strong> linear projection to patch dimension — the model initially predicts zero velocity, a known DiT stabilization technique.</p>
+  </li>
+</ol>
+
+<p><strong>Model configurations</strong> scale from ~12M to ~38M parameters across T4/L4/A100 GPU profiles, with adjustable depth (8–12 blocks), hidden size (384–512), heads (6–8), and patch granularity.</p>
+
+<h2 id="rectified-flow-matching">Rectified Flow Matching</h2>
+
+<p>The training paradigm replaces standard DDPM noise prediction with <strong>velocity prediction</strong> under Rectified Flow (Liu et al., 2022):</p>
+
+<p><strong>Objective</strong>: <code class="language-plaintext highlighter-rouge">L = E[ ‖ v_θ(x_t, t) − (x₁ − x₀) ‖² ]</code> where <code class="language-plaintext highlighter-rouge">x₀ ~ N(0,I)</code> (noise), <code class="language-plaintext highlighter-rouge">x₁ ~ p_data</code> (real video), <code class="language-plaintext highlighter-rouge">t ~ U(0,1)</code>, and <code class="language-plaintext highlighter-rouge">x_t = t·x₁ + (1−t)·x₀</code> (linear interpolation along the “straight path”).</p>
+
+<p>The model learns to predict the velocity field <code class="language-plaintext highlighter-rouge">v = x₁ − x₀</code> (the direction from noise to data) rather than the noise itself. A key implementation detail: the model outputs velocity in <strong>patch space</strong> <code class="language-plaintext highlighter-rouge">(B, N, patch_vol)</code>, so the target <code class="language-plaintext highlighter-rouge">x₁ − x₀</code> is patchified before computing MSE loss, avoiding unnecessary unpatchification during training.</p>
+
+<p><strong>Advantages over DDPM</strong>: Linear noise schedule (no hand-tuned beta schedules), learns “straight” ODE trajectories enabling far fewer sampling steps, and a simple MSE loss with no reweighting.</p>
+
+<h2 id="training-infrastructure">Training Infrastructure</h2>
+
+<ul>
+  <li>
+<strong>Optimizer</strong>: AdamW (lr=3e-4, weight_decay=0.01) with cosine annealing and linear warmup (from 0.1)</li>
+  <li>
+<strong>Mixed Precision (AMP)</strong>: <code class="language-plaintext highlighter-rouge">torch.amp.GradScaler</code> + <code class="language-plaintext highlighter-rouge">autocast</code> for ~2× speedup on modern GPUs</li>
+  <li>
+<strong>Gradient Clipping</strong>: Max norm 1.0</li>
+  <li>
+<strong>EMA (Exponential Moving Average)</strong>: Decay 0.9999, with full state serialization — EMA weights are used for generation and saved separately in checkpoints</li>
+  <li>
+<strong>Checkpointing</strong>: Full state persistence (model, optimizer, scheduler, EMA, best loss, epoch) with automatic training resumption and best-model tracking</li>
+  <li>
+<strong>Data Pipeline</strong>: Moving MNIST (10K grayscale videos, 20 frames × 64×64) with automatic download, integrity verification, corruption recovery, normalization to [-1, 1], temporal cropping, and horizontal flip augmentation</li>
+</ul>
+
+<h2 id="sampling--inference">Sampling / Inference</h2>
+
+<p>Two ODE solvers integrate the learned velocity field from noise (t=0) to data (t=1):</p>
+
+<p><strong>Euler Method</strong> (1st order, 50 steps default): <code class="language-plaintext highlighter-rouge">x_{t+dt} = x_t + v_θ(x_t, t) · dt</code></p>
+
+<p><strong>Heun’s Method</strong> (2nd order, predictor-corrector): Evaluates velocity at both the current point and the Euler-predicted next point, averaging for significantly better accuracy at 2× compute cost per step — particularly effective with fewer steps.</p>
+
+<p><strong>Visualization</strong>: GIF/MP4/PNG strip outputs, plus a spacetime attention visualization that hooks into the last DiT block’s attention layer, extracts weights for a center token, and reshapes to <code class="language-plaintext highlighter-rouge">(T_grid, H_grid, W_grid)</code> heatmaps showing which spacetime regions the model attends to.</p>
+
+<h2 id="results">Results</h2>
+
+<ul>
+  <li>Generates coherent noise-to-video sequences capturing digit motion dynamics on Moving MNIST</li>
+  <li>Converges within 48 hours on a single GPU</li>
+  <li>50-step ODE sampling (vs. 1,000 for traditional DDPM) — <strong>10× faster generation</strong>
+</li>
+  <li>Comprehensive test suite (12 test classes) verifying patch round-tripping, zero-initialization, forward/backward passes, and flow matching loss computation</li>
+</ul>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python, PyTorch (2.1+), Flash Attention (<code class="language-plaintext highlighter-rouge">F.scaled_dot_product_attention</code>), TorchVision, NumPy, Matplotlib, PIL</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

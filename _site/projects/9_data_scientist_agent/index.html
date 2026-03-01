@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Data-Scientist-Agent: Multimodal Code-Actuated Agent via Visual Verification | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="An autonomous data science agent for data analytics and visualization, with a VLM critic for visual verification">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/9_data_scientist_agent/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Data-Scientist-Agent: Multimodal Code-Actuated Agent via Visual Verification</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Data-Scientist-Agent" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>A code-actuated data science agent that addresses a fundamental blind spot in LLM agent loops: <strong>silent chart hallucinations</strong> — code that executes without errors but produces empty axes, incorrect labels, wrong plot types, or visualizations that don’t answer the user’s query. Traditional agent loops rely on execution status (exit codes, stderr) for success detection, but visualization correctness is a <em>visual</em> property that can only be verified by inspecting the rendered output. The core innovation is a <strong>Visual Critic</strong> node — a Vision-Language Model that receives the rendered chart as a base64 PNG and returns Pydantic-validated structured feedback (<code class="language-plaintext highlighter-rouge">is_valid</code>, <code class="language-plaintext highlighter-rouge">has_title</code>, <code class="language-plaintext highlighter-rouge">has_labels</code>, <code class="language-plaintext highlighter-rouge">has_data</code>, <code class="language-plaintext highlighter-rouge">feedback</code>) — integrated into a LangGraph <code class="language-plaintext highlighter-rouge">StateGraph</code> with conditional routing that triggers code refinement when visual deficiencies are detected. Code executes in <strong>E2B Firecracker microVMs</strong> (AWS Lambda-grade isolation) with persistent Jupyter kernel state across retries. The delta between Pass@1 and Pass@3 directly quantifies the visual feedback loop’s effectiveness — demonstrating recovery from failures invisible to text-only verification.</p>
+
+<h2 id="langgraph-state-machine-architecture">LangGraph State Machine Architecture</h2>
+
+<p>The agent is a compiled <code class="language-plaintext highlighter-rouge">StateGraph</code> with 5 nodes and 2 conditional routing edges:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ENTRY → Planner → Coder → Executor → should_continue()
+                    ↑                    /     |      \
+                    |              "retry"  "verify"  "end" → END
+                    |                /        |
+                    |          Refiner   Visual Critic
+                    |            ↑        → critic_router()
+                    |            |          /        \
+                    └────────────┘    "refine"    "end" → END
+</code></pre></div></div>
+
+<p><strong>Routing logic</strong>: <code class="language-plaintext highlighter-rouge">should_continue()</code> checks execution results — if stderr AND <code class="language-plaintext highlighter-rouge">retry_count &lt; max_retries</code>: route to <code class="language-plaintext highlighter-rouge">refiner</code>; if <code class="language-plaintext highlighter-rouge">image_base64</code> present (plot generated): route to <code class="language-plaintext highlighter-rouge">visual_critic</code> for multimodal verification; if text-only output with no errors: route to <code class="language-plaintext highlighter-rouge">END</code>. The <code class="language-plaintext highlighter-rouge">critic_router()</code> checks the visual critic’s <code class="language-plaintext highlighter-rouge">is_valid</code> field — if False and retries remain: route back to <code class="language-plaintext highlighter-rouge">refiner</code> → <code class="language-plaintext highlighter-rouge">coder</code> for another attempt.</p>
+
+<p><strong>State definition</strong> (<code class="language-plaintext highlighter-rouge">AgentState</code> as <code class="language-plaintext highlighter-rouge">TypedDict</code>):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">messages</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Annotated[List[BaseMessage], operator.add]</code></td>
+      <td>Accumulating conversation history across graph transitions</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">context_data</code></td>
+      <td><code class="language-plaintext highlighter-rouge">str</code></td>
+      <td>Semantic profile of the dataset</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">generated_code</code></td>
+      <td><code class="language-plaintext highlighter-rouge">str</code></td>
+      <td>Current Python code to execute</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">execution_result</code></td>
+      <td><code class="language-plaintext highlighter-rouge">dict</code></td>
+      <td>Sandbox output (stdout, stderr, error, image_base64)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">retry_count</code></td>
+      <td><code class="language-plaintext highlighter-rouge">int</code></td>
+      <td>Attempt counter (bounded by <code class="language-plaintext highlighter-rouge">max_retries=3</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">is_solved</code></td>
+      <td><code class="language-plaintext highlighter-rouge">bool</code></td>
+      <td>Whether visual critic approved the output</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">original_query</code></td>
+      <td><code class="language-plaintext highlighter-rouge">str</code></td>
+      <td>Preserved original query (never mutated across retries)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-five-nodes">The Five Nodes</h2>
+
+<p><strong>Planner</strong>: Constructs a 2–3 step execution plan from the dataset context and user query. Appended as a <code class="language-plaintext highlighter-rouge">SystemMessage</code>. Falls back to direct code generation if planning fails.</p>
+
+<p><strong>Coder</strong>: Generates Python code constrained by 10 explicit rules — <code class="language-plaintext highlighter-rouge">df</code> is pre-loaded (no file I/O), only <code class="language-plaintext highlighter-rouge">pandas</code>/<code class="language-plaintext highlighter-rouge">numpy</code>/<code class="language-plaintext highlighter-rouge">matplotlib</code>/<code class="language-plaintext highlighter-rouge">seaborn</code> allowed, no network calls, max 50 lines, must include titles/labels/legends for plots. When retrying, error context is prepended: <code class="language-plaintext highlighter-rouge">"Previous Error: {stderr}\nVisual Feedback: {visual_feedback}"</code>. Code extraction uses a multi-level fallback: markdown ` <code class="language-plaintext highlighter-rouge">python</code> ` blocks → generic ` <code class="language-plaintext highlighter-rouge"></code> ` blocks → heuristic line-by-line parsing (detecting <code class="language-plaintext highlighter-rouge">import</code>, <code class="language-plaintext highlighter-rouge">df</code>, <code class="language-plaintext highlighter-rouge">plt.</code>, <code class="language-plaintext highlighter-rouge">print(</code>, <code class="language-plaintext highlighter-rouge">pd.</code>, <code class="language-plaintext highlighter-rouge">=</code> patterns, filtering explanatory text).</p>
+
+<p><strong>Executor</strong>: Sends generated code to the E2B sandbox via <code class="language-plaintext highlighter-rouge">SandboxWrapper.run_code()</code>, returns <code class="language-plaintext highlighter-rouge">{stdout, stderr, error, image_base64}</code>.</p>
+
+<p><strong>Visual Critic</strong> (the core innovation): Receives the rendered chart as a base64 PNG in a multimodal <code class="language-plaintext highlighter-rouge">HumanMessage</code> and returns a Pydantic-validated <code class="language-plaintext highlighter-rouge">VisualCritique</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">VisualCritique</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">is_valid</span><span class="p">:</span> <span class="nb">bool</span>    <span class="c1"># Does the chart correctly answer the query?
+</span>    <span class="n">has_title</span><span class="p">:</span> <span class="nb">bool</span>   <span class="c1"># Clear, readable title present?
+</span>    <span class="n">has_labels</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Axes properly labeled?
+</span>    <span class="n">has_data</span><span class="p">:</span> <span class="nb">bool</span>    <span class="c1"># Visible data (not empty/blank)?
+</span>    <span class="n">feedback</span><span class="p">:</span> <span class="nb">str</span>     <span class="c1"># Specific, actionable improvement guidance
+</span></code></pre></div></div>
+
+<p>Uses <code class="language-plaintext highlighter-rouge">model.with_structured_output(VisualCritique)</code> for deterministic machine-readable routing. If <code class="language-plaintext highlighter-rouge">is_valid</code> is False, the structured feedback (boolean diagnostics + free-text guidance) propagates to the refiner, triggering the self-correction loop. If the critic itself raises an exception, the system assumes success rather than blocking — conservative fallback preventing false negatives from derailing the pipeline.</p>
+
+<p><strong>Refiner</strong>: Aggregates all feedback sources (runtime errors from stderr, visual feedback from critic, execution error messages) into a single <code class="language-plaintext highlighter-rouge">SystemMessage</code>, then routes back to <code class="language-plaintext highlighter-rouge">coder</code> for another attempt with full diagnostic context.</p>
+
+<h2 id="semantic-compression-pipeline">Semantic Compression Pipeline</h2>
+
+<p>Instead of injecting raw CSV rows (which would exhaust context windows on large datasets), the system generates a statistical profile:</p>
+
+<ul>
+  <li>
+<strong>Numeric columns</strong>: min, max, mean, std, missing percentage</li>
+  <li>
+<strong>Categorical columns</strong>: unique count, top-5 frequent values (truncated to 30 chars), missing percentage</li>
+  <li>
+<strong>Datetime columns</strong>: date range</li>
+</ul>
+
+<p>The design insight: <em>“For string columns, sampling top frequent values prevents hallucinations about column content (e.g., knowing ‘United States’ vs ‘USA’).”</em> This preserves the structural information needed for correct code generation while reducing token consumption by orders of magnitude versus raw data injection.</p>
+
+<h2 id="e2b-firecracker-sandbox">E2B Firecracker Sandbox</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Isolation</strong></td>
+      <td>Firecracker microVMs (same technology as AWS Lambda)</td>
+    </tr>
+    <tr>
+      <td><strong>Template</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">code-interpreter-v1</code> (pre-built data science environment)</td>
+    </tr>
+    <tr>
+      <td><strong>Timeout</strong></td>
+      <td>45 seconds per code block</td>
+    </tr>
+    <tr>
+      <td><strong>Kernel persistence</strong></td>
+      <td>Jupyter kernel maintains state across executions — <code class="language-plaintext highlighter-rouge">df</code>, imports, and variables survive across retry attempts</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Setup code</strong> (executed once before agent-generated code): imports <code class="language-plaintext highlighter-rouge">pandas</code>, <code class="language-plaintext highlighter-rouge">numpy</code>, <code class="language-plaintext highlighter-rouge">matplotlib</code> (Agg backend for headless rendering), <code class="language-plaintext highlighter-rouge">seaborn</code>, loads the CSV into <code class="language-plaintext highlighter-rouge">df</code>, and prints shape confirmation. The persistent kernel means the agent’s generated code can reference <code class="language-plaintext highlighter-rouge">df</code> directly without re-loading — and retry attempts inherit all previous state.</p>
+
+<p><strong>Image capture</strong>: Iterates over E2B’s <code class="language-plaintext highlighter-rouge">execution.results</code> artifacts and extracts the <code class="language-plaintext highlighter-rouge">.png</code> attribute (base64-encoded PNG from matplotlib). Only the first plot is captured per execution.</p>
+
+<h2 id="error-recovery-and-self-healing">Error Recovery and Self-Healing</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Detection</th>
+      <th>Recovery</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Runtime errors</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">stderr</code> or <code class="language-plaintext highlighter-rouge">error</code> in execution result</td>
+      <td>Error message compiled into refinement prompt; <code class="language-plaintext highlighter-rouge">coder</code> generates corrected code</td>
+    </tr>
+    <tr>
+      <td><strong>Visual hallucinations</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">VisualCritique.is_valid == False</code></td>
+      <td>Structured feedback (has_title, has_labels, has_data, free-text) propagated to <code class="language-plaintext highlighter-rouge">refiner</code> → <code class="language-plaintext highlighter-rouge">coder</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Code extraction failure</strong></td>
+      <td>No code blocks found in LLM response</td>
+      <td>Multi-level fallback: markdown → generic blocks → heuristic line parsing</td>
+    </tr>
+    <tr>
+      <td><strong>Planning failure</strong></td>
+      <td>Exception in planner node</td>
+      <td>Graceful fallback to direct code generation</td>
+    </tr>
+    <tr>
+      <td><strong>Sandbox timeout</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">TimeoutError</code> from E2B</td>
+      <td>Caught, converted to error result dict</td>
+    </tr>
+    <tr>
+      <td><strong>Max retries</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">retry_count &gt;= max_retries</code> (default 3)</td>
+      <td>Terminates regardless of success state</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="evaluation-framework">Evaluation Framework</h2>
+
+<p><strong>Golden Set Benchmark</strong>: 10 curated tasks across 3 difficulty tiers and 2 output types:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Difficulty</th>
+      <th style="text-align: center">Tasks</th>
+      <th>Types</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Easy</strong></td>
+      <td style="text-align: center">3</td>
+      <td>Text (row count, column names, head)</td>
+    </tr>
+    <tr>
+      <td><strong>Medium</strong></td>
+      <td style="text-align: center">4</td>
+      <td>Text (group-by aggregation) + Plot (bar chart, histogram, scatter)</td>
+    </tr>
+    <tr>
+      <td><strong>Hard</strong></td>
+      <td style="text-align: center">3</td>
+      <td>Plot with constraints (log scale, box plot with rotated labels, annotated heatmap)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Validation logic</strong>: Text tasks use case-insensitive substring matching against expected output strings. Plot tasks verify <code class="language-plaintext highlighter-rouge">image_base64</code> exists AND match <code class="language-plaintext highlighter-rouge">expected_visual</code> against code keywords (e.g., <code class="language-plaintext highlighter-rouge">"bar_chart"</code> → <code class="language-plaintext highlighter-rouge">["bar", "barplot"]</code>). Log-scale tasks additionally validate via regex: <code class="language-plaintext highlighter-rouge">r"set_yscale\(['\"]log"</code>, <code class="language-plaintext highlighter-rouge">r"plt\.yscale\(['\"]log"</code>.</p>
+
+<p><strong>Metrics</strong> (computed with granular difficulty/type breakdowns):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Pass@1</strong></td>
+      <td>Success on first attempt (no retries needed)</td>
+    </tr>
+    <tr>
+      <td><strong>Pass@3</strong></td>
+      <td>Success within 3 attempts</td>
+    </tr>
+    <tr>
+      <td><strong>Pass (Refined)</strong></td>
+      <td>Any successful completion regardless of retry count</td>
+    </tr>
+    <tr>
+      <td><strong>Execution Success Rate</strong></td>
+      <td>Code runs without runtime exceptions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The key research metric is the <strong>delta between Pass@1 and Pass@3</strong> — this directly quantifies the visual feedback loop’s contribution, measuring recovery from failures that are invisible to text-only verification (code executes cleanly but the chart is wrong).</p>
+
+<p><strong>Ablation support</strong>: <code class="language-plaintext highlighter-rouge">--enable_visual_critic false</code> flag enables direct comparison with and without multimodal grounding, isolating the Visual Critic’s contribution to task success.</p>
+
+<h2 id="model-configuration">Model Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model</strong></td>
+      <td>Claude Sonnet 4 (<code class="language-plaintext highlighter-rouge">claude-sonnet-4-20250514</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>Temperature</strong></td>
+      <td>0.1 (near-deterministic for reliable code generation)</td>
+    </tr>
+    <tr>
+      <td><strong>Provider</strong></td>
+      <td>Anthropic via <code class="language-plaintext highlighter-rouge">langchain-anthropic</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Roles</strong></td>
+      <td>Single model instance serves 3 roles: Planner (text), Coder (text), Visual Critic (multimodal with <code class="language-plaintext highlighter-rouge">.with_structured_output()</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.10+), LangGraph (StateGraph, conditional edges), LangChain (Anthropic integration, message types), Anthropic Claude Sonnet 4, E2B Code Interpreter (Firecracker microVMs), Pydantic (structured output validation), Pandas, NumPy, Matplotlib, Seaborn, pytest (56+ tests)</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

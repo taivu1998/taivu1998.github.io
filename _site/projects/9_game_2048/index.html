@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Game 2048: Algorithmic Puzzle with Array Reversal Conjugation | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A minimal Java implementation of the game 2048">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/9_game_2048/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Game 2048: Algorithmic Puzzle with Array Reversal Conjugation</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/Game-2048" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Game 2048 is a Java implementation of the classic sliding-tile puzzle built on the <strong>Stanford ACM Graphics Library</strong> (<code class="language-plaintext highlighter-rouge">acm.jar</code>). The core algorithmic design reduces all four directional moves into a single <strong>three-phase 1D array consolidation pipeline</strong> (compact → merge → re-compact), with opposite directions unified via <strong>array reversal conjugation</strong> — reversing the array, applying the canonical left-ward combine, then reversing again. Game-over detection uses a <strong>multiplicative triple-product invariant</strong>: the product of all cell values × all horizontal differences × all vertical differences is nonzero if and only if no valid move exists. The rendering system maintains a <strong>dual-layer board representation</strong> — an <code class="language-plaintext highlighter-rouge">int[][]</code> model array as the authoritative game state and a parallel <code class="language-plaintext highlighter-rouge">GCompound[][]</code> view array of composite graphics objects — with <strong>logarithmic color cycling</strong> (<code class="language-plaintext highlighter-rouge">log2(value) % 6</code>) that automatically scales to arbitrarily high tile values.</p>
+
+<h2 id="three-phase-tile-movement-pipeline">Three-Phase Tile Movement Pipeline</h2>
+
+<h3 id="core-1d-consolidation">Core 1D Consolidation</h3>
+
+<p>Every directional move (UP, DOWN, LEFT, RIGHT) is reduced to a 1D array consolidation problem. Rows or columns are extracted from the 4×4 grid, processed through a three-phase pipeline, and written back:</p>
+
+<p><strong>Phase 1 — Compact</strong> (<code class="language-plaintext highlighter-rouge">moveZerosToEnd</code>): Shifts all non-zero values to the front, pushing zeros to the end via reverse-iteration bubble shift:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">moveZerosToEnd</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>
+                <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+            <span class="n">array</span><span class="o">[</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Phase 2 — Merge</strong> (<code class="language-plaintext highlighter-rouge">addIdenticalNumbers</code>): After compaction, adjacent equal values are merged by doubling the first and zeroing the second. The left-to-right single-pass correctly prevents chain-merging (e.g., <code class="language-plaintext highlighter-rouge">[2,2,2,2]</code> → <code class="language-plaintext highlighter-rouge">[4,0,4,0]</code>, not <code class="language-plaintext highlighter-rouge">[8,0,0,0]</code>):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">addIdenticalNumbers</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+            <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">*=</span> <span class="mi">2</span><span class="o">;</span>
+            <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Phase 3 — Re-compact</strong> (<code class="language-plaintext highlighter-rouge">moveZerosToEnd</code> again): Zeros created by merging are pushed to the end.</p>
+
+<p>The full pipeline is encapsulated as:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">combineArraytoBeginning</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">moveZerosToEnd</span><span class="o">(</span><span class="n">addIdenticalNumbers</span><span class="o">(</span><span class="n">moveZerosToEnd</span><span class="o">(</span><span class="n">array</span><span class="o">)));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="array-reversal-conjugation-for-directional-symmetry">Array Reversal Conjugation for Directional Symmetry</h3>
+
+<p>Rather than implementing four separate movement algorithms, opposite directions are unified via <strong>conjugation by reversal</strong> — a technique analogous to matrix conjugation in linear algebra:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">combineArraytoEnd</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">reverseArray</span><span class="o">(</span><span class="n">combineArraytoBeginning</span><span class="o">(</span><span class="n">reverseArray</span><span class="o">(</span><span class="n">array</span><span class="o">)));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Moving “toward the end” = reverse → combine toward beginning → reverse. This cuts the core logic by ~50%.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Direction</th>
+      <th>Data Slice</th>
+      <th>Combine Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>UP</strong></td>
+      <td>Column <code class="language-plaintext highlighter-rouge">j</code> (top→bottom)</td>
+      <td><code class="language-plaintext highlighter-rouge">combineArraytoBeginning()</code></td>
+    </tr>
+    <tr>
+      <td><strong>DOWN</strong></td>
+      <td>Column <code class="language-plaintext highlighter-rouge">j</code> (top→bottom)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">combineArraytoEnd()</code> (conjugation)</td>
+    </tr>
+    <tr>
+      <td><strong>LEFT</strong></td>
+      <td>Row <code class="language-plaintext highlighter-rouge">i</code> (left→right)</td>
+      <td><code class="language-plaintext highlighter-rouge">combineArraytoBeginning()</code></td>
+    </tr>
+    <tr>
+      <td><strong>RIGHT</strong></td>
+      <td>Row <code class="language-plaintext highlighter-rouge">i</code> (left→right)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">combineArraytoEnd()</code> (conjugation)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For UP/DOWN, columns are extracted into temporary 1D arrays via <code class="language-plaintext highlighter-rouge">updateColumn()</code>; for LEFT/RIGHT, rows (<code class="language-plaintext highlighter-rouge">gridNum[i]</code>) are passed directly via <code class="language-plaintext highlighter-rouge">updateRow()</code>.</p>
+
+<h2 id="multiplicative-game-over-detection">Multiplicative Game-Over Detection</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">gameOver()</code> method uses a mathematically elegant <strong>triple-product invariant</strong>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">gameOver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">product1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>  <span class="c1">// Product of all cell values</span>
+    <span class="kt">int</span> <span class="n">product2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>  <span class="c1">// Product of horizontal differences</span>
+    <span class="kt">int</span> <span class="n">product3</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>  <span class="c1">// Product of vertical differences</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">):</span> <span class="n">product1</span> <span class="o">*=</span> <span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>              <span class="c1">// Zero if any cell empty</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">):</span> <span class="n">product2</span> <span class="o">*=</span> <span class="o">(</span><span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">-</span> <span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">]);</span>  <span class="c1">// Zero if horizontal match</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">):</span> <span class="n">product3</span> <span class="o">*=</span> <span class="o">(</span><span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">-</span> <span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">][</span><span class="n">j</span><span class="o">]);</span>  <span class="c1">// Zero if vertical match</span>
+
+    <span class="k">return</span> <span class="o">(</span><span class="n">product1</span> <span class="o">*</span> <span class="n">product2</span> <span class="o">*</span> <span class="n">product3</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The game is over <strong>if and only if</strong> all three products are nonzero simultaneously:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">product1 ≠ 0</code>: No empty cells (all tiles filled)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">product2 ≠ 0</code>: No horizontally adjacent equal tiles (no horizontal merges possible)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">product3 ≠ 0</code>: No vertically adjacent equal tiles (no vertical merges possible)</li>
+</ul>
+
+<p>If ANY condition is unsatisfied, the combined product is zero → game continues. This replaces verbose nested conditionals with a single algebraic expression.</p>
+
+<h2 id="dual-layer-board-representation">Dual-Layer Board Representation</h2>
+
+<p>The game maintains two parallel 4×4 arrays forming a model-view separation:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Type</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Model</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">int[][] gridNum</code></td>
+      <td>Authoritative game state — <code class="language-plaintext highlighter-rouge">0</code> = empty, <code class="language-plaintext highlighter-rouge">2^k</code> = tile value</td>
+    </tr>
+    <tr>
+      <td><strong>View</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">GCompound[][] gridSquare</code></td>
+      <td>Renderable composite objects (colored <code class="language-plaintext highlighter-rouge">GRect</code> + centered <code class="language-plaintext highlighter-rouge">GLabel</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Full-redraw strategy</strong>: After every move, all 16 tiles are removed from the canvas (<code class="language-plaintext highlighter-rouge">removeAllSquares()</code>) and redrawn from scratch (<code class="language-plaintext highlighter-rouge">updateGraphics()</code>) — a deliberate simplicity tradeoff where the O(n²) cost is negligible for n=4.</p>
+
+<h2 id="logarithmic-color-cycling">Logarithmic Color Cycling</h2>
+
+<p>Colors are assigned via <code class="language-plaintext highlighter-rouge">log2(value) % 6</code>, creating a <strong>cyclic 6-color palette</strong> that automatically scales to arbitrarily high tile values without a hardcoded color map:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><code class="language-plaintext highlighter-rouge">log2(value) % 6</code></th>
+      <th>Color</th>
+      <th>Example Tiles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td>YELLOW</td>
+      <td>2, 128, 8192</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">2</td>
+      <td>GREEN</td>
+      <td>4, 256, 16384</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td>PINK</td>
+      <td>8, 512, 32768</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4</td>
+      <td>CYAN</td>
+      <td>16, 1024, 65536</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td>ORANGE</td>
+      <td>32, 2048, 131072</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">0</td>
+      <td>MAGENTA</td>
+      <td>64, 4096, 262144</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Empty tiles (value 0) render as <code class="language-plaintext highlighter-rouge">LIGHT_GRAY</code>. The logarithmic mapping ensures visually distinct tiles at every power-of-two level while gracefully wrapping at higher values.</p>
+
+<h2 id="stanford-acm-graphics-library">Stanford ACM Graphics Library</h2>
+
+<p>The application extends <code class="language-plaintext highlighter-rouge">GraphicsProgram</code> from Stanford’s <code class="language-plaintext highlighter-rouge">acm.jar</code>, which wraps Java AWT/Swing into a pedagogical graphics framework:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th style="text-align: center">Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Window</td>
+      <td style="text-align: center">600×800 pixels</td>
+    </tr>
+    <tr>
+      <td>Header zone</td>
+      <td style="text-align: center">“2048” logo (120×120 green square, red bold text) + max tile display (magenta)</td>
+    </tr>
+    <tr>
+      <td>Game grid</td>
+      <td style="text-align: center">4×4 tiles, each ~137.5px (<code class="language-plaintext highlighter-rouge">(600 - 5×10) / 4</code>), 10px spacing</td>
+    </tr>
+    <tr>
+      <td>Controls</td>
+      <td style="text-align: center">4 <code class="language-plaintext highlighter-rouge">JButton</code> instances (UP, DOWN, LEFT, RIGHT) in SOUTH region</td>
+    </tr>
+    <tr>
+      <td>Tile rendering</td>
+      <td style="text-align: center">
+<code class="language-plaintext highlighter-rouge">GCompound</code> = filled <code class="language-plaintext highlighter-rouge">GRect</code> (colored) + <code class="language-plaintext highlighter-rouge">GLabel</code> (SansSerif-40, centered)</td>
+    </tr>
+    <tr>
+      <td>Random generator</td>
+      <td style="text-align: center">
+<code class="language-plaintext highlighter-rouge">RandomGenerator.getInstance()</code> singleton PRNG</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="configuration-via-interface-constants">Configuration via Interface Constants</h3>
+
+<p>All layout parameters are externalized into <code class="language-plaintext highlighter-rouge">Game2048Constants</code>, which the main class implements:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Game2048Constants</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="no">APPLICATION_WIDTH</span> <span class="o">=</span> <span class="mi">600</span><span class="o">,</span> <span class="no">APPLICATION_HEIGHT</span> <span class="o">=</span> <span class="mi">800</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="no">DIMENSION</span> <span class="o">=</span> <span class="mi">4</span><span class="o">,</span> <span class="no">WINNING_NUMBER</span> <span class="o">=</span> <span class="mi">2048</span><span class="o">;</span>
+    <span class="kt">double</span> <span class="no">SPACE</span> <span class="o">=</span> <span class="mi">10</span><span class="o">,</span> <span class="no">LOGO_SIZE</span> <span class="o">=</span> <span class="mi">120</span><span class="o">;</span>
+    <span class="kt">double</span> <span class="no">SQUARE_SIZE</span> <span class="o">=</span> <span class="o">(</span><span class="no">APPLICATION_WIDTH</span> <span class="o">-</span> <span class="o">(</span><span class="no">DIMENSION</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">*</span> <span class="no">SPACE</span><span class="o">)</span> <span class="o">/</span> <span class="no">DIMENSION</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Using a Java <code class="language-plaintext highlighter-rouge">interface</code> for constants means values are implicitly <code class="language-plaintext highlighter-rouge">public static final</code> and directly accessible without qualification in implementing classes.</p>
+
+<h2 id="new-tile-spawning">New Tile Spawning</h2>
+
+<p>After each move, a single tile with value <strong>2</strong> is placed at a random empty cell via <strong>rejection sampling</strong> — repeatedly generating random <code class="language-plaintext highlighter-rouge">(i, j)</code> coordinates until an empty cell (<code class="language-plaintext highlighter-rouge">gridNum[i][j] == 0</code>) is found:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">addNewNumbers</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasEmptySpace</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">rgen</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="no">DIMENSION</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rgen</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="no">DIMENSION</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="n">gridNum</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span> <span class="k">break</span><span class="o">;</span> <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">hasEmptySpace()</code> check uses a <strong>multiplicative invariant</strong>: the product of all 16 cell values is zero if and only if at least one cell is empty, avoiding explicit branching/short-circuiting.</p>
+
+<h2 id="event-loop-and-winloss-detection">Event Loop and Win/Loss Detection</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">actionPerformed</span><span class="o">(</span><span class="nc">ActionEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">getActionCommand</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"UP"</span><span class="o">))</span> <span class="n">moveUp</span><span class="o">();</span>
+    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"DOWN"</span><span class="o">))</span> <span class="n">moveDown</span><span class="o">();</span>
+    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"LEFT"</span><span class="o">))</span> <span class="n">moveLeft</span><span class="o">();</span>
+    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">cmd</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"RIGHT"</span><span class="o">))</span> <span class="n">moveRight</span><span class="o">();</span>
+    <span class="n">addNewNumbers</span><span class="o">();</span>
+    <span class="n">updateGraphics</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Button clicks dispatch directional moves via <code class="language-plaintext highlighter-rouge">ActionListener</code>. The <strong>win condition</strong> checks <code class="language-plaintext highlighter-rouge">max &gt;= 2048</code> but does not terminate play — a congratulatory label appears while the game continues. The <strong>game-over condition</strong> triggers the triple-product invariant check. The “score” is the maximum tile value on the board, recalculated via full O(n²) scan after every move.</p>
+
+<h2 id="demo">Demo</h2>
+
+<div class="row">
+    <div class="col-sm-6 mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/2048_Demo-480.webp 480w,/assets/img/projects/2048_Demo-800.webp 800w,/assets/img/projects/2048_Demo-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/2048_Demo.gif" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Game 2048 Demo" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Java (8+), Stanford ACM Graphics Library (<code class="language-plaintext highlighter-rouge">acm.jar</code> — GraphicsProgram, GCompound, GRect, GLabel, GObject), AWT/Swing (JButton, ActionListener)</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      MangaNet: Object Detection for Manga with Deep Neural Networks | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="Advanced object detection model architectures for the manga domain">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/18_manga_detection/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">MangaNet: Object Detection for Manga with Deep Neural Networks</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/MangaObjectDetection" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a>
+<a href="https://taivu1998.github.io/assets/files/projects/MangaNet_Paper.pdf" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/Paper-Read_paper-brightgreen?logo=affinity-publisher" alt=""></a>
+<a href="https://taivu1998.github.io/assets/files/projects/MangaNet_Slides.pdf" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/Slides-View_slides-blueviolet?logo=styleshare" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Developed as a Stanford CS 231N project, MangaNet conducts the first controlled comparison of <strong>three fundamentally different detection paradigms</strong> — two-stage Faster R-CNN, anchor-based single-stage RetinaNet, and grid-based single-stage YOLOv3 — on the <strong>Manga109 benchmark</strong> (109 titles, 21,142 annotated pages, 500,000+ bounding boxes) for detecting 4 manga-specific object classes: <strong>body</strong>, <strong>face</strong>, <strong>frame</strong>, and <strong>text</strong>. Faster R-CNN with ResNet-50 + Feature Pyramid Network achieves a <strong>state-of-the-art COCO-standard mAP@[0.5:0.95] of 71.0</strong>, surpassing the prior SSD300-fork baseline (Ogawa et al., 2018). Beyond the detection benchmark, the project explores <strong>Neural Style Transfer as domain augmentation</strong> — applying artistic style transfer to manga pages and fine-tuning the detector on stylistically altered images to bridge the visual gap across the 109 manga titles’ diverse artistic styles. All models use ImageNet/COCO-pretrained backbones with full fine-tuning, custom <code class="language-plaintext highlighter-rouge">imgaug</code>-based augmentation pipelines with synchronized bounding box transformation, and COCO-standard evaluation via <code class="language-plaintext highlighter-rouge">pycocotools</code>.</p>
+
+<h2 id="four-detection-targets">Four Detection Targets</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Class</th>
+      <th style="text-align: center">Label</th>
+      <th>Detection Challenges</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Body</strong></td>
+      <td style="text-align: center">1</td>
+      <td>High scale variance, frequent occlusion by panel borders</td>
+    </tr>
+    <tr>
+      <td><strong>Face</strong></td>
+      <td style="text-align: center">2</td>
+      <td>Small objects, extreme stylistic variation across 109 titles</td>
+    </tr>
+    <tr>
+      <td><strong>Frame</strong></td>
+      <td style="text-align: center">3</td>
+      <td>Large near-rectangular objects, densely packed on each page</td>
+    </tr>
+    <tr>
+      <td><strong>Text</strong></td>
+      <td style="text-align: center">4</td>
+      <td>Variable size, irregular shapes, frequent overlap with frames</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="three-detection-architectures">Three Detection Architectures</h2>
+
+<h3 id="faster-r-cnn-two-stage--best-performer">Faster R-CNN (Two-Stage) — Best Performer</h3>
+
+<p><strong>Backbone</strong>: ResNet-50 + FPN (Feature Pyramid Network producing P2–P5 at 256 channels each). <strong>Stage 1</strong>: Region Proposal Network with 15 anchors per spatial location (5 scales × 3 aspect ratios, scales {32, 64, 128, 256, 512}px). <strong>Stage 2</strong>: RoI Align (7×7 pooling) → two FC layers (1024 units) → <code class="language-plaintext highlighter-rouge">FastRCNNPredictor</code> (5 classes: 4 object + 1 background). Loss: cross-entropy (classification) + Smooth L1 (box regression).</p>
+
+<p>Initialized from <strong>full COCO-pretrained weights</strong> (not just backbone), then the classification head is replaced for 5-class output — all parameters remain trainable for full fine-tuning:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="n">detection</span><span class="p">.</span><span class="nf">fasterrcnn_resnet50_fpn</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">in_features</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">roi_heads</span><span class="p">.</span><span class="n">box_predictor</span><span class="p">.</span><span class="n">cls_score</span><span class="p">.</span><span class="n">in_features</span>
+<span class="n">model</span><span class="p">.</span><span class="n">roi_heads</span><span class="p">.</span><span class="n">box_predictor</span> <span class="o">=</span> <span class="nc">FastRCNNPredictor</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="retinanet-single-stage-focal-loss">RetinaNet (Single-Stage, Focal Loss)</h3>
+
+<p><strong>Backbone</strong>: ResNet-50 + FPN (P3–P7, strides 8–128). <strong>Classification subnet</strong>: 4 Conv layers (256 channels, 3×3, ReLU) → K×A outputs. <strong>Box regression subnet</strong>: 4 Conv layers → 4×A outputs. <strong>Focal Loss</strong>: <code class="language-plaintext highlighter-rouge">FL(pₜ) = −αₜ(1−pₜ)^γ · log(pₜ)</code> with γ=2.0, α=0.25 to handle the extreme foreground-background class imbalance in dense manga pages. Initialized from <strong>ImageNet-pretrained backbone only</strong> — FPN and detection heads trained from scratch.</p>
+
+<h3 id="yolov3-single-stage-grid-based">YOLOv3 (Single-Stage, Grid-Based)</h3>
+
+<p><strong>Backbone</strong>: Darknet-53 (53 convolutional layers with residual connections). <strong>Multi-scale detection</strong>: 3 heads at 13×13 (large), 26×26 (medium), 52×52 (small) grids, 3 anchors per scale (9 total). <strong>Input</strong>: Fixed 416×416 pixels. Per-cell output: <code class="language-plaintext highlighter-rouge">(bx, by, bw, bh, objectness, 4_class_probs)</code> × 3 anchors. Pretrained from <code class="language-plaintext highlighter-rouge">darknet53.conv.74</code> (first 74 layers on ImageNet), detection heads trained from scratch.</p>
+
+<h2 id="dataset-manga109">Dataset: Manga109</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th style="text-align: center">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Source</td>
+      <td style="text-align: center">Aizawa Yamasaki Matsui Lab, University of Tokyo</td>
+    </tr>
+    <tr>
+      <td>Titles</td>
+      <td style="text-align: center">109 manga series</td>
+    </tr>
+    <tr>
+      <td>Pages</td>
+      <td style="text-align: center">21,142 annotated</td>
+    </tr>
+    <tr>
+      <td>Annotations</td>
+      <td style="text-align: center">500,000+ bounding boxes (body, face, frame, text)</td>
+    </tr>
+    <tr>
+      <td>Resolution</td>
+      <td style="text-align: center">~1654 × 1170 pixels per page</td>
+    </tr>
+    <tr>
+      <td>Format</td>
+      <td style="text-align: center">XML parsed via <code class="language-plaintext highlighter-rouge">manga109api</code> → Pandas DataFrame → pickle</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Data split</strong> (stratified via <code class="language-plaintext highlighter-rouge">sklearn.train_test_split</code>, <code class="language-plaintext highlighter-rouge">random_state=0</code>): 80% train / 10% validation / 10% test. Pages with zero annotations removed (“condensed” dataset). Degenerate bounding boxes (<code class="language-plaintext highlighter-rouge">xmin ≥ xmax</code> or <code class="language-plaintext highlighter-rouge">ymin ≥ ymax</code>) discarded.</p>
+
+<p><strong>YOLO format conversion</strong>: Absolute pixel coordinates <code class="language-plaintext highlighter-rouge">[xmin, ymin, xmax, ymax]</code> → normalized center coordinates <code class="language-plaintext highlighter-rouge">[cx/W, cy/H, w/W, h/H]</code> with per-image <code class="language-plaintext highlighter-rouge">.txt</code> label files.</p>
+
+<h2 id="data-augmentation-pipeline">Data Augmentation Pipeline</h2>
+
+<p>Custom <code class="language-plaintext highlighter-rouge">imgaug</code>-based pipeline ensuring <strong>synchronized transformation</strong> of images and bounding boxes:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ImgAug</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">bbs</span> <span class="o">=</span> <span class="nc">BoundingBoxesOnImage</span><span class="p">(</span><span class="n">bbox_list</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">image</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">bbs</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">augmentations</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">bounding_boxes</span><span class="o">=</span><span class="n">bbs</span><span class="p">)</span>
+        <span class="n">bbs</span> <span class="o">=</span> <span class="n">bbs</span><span class="p">.</span><span class="nf">clip_out_of_image</span><span class="p">()</span>  <span class="c1"># Clip boxes that went out of bounds
+</span></code></pre></div></div>
+
+<p><strong>Training augmentation</strong> (DefaultAug): Sharpen (0.0–0.1) → Affine (translate ±10%, scale 0.8–1.5) → Brightness (−60 to +40) → Hue shift (±10) → Horizontal flip (50%) → <strong>PadSquare</strong> (center-pad to 1:1 aspect ratio) → ToTensor.</p>
+
+<p><strong>Validation/Test</strong>: PadSquare → ToTensor only (no augmentation).</p>
+
+<p><strong>StrongAug</strong> (available for ablation): Adds Dropout (0–1%), rotation (±10°), wider hue range (±20).</p>
+
+<h2 id="training-configuration">Training Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th style="text-align: center">Faster R-CNN</th>
+      <th style="text-align: center">RetinaNet</th>
+      <th style="text-align: center">YOLOv3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Optimizer</td>
+      <td style="text-align: center">Adam</td>
+      <td style="text-align: center">Adam</td>
+      <td style="text-align: center">SGD</td>
+    </tr>
+    <tr>
+      <td>Learning rate</td>
+      <td style="text-align: center">1e-4</td>
+      <td style="text-align: center">1e-4</td>
+      <td style="text-align: center">Config-defined</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">8</td>
+    </tr>
+    <tr>
+      <td>Epochs</td>
+      <td style="text-align: center">10</td>
+      <td style="text-align: center">15</td>
+      <td style="text-align: center">~8+</td>
+    </tr>
+    <tr>
+      <td>Input size</td>
+      <td style="text-align: center">Variable (FPN)</td>
+      <td style="text-align: center">Variable (FPN)</td>
+      <td style="text-align: center">416×416</td>
+    </tr>
+    <tr>
+      <td>Pretrained</td>
+      <td style="text-align: center">Full COCO model</td>
+      <td style="text-align: center">ImageNet backbone</td>
+      <td style="text-align: center">darknet53.conv.74</td>
+    </tr>
+    <tr>
+      <td>Augmentation</td>
+      <td style="text-align: center">DefaultAug (imgaug)</td>
+      <td style="text-align: center">DefaultAug (imgaug)</td>
+      <td style="text-align: center">Library defaults</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Checkpoint management</strong>: Per-epoch full state saves + separate best-model checkpoint tracking <code class="language-plaintext highlighter-rouge">{epoch, model_state_dict, optimizer_state_dict, mAP}</code>, updated only when validation mAP improves. Supports resumable training from either best or most recent checkpoint.</p>
+
+<h2 id="neural-style-transfer-domain-augmentation">Neural Style Transfer Domain Augmentation</h2>
+
+<p>A novel experimental approach to bridge the visual gap across the 109 manga titles’ diverse artistic styles:</p>
+
+<ol>
+  <li>
+<strong>Style transfer</strong>: Apply NST using a 21-style pretrained network (PyTorch-Style-Transfer) to generate stylistically altered versions of all manga pages (content size 1024px)</li>
+  <li>
+<strong>Two-stage fine-tuning</strong>: Start from a Faster R-CNN already trained on original manga data → fine-tune on NST-augmented images with SGD (<code class="language-plaintext highlighter-rouge">lr=0.01</code>, 10× higher than original) and batch size 8</li>
+  <li>
+<strong>Coordinate alignment</strong>: NST images resized to 1654×1170 to preserve annotation coordinate mappings</li>
+</ol>
+
+<p>This explores whether artistic style transfer can serve as a domain augmentation strategy, making the detector more robust to the extreme visual diversity across manga series.</p>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<p><strong>Primary metric</strong>: COCO-standard mAP@[0.5:0.95] — averaged over 10 IoU thresholds (0.50, 0.55, …, 0.95), the most stringent standard metric. Evaluated via <code class="language-plaintext highlighter-rouge">pycocotools</code> COCO API.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th style="text-align: center">mAP@[0.5:0.95]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SSD300-fork (Ogawa et al. 2018, prior SOTA)</td>
+      <td style="text-align: center">&lt; 71.0</td>
+    </tr>
+    <tr>
+      <td><strong>Faster R-CNN (ResNet-50 + FPN)</strong></td>
+      <td style="text-align: center"><strong>71.0</strong></td>
+    </tr>
+    <tr>
+      <td>RetinaNet (ResNet-50 + FPN)</td>
+      <td style="text-align: center">Competitive</td>
+    </tr>
+    <tr>
+      <td>YOLOv3 (Darknet-53)</td>
+      <td style="text-align: center">Competitive</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why Faster R-CNN prevails</strong>: The two-stage architecture’s explicit region proposal mechanism excels for manga because: (1) the RPN generates high-quality proposals for densely overlapping body/face/frame/text regions, (2) FPN with multi-scale anchors (32–512px) handles the extreme range from tiny faces to full-page frames, and (3) full COCO model pretraining provides better initialization for detection-specific components (RPN, RoI heads) compared to backbone-only pretraining.</p>
+
+<p><strong>YOLOv3 inference</strong>: Confidence threshold 0.5, NMS IoU threshold 0.4, with box rescaling from 416×416 back to original dimensions and color-coded visualization per class.</p>
+
+<h2 id="demo">Demo</h2>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/MangaNet_Demo-480.webp 480w,/assets/img/projects/MangaNet_Demo-800.webp 800w,/assets/img/projects/MangaNet_Demo-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/MangaNet_Demo.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="Manga Object Detection Demo" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.7+), PyTorch, TorchVision (Faster R-CNN, RetinaNet), PyTorch-YOLOv3 (eriklindernoren), pycocotools (COCO evaluation), manga109api (annotation parsing), imgaug (augmentation with bbox sync), Pandas, NumPy, Matplotlib, Google Colab</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      GANime: Generating Anime Characters from Sketches with Deep Learning | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="Generative models for automating the colorization of anime sketches">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/14_ganime/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">GANime: Generating Anime Characters from Sketches with Deep Learning</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/GANime" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a>
+<a href="https://arxiv.org/abs/2508.09207" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/Paper-Read_paper-brightgreen?logo=affinity-publisher" alt=""></a>
+<a href="https://taivu1998.github.io/assets/files/projects/GANime_Poster.pdf" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/Poster-View_poster-orange?logo=styleshare" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Published as <a href="https://arxiv.org/abs/2508.09207" rel="external nofollow noopener" target="_blank">arXiv:2508.09207</a> and developed as a Stanford CS230 project, GANime systematically benchmarks <strong>four neural approaches</strong> to anime sketch colorization — optimization-based Neural Style Transfer (NST), single-pass Fast NST, paired conditional GAN (Pix2Pix), and unpaired cycle-consistent GAN (CycleGAN) — on <strong>17,769 sketch-color image pairs</strong> at 256×256 resolution. The primary technical contribution is the addition of <strong>Total Variation (TV) regularization</strong> to the standard Pix2Pix objective, suppressing color-bleeding artifacts at region boundaries and yielding a <strong>3.3% additional FID improvement</strong> (227.9 → 220.5) over vanilla Pix2Pix. The TV-regularized Pix2Pix achieves an <strong>FID of 220.5</strong> and <strong>SSIM of 0.756</strong> — a <strong>36.2% FID reduction</strong> over the NST baseline (345.5) — while CycleGAN reaches FID=272.6 without requiring paired supervision. All architectures share a modular <code class="language-plaintext highlighter-rouge">Pix2Pix_Net</code> backbone providing U-Net generators and PatchGAN discriminators, with a custom <code class="language-plaintext highlighter-rouge">InstanceNormalization</code> Keras layer for CycleGAN’s per-instance normalization. Implemented in TensorFlow 2.1 with <code class="language-plaintext highlighter-rouge">@tf.function</code> graph-mode training.</p>
+
+<h2 id="four-colorization-approaches">Four Colorization Approaches</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Approach</th>
+      <th style="text-align: center">Supervision</th>
+      <th style="text-align: center">FID</th>
+      <th style="text-align: center">SSIM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Neural Style Transfer</td>
+      <td>Per-image VGG19 optimization</td>
+      <td style="text-align: center">Per-image (1,000 steps)</td>
+      <td style="text-align: center">345.5</td>
+      <td style="text-align: center">0.655</td>
+    </tr>
+    <tr>
+      <td>Fast NST</td>
+      <td>Pre-trained TF Hub forward pass</td>
+      <td style="text-align: center">None (pretrained)</td>
+      <td style="text-align: center">—</td>
+      <td style="text-align: center">—</td>
+    </tr>
+    <tr>
+      <td>Pix2Pix (C-GAN)</td>
+      <td>Conditional adversarial + L1</td>
+      <td style="text-align: center">Paired</td>
+      <td style="text-align: center">227.9</td>
+      <td style="text-align: center">0.747</td>
+    </tr>
+    <tr>
+      <td><strong>Pix2Pix + TV Loss</strong></td>
+      <td>Conditional adversarial + L1 + TV</td>
+      <td style="text-align: center"><strong>Paired</strong></td>
+      <td style="text-align: center"><strong>220.5</strong></td>
+      <td style="text-align: center"><strong>0.756</strong></td>
+    </tr>
+    <tr>
+      <td>CycleGAN</td>
+      <td>Cycle-consistent adversarial</td>
+      <td style="text-align: center">Unpaired</td>
+      <td style="text-align: center">272.6</td>
+      <td style="text-align: center">0.724</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="u-net-generator-architecture">U-Net Generator Architecture</h2>
+
+<p>The generator follows a modified U-Net with <strong>8 encoder blocks</strong> and <strong>7 decoder blocks</strong> + 1 final transposed convolution, accepting flexible-resolution 3-channel inputs. All convolutional layers use <code class="language-plaintext highlighter-rouge">tf.random_normal_initializer(0., 0.02)</code> with <code class="language-plaintext highlighter-rouge">use_bias=False</code>.</p>
+
+<p><strong>Encoder (downsampling path)</strong> — each block: <code class="language-plaintext highlighter-rouge">Conv2D(k=4, s=2, 'same')</code> → Normalization → <code class="language-plaintext highlighter-rouge">LeakyReLU</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Block</th>
+      <th style="text-align: center">Filters</th>
+      <th style="text-align: center">Output (256×256 input)</th>
+      <th style="text-align: center">Normalization</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">down1</td>
+      <td style="text-align: center">64</td>
+      <td style="text-align: center">128×128×64</td>
+      <td style="text-align: center"><strong>None</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down2</td>
+      <td style="text-align: center">128</td>
+      <td style="text-align: center">64×64×128</td>
+      <td style="text-align: center">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down3</td>
+      <td style="text-align: center">256</td>
+      <td style="text-align: center">32×32×256</td>
+      <td style="text-align: center">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down4</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">16×16×512</td>
+      <td style="text-align: center">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down5</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">8×8×512</td>
+      <td style="text-align: center">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down6</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">4×4×512</td>
+      <td style="text-align: center">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down7</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">2×2×512</td>
+      <td style="text-align: center">Yes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">down8</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">1×1×512</td>
+      <td style="text-align: center">Yes (bottleneck)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Decoder (upsampling path)</strong> — each block: <code class="language-plaintext highlighter-rouge">Conv2DTranspose(k=4, s=2, 'same')</code> → Normalization → [Dropout(0.5)] → <code class="language-plaintext highlighter-rouge">ReLU</code> → <strong>Concatenate</strong> with corresponding encoder skip connection:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Block</th>
+      <th style="text-align: center">Filters</th>
+      <th style="text-align: center">After Skip Concat</th>
+      <th style="text-align: center">Dropout</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">up1</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">2×2×1024</td>
+      <td style="text-align: center"><strong>0.5</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">up2</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">4×4×1024</td>
+      <td style="text-align: center"><strong>0.5</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">up3</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">8×8×1024</td>
+      <td style="text-align: center"><strong>0.5</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">up4</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">16×16×1024</td>
+      <td style="text-align: center">No</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">up5</td>
+      <td style="text-align: center">256</td>
+      <td style="text-align: center">32×32×512</td>
+      <td style="text-align: center">No</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">up6</td>
+      <td style="text-align: center">128</td>
+      <td style="text-align: center">64×64×256</td>
+      <td style="text-align: center">No</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">up7</td>
+      <td style="text-align: center">64</td>
+      <td style="text-align: center">128×128×128</td>
+      <td style="text-align: center">No</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Final layer</strong>: <code class="language-plaintext highlighter-rouge">Conv2DTranspose(3, k=4, s=2, activation='tanh')</code> → output <code class="language-plaintext highlighter-rouge">(256, 256, 3)</code> in <code class="language-plaintext highlighter-rouge">[−1, 1]</code>. The bottleneck output (down8) is excluded from skip connections, yielding 7 skip connections total that preserve fine-grained spatial details like hair strands, eye highlights, and clothing edges.</p>
+
+<h2 id="7070-patchgan-discriminator">70×70 PatchGAN Discriminator</h2>
+
+<p>Rather than classifying the entire image, the discriminator produces a <strong>30×30 grid of patch predictions</strong>, each with a ~70×70 pixel receptive field — enforcing high-frequency structural accuracy. For Pix2Pix (conditional), input and target/generated images are <strong>concatenated</strong> along the channel dimension (6-channel input); for CycleGAN, only a single 3-channel image is input.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Type</th>
+      <th style="text-align: center">Filters</th>
+      <th style="text-align: center">Kernel/Stride</th>
+      <th style="text-align: center">Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>down1</td>
+      <td>Conv2D</td>
+      <td style="text-align: center">64</td>
+      <td style="text-align: center">k=4, s=2</td>
+      <td style="text-align: center">128×128×64</td>
+    </tr>
+    <tr>
+      <td>down2</td>
+      <td>Conv2D + Norm</td>
+      <td style="text-align: center">128</td>
+      <td style="text-align: center">k=4, s=2</td>
+      <td style="text-align: center">64×64×128</td>
+    </tr>
+    <tr>
+      <td>down3</td>
+      <td>Conv2D + Norm</td>
+      <td style="text-align: center">256</td>
+      <td style="text-align: center">k=4, s=2</td>
+      <td style="text-align: center">32×32×256</td>
+    </tr>
+    <tr>
+      <td>zero_pad + conv</td>
+      <td>ZeroPad + Conv2D + Norm</td>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">k=4, s=1</td>
+      <td style="text-align: center">31×31×512</td>
+    </tr>
+    <tr>
+      <td>zero_pad + last</td>
+      <td>ZeroPad + Conv2D</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">k=4, s=1</td>
+      <td style="text-align: center"><strong>30×30×1</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>No sigmoid activation — raw logits used with <code class="language-plaintext highlighter-rouge">BinaryCrossentropy(from_logits=True)</code>.</p>
+
+<h2 id="batchnorm-vs-instancenorm-normalization-design">BatchNorm vs. InstanceNorm: Normalization Design</h2>
+
+<p>A critical architectural distinction: <strong>Pix2Pix uses BatchNormalization</strong> while <strong>CycleGAN uses a custom InstanceNormalization</strong> Keras layer that normalizes per-instance across spatial dimensions <code class="language-plaintext highlighter-rouge">[1, 2]</code> independently per sample and per channel:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">InstanceNormalization</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">add_weight</span><span class="p">(</span><span class="sh">'</span><span class="s">scale</span><span class="sh">'</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:],</span>
+                                     <span class="n">initializer</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="nf">random_normal_initializer</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">add_weight</span><span class="p">(</span><span class="sh">'</span><span class="s">offset</span><span class="sh">'</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:],</span>
+                                      <span class="n">initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">zeros</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">mean</span><span class="p">,</span> <span class="n">variance</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="nf">moments</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">scale</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="n">tf</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">rsqrt</span><span class="p">(</span><span class="n">variance</span> <span class="o">+</span> <span class="mf">1e-5</span><span class="p">)</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">offset</span>
+</code></pre></div></div>
+
+<p>Learnable affine parameters: <code class="language-plaintext highlighter-rouge">scale ~ N(1.0, 0.02)</code>, <code class="language-plaintext highlighter-rouge">offset = 0</code>. This avoids the TensorFlow Addons dependency and provides full control over initialization — important because InstanceNorm prevents cross-sample style leakage in CycleGAN’s unpaired training regime.</p>
+
+<h2 id="loss-functions">Loss Functions</h2>
+
+<h3 id="pix2pix-adversarial--l1--tv-regularization">Pix2Pix: Adversarial + L1 + TV Regularization</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>L_G = L_adversarial + 100 · L_L1 + 1e-4 · L_TV
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th style="text-align: center">Weight</th>
+      <th>Formula</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Adversarial</strong></td>
+      <td style="text-align: center">1.0</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">BCE(ones_like(D(G(x))), D(G(x)))</code> — fool discriminator</td>
+    </tr>
+    <tr>
+      <td><strong>L1 Reconstruction</strong></td>
+      <td style="text-align: center">100.0</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">mean(\|target − G(x)\|)</code> — pixel-wise fidelity</td>
+    </tr>
+    <tr>
+      <td><strong>Total Variation</strong></td>
+      <td style="text-align: center">1e-4</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">mean(\|∇_x G\|) + mean(\|∇_y G\|)</code> — spatial smoothness</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>TV regularization</strong> (the novel contribution) computes L1-norm finite differences between horizontally and vertically adjacent pixels, suppressing artifacts and color bleeding at region boundaries. Supports both <strong>L1 (anisotropic)</strong> and <strong>L2 (isotropic)</strong> variants via the <code class="language-plaintext highlighter-rouge">--norm-tv-loss</code> flag. The 3.3% FID improvement (227.9 → 220.5) validates its effectiveness for anime colorization where sharp color boundaries between hair, skin, and clothing are critical.</p>
+
+<h3 id="cyclegan-adversarial--cycle-consistency--identity">CycleGAN: Adversarial + Cycle Consistency + Identity</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>L_G = L_adversarial(G) + 10 · L_cycle(X→Y→X) + 10 · L_cycle(Y→X→Y) + 5 · L_identity(G)
+</code></pre></div></div>
+
+<p>Cycle consistency loss enforces <code class="language-plaintext highlighter-rouge">F(G(x)) ≈ x</code> and <code class="language-plaintext highlighter-rouge">G(F(y)) ≈ y</code> (L1 distance), enabling unpaired training. Identity loss <code class="language-plaintext highlighter-rouge">\|G(y) − y\|</code> preserves color when the input is already in the target domain. Discriminator losses use a <strong>0.5 scaling factor</strong> (distinct from Pix2Pix’s unscaled discriminators).</p>
+
+<h3 id="neural-style-transfer-gram-matrix-optimization">Neural Style Transfer: Gram Matrix Optimization</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>L = (1e-2 / 5) · Σ MSE(Gram(style_out), Gram(style_target))
+  + (1e4 / 1) · Σ MSE(content_out, content_target)
+</code></pre></div></div>
+
+<p>Style layers: <code class="language-plaintext highlighter-rouge">block{1-5}_conv1</code> (5 layers). Content layer: <code class="language-plaintext highlighter-rouge">block5_conv2</code>. Gram matrices computed via Einstein summation (<code class="language-plaintext highlighter-rouge">tf.linalg.einsum('bijc,bijd-&gt;bcd')</code>) normalized by spatial dimensions. Optimized via Adam (<code class="language-plaintext highlighter-rouge">lr=0.02</code>, <code class="language-plaintext highlighter-rouge">β₁=0.99</code>, <code class="language-plaintext highlighter-rouge">ε=0.1</code>) for 1,000 steps × 100 epochs per image.</p>
+
+<h2 id="dataset-17769-anime-sketch-color-pairs">Dataset: 17,769 Anime Sketch-Color Pairs</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Split</th>
+      <th style="text-align: center">Count</th>
+      <th style="text-align: center">Ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Training</td>
+      <td style="text-align: center">14,224</td>
+      <td style="text-align: center">80%</td>
+    </tr>
+    <tr>
+      <td>Test</td>
+      <td style="text-align: center">3,545</td>
+      <td style="text-align: center">20%</td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td style="text-align: center"><strong>17,769</strong></td>
+      <td style="text-align: center">100%</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+<strong>Source</strong>: Kaggle <code class="language-plaintext highlighter-rouge">ktaebum/anime-sketch-colorization-pair</code>, automated download via Kaggle API. Each source image is a horizontally concatenated color</td>
+      <td>sketch pair, split at the midpoint and resized to 256×256 via nearest-neighbor interpolation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Training augmentation</strong> (via <code class="language-plaintext highlighter-rouge">@tf.function</code>-decorated <code class="language-plaintext highlighter-rouge">random_jitter()</code>): resize to <strong>286×286</strong> → random crop to 256×256 → random horizontal flip (50%). All pixels normalized to <code class="language-plaintext highlighter-rouge">[−1, 1]</code> via <code class="language-plaintext highlighter-rouge">(pixel / 127.5) − 1</code>.</p>
+
+<h2 id="training-configuration">Training Configuration</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th style="text-align: center">Pix2Pix</th>
+      <th style="text-align: center">CycleGAN</th>
+      <th style="text-align: center">NST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Optimizer</td>
+      <td style="text-align: center">Adam</td>
+      <td style="text-align: center">Adam</td>
+      <td style="text-align: center">Adam</td>
+    </tr>
+    <tr>
+      <td>Learning rate</td>
+      <td style="text-align: center">2e-4</td>
+      <td style="text-align: center">2e-4</td>
+      <td style="text-align: center">0.02</td>
+    </tr>
+    <tr>
+      <td>β₁ / β₂</td>
+      <td style="text-align: center">0.5 / 0.999</td>
+      <td style="text-align: center">0.5 / 0.999</td>
+      <td style="text-align: center">0.99 / 0.999</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td style="text-align: center">32</td>
+      <td style="text-align: center">8</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td>Epochs</td>
+      <td style="text-align: center">150</td>
+      <td style="text-align: center">150</td>
+      <td style="text-align: center">1,000 steps × 100</td>
+    </tr>
+    <tr>
+      <td>Image size</td>
+      <td style="text-align: center">256×256</td>
+      <td style="text-align: center">256×256</td>
+      <td style="text-align: center">max 512px</td>
+    </tr>
+    <tr>
+      <td>Checkpoint freq</td>
+      <td style="text-align: center">Every 5 epochs</td>
+      <td style="text-align: center">Every 5 epochs</td>
+      <td style="text-align: center">—</td>
+    </tr>
+    <tr>
+      <td>Networks</td>
+      <td style="text-align: center">2 (G + D)</td>
+      <td style="text-align: center">
+<strong>4</strong> (G_g, G_f, D_x, D_y)</td>
+      <td style="text-align: center">0 (VGG19 frozen)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>CycleGAN uses <code class="language-plaintext highlighter-rouge">tf.GradientTape(persistent=True)</code> since gradients for all four networks must be computed from the same forward pass. Both GAN models use <code class="language-plaintext highlighter-rouge">@tf.function</code>-decorated training steps for graph-mode execution with TensorBoard logging for all loss components.</p>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<p><strong>FID (Frechet Inception Distance)</strong>: InceptionV3 (<code class="language-plaintext highlighter-rouge">include_top=False, pooling='avg'</code>) extracts 2048-dimensional features; FID = <code class="language-plaintext highlighter-rouge">‖μ₁ − μ₂‖² + Tr(Σ₁ + Σ₂ − 2√(Σ₁Σ₂))</code> via <code class="language-plaintext highlighter-rouge">scipy.linalg.sqrtm</code>.</p>
+
+<p><strong>SSIM</strong>: <code class="language-plaintext highlighter-rouge">tf.image.ssim(max_val=255, filter_size=11, filter_sigma=1.5, k1=0.01, k2=0.03)</code>, averaged across all test pairs.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th style="text-align: center">FID ↓</th>
+      <th style="text-align: center">SSIM ↑</th>
+      <th style="text-align: center">FID Reduction vs. NST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Neural Style Transfer</td>
+      <td style="text-align: center">345.5</td>
+      <td style="text-align: center">0.655</td>
+      <td style="text-align: center">baseline</td>
+    </tr>
+    <tr>
+      <td>CycleGAN</td>
+      <td style="text-align: center">272.6</td>
+      <td style="text-align: center">0.724</td>
+      <td style="text-align: center">21.1%</td>
+    </tr>
+    <tr>
+      <td>Pix2Pix</td>
+      <td style="text-align: center">227.9</td>
+      <td style="text-align: center">0.747</td>
+      <td style="text-align: center">34.0%</td>
+    </tr>
+    <tr>
+      <td><strong>Pix2Pix + TV Loss</strong></td>
+      <td style="text-align: center"><strong>220.5</strong></td>
+      <td style="text-align: center"><strong>0.756</strong></td>
+      <td style="text-align: center"><strong>36.2%</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key findings</strong>: (1) Paired supervision (Pix2Pix) dramatically outperforms unpaired approaches (CycleGAN) with a 55.7 FID gap. (2) TV regularization provides consistent improvement across both FID and SSIM. (3) SSIM plateaus around epoch 10 while FID continues improving until epoch 35, suggesting structural fidelity converges before perceptual quality. (4) PatchGAN effectively preserves fine details in hair, eyes, and clothing.</p>
+
+<h2 id="demo">Demo</h2>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/GANime_Demo-480.webp 480w,/assets/img/projects/GANime_Demo-800.webp 800w,/assets/img/projects/GANime_Demo-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/GANime_Demo.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="GANime Demo" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        
+
+
+
+<figure>
+  <picture>
+    <!-- Auto scaling with imagemagick -->
+    <!--
+      See https://www.debugbear.com/blog/responsive-images#w-descriptors-and-the-sizes-attribute and
+      https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images for info on defining 'sizes' for responsive images
+    -->
+    
+      
+        <source class="responsive-img-srcset" srcset="/assets/img/projects/GANime_Poster-480.webp 480w,/assets/img/projects/GANime_Poster-800.webp 800w,/assets/img/projects/GANime_Poster-1400.webp 1400w," type="image/webp" sizes="95vw"></source>
+      
+    
+    <img src="/assets/img/projects/GANime_Poster.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="GANime Poster" loading="eager" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+  </picture>
+
+  
+</figure>
+
+    </div>
+</div>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.7+), TensorFlow (2.1), Keras, VGG19 (feature extraction), InceptionV3 (FID evaluation), TensorFlow Hub (Fast NST), SciPy (matrix square root), OpenCV, Kaggle API, TensorBoard, AWS EC2, Google Colab</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>

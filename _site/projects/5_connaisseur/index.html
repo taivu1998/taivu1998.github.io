@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      ConnAIsseur: Cross-Domain Recipe Recommendation via BERT Embedding Transfer | Tai Vu
+    
+  
+</title>
+<meta name="author" content="Tai Vu">
+<meta name="description" content="A full-stack AI recipe platform using domain-adaptive BERT pre-training, cross-domain semantic alignment from restaurant reviews to recipes, and KNN retrieval">
+
+  <meta name="keywords" content="tai vu, tai, machine learning, AI researcher, openai, meta, stanford, deep learning, reinforcement learning, NLP, computer vision">
+
+
+
+
+
+
+
+
+
+
+<!-- Security: Content Security Policy -->
+<!-- Permissive CSP suitable for academic websites. Allows external images, videos, and common embed services. -->
+<!-- To customize for your needs, see: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;">
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%A7%A0&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://0.0.0.0:8080/projects/5_connaisseur/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?v=561b4de9fbf7bf604dafd8b6fb3f1ae5"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav sticky-bottom-footer">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand title font-weight-lighter" href="/">
+        
+          
+            <span class="font-weight-bold">Tai</span>
+          
+          
+          Vu
+        
+      </a>
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/portfolio/">Portfolio
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/contact/">Contact
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">ConnAIsseur: Cross-Domain Recipe Recommendation via BERT Embedding Transfer</h1>
+    
+  </header>
+
+  <article>
+    <p><a href="https://github.com/taivu1998/ConnAIsseur" rel="external nofollow noopener" target="_blank"><img src="https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub" alt=""></a></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>ConnAIsseur is a full-stack AI-driven recipe recommendation system whose core innovation is <strong>cross-domain semantic alignment</strong>: rather than requiring users to rate recipes directly (cold-start problem), the system infers culinary preferences from <strong>restaurant selections</strong>. Restaurant reviews and recipe descriptions are mapped into a <strong>shared 768-dimensional BERT embedding space</strong>, where the centroid of a user’s selected restaurant embeddings becomes their “latent taste profile” — enabling preference transfer from dining affinities to recipe suggestions via <strong>KNN retrieval with cosine similarity on KD-trees</strong>. The NLP pipeline combines <strong>domain-adaptive DistilBERT pre-training</strong> (Masked Language Modeling on Yelp reviews), <strong>multi-strategy keyword extraction</strong> (KeyBERT + YAKE + RAKE ensemble), and a Yelp web scraping pipeline with BeautifulSoup4. The full-stack application pairs a <strong>React SPA</strong> (Material-UI, React Router v6, token-based auth) with a <strong>Django REST Framework</strong> backend (4 models, 15+ API endpoints, SearchFilter full-text search) deployed on <strong>AWS EC2 with Nginx reverse proxy and HTTPS/SSL</strong>.</p>
+
+<h2 id="system-architecture">System Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Yelp Web Scraper] → [NLP Pipeline: BERT Pre-training + Keyword Extraction + Embeddings]
+                                        ↓
+                          [Pre-computed 768-dim Embeddings in CSV]
+                                        ↓
+[React SPA] ←──REST API──→ [Django REST Framework] ←→ [SQLite Database]
+                                        ↓
+                          [KNN Recommendation Engine (scikit-learn KD-tree)]
+</code></pre></div></div>
+
+<p>The system operates in two phases: (1) <strong>offline</strong> — data scraping, domain-adaptive BERT pre-training, embedding computation, and database population; (2) <strong>online</strong> — user profile construction from restaurant selections, real-time KNN-based recipe retrieval, and recipe search/browse.</p>
+
+<h2 id="nlp-pipeline-domain-adaptive-pre-training">NLP Pipeline: Domain-Adaptive Pre-training</h2>
+
+<h3 id="distilbert-masked-language-modeling">DistilBERT Masked Language Modeling</h3>
+
+<p>Domain-adaptive pre-training fine-tunes <code class="language-plaintext highlighter-rouge">distilbert-base-uncased</code> (6 transformer layers, 12 attention heads, 768 hidden dim, ~66M parameters) on Yelp review text via <strong>Masked Language Modeling</strong> — 15% of tokens randomly masked, model learns to predict them from context. This adapts the general-purpose language model to culinary domain vocabulary and semantics (e.g., “umami”, “sous vide”, “al dente”) before embedding extraction.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th style="text-align: center">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Base model</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">distilbert-base-uncased</code></td>
+    </tr>
+    <tr>
+      <td>Task</td>
+      <td style="text-align: center">MLM (15% masking probability)</td>
+    </tr>
+    <tr>
+      <td>Optimizer</td>
+      <td style="text-align: center">AdamW</td>
+    </tr>
+    <tr>
+      <td>Learning rate</td>
+      <td style="text-align: center">1e-4</td>
+    </tr>
+    <tr>
+      <td>Weight decay</td>
+      <td style="text-align: center">0.01</td>
+    </tr>
+    <tr>
+      <td>Epochs</td>
+      <td style="text-align: center">10</td>
+    </tr>
+    <tr>
+      <td>Block size</td>
+      <td style="text-align: center">128 tokens</td>
+    </tr>
+    <tr>
+      <td>Data split</td>
+      <td style="text-align: center">90% train / 10% validation</td>
+    </tr>
+    <tr>
+      <td>Evaluation</td>
+      <td style="text-align: center">Perplexity (<code class="language-plaintext highlighter-rouge">exp(eval_loss)</code>) per epoch</td>
+    </tr>
+    <tr>
+      <td>Best model selection</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">load_best_model_at_end=True</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="text-embedding-generation-three-strategies">Text Embedding Generation (Three Strategies)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Model</th>
+      <th>Method</th>
+      <th style="text-align: center">Dimensions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Primary</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">textattack/bert-base-uncased-yelp-polarity</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">[CLS]</code> token from last hidden layer</td>
+      <td style="text-align: center">768</td>
+    </tr>
+    <tr>
+      <td>Alternative</td>
+      <td><code class="language-plaintext highlighter-rouge">distilbert-base-nli-mean-tokens</code></td>
+      <td>Mean pooling (Sentence-BERT)</td>
+      <td style="text-align: center">768</td>
+    </tr>
+    <tr>
+      <td>Fallback</td>
+      <td>GloVe-wiki-gigaword-300</td>
+      <td>Mean of word vectors</td>
+      <td style="text-align: center">300</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The production system uses a BERT model fine-tuned on Yelp polarity classification, extracting the <code class="language-plaintext highlighter-rouge">[CLS]</code> token representation (<code class="language-plaintext highlighter-rouge">outputs.last_hidden_state[:, 0, :]</code>) as a 768-dimensional embedding for both restaurant reviews and recipe descriptions — projecting them into a shared semantic space.</p>
+
+<h3 id="multi-strategy-keyword-extraction-ensemble">Multi-Strategy Keyword Extraction Ensemble</h3>
+
+<p>Three complementary approaches capture different facets of keyword relevance:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Library</th>
+      <th>Config</th>
+      <th>Approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>KeyBERT</strong></td>
+      <td>keybert</td>
+      <td>3-gram, max-sum diversity, top 20</td>
+      <td>Contextual (BERT cosine similarity)</td>
+    </tr>
+    <tr>
+      <td><strong>YAKE</strong></td>
+      <td>yake</td>
+      <td>3-gram, dedup threshold 0.9, top 20</td>
+      <td>Statistical (TF, position, co-occurrence)</td>
+    </tr>
+    <tr>
+      <td><strong>RAKE</strong></td>
+      <td>rake_nltk</td>
+      <td>Default</td>
+      <td>Rule-based (phrase frequency/degree)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="cross-domain-recommendation-engine">Cross-Domain Recommendation Engine</h2>
+
+<h3 id="latent-taste-profile-construction">Latent Taste Profile Construction</h3>
+
+<p>When a user selects restaurants on the Preference page:</p>
+
+<ol>
+  <li>
+<strong>Retrieve</strong> 768-dim <code class="language-plaintext highlighter-rouge">review_embedding</code> for each selected restaurant from the database</li>
+  <li>
+<strong>Compute centroid</strong>: <code class="language-plaintext highlighter-rouge">profile_embedding = mean(restaurant_embeddings)</code> — the average embedding becomes the user’s latent taste profile</li>
+  <li>If food preference embeddings exist, the final profile averages both restaurant and food preference centroids</li>
+</ol>
+
+<h3 id="knn-retrieval-with-cosine-via-euclidean">KNN Retrieval with Cosine-via-Euclidean</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">knn</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="sh">"</span><span class="s">cosine</span><span class="sh">"</span><span class="p">):</span>
+    <span class="c1"># L2-normalize for cosine: ||a-b||² = 2(1 - cos(a,b)) on unit sphere
+</span>    <span class="n">point</span> <span class="o">=</span> <span class="n">point</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="nf">norm</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="nf">norm</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="nc">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="sh">'</span><span class="s">kd_tree</span><span class="sh">'</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="sh">'</span><span class="s">euclidean</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">.</span><span class="nf">kneighbors</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">expand_dims</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">n_neighbors</span><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Cosine similarity is implemented by <strong>L2-normalizing</strong> both query and candidates, then using Euclidean distance on the unit hypersphere. This is mathematically equivalent (<code class="language-plaintext highlighter-rouge">‖a−b‖² = 2(1−cos(a,b))</code> for unit vectors) and enables scikit-learn’s KD-tree algorithm (which doesn’t natively support cosine distance).</p>
+
+<p><strong>Stochastic candidate sampling</strong>: Rather than searching the entire recipe database, the system randomly samples <code class="language-plaintext highlighter-rouge">NUM_RANDOM_RECIPES=100</code> candidates and retrieves the top <code class="language-plaintext highlighter-rouge">NUM_RECIPES_RECOMMEND=10</code> — trading recall for sub-second latency, suitable for real-time web serving.</p>
+
+<h2 id="web-application">Web Application</h2>
+
+<h3 id="react-spa-frontend">React SPA Frontend</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Technology</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Framework</td>
+      <td>React 17.0.2 (class components)</td>
+    </tr>
+    <tr>
+      <td>Routing</td>
+      <td>React Router DOM v6 (HashRouter)</td>
+    </tr>
+    <tr>
+      <td>Styling</td>
+      <td>Material-UI v5.3.1 + Emotion + Bootstrap 4.6</td>
+    </tr>
+    <tr>
+      <td>HTTP</td>
+      <td>Axios 0.25.0 with token-based auth headers</td>
+    </tr>
+    <tr>
+      <td>Layout</td>
+      <td>react-horizontal-scrolling-menu (recipe carousels)</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+<strong>Component hierarchy</strong>: <code class="language-plaintext highlighter-rouge">App.js</code> (global auth state via <code class="language-plaintext highlighter-rouge">this.state</code> + <code class="language-plaintext highlighter-rouge">localStorage</code> persistence) → <code class="language-plaintext highlighter-rouge">LoginPage</code>
+</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">NavBar</code> + <code class="language-plaintext highlighter-rouge">HomePage</code> (saved + recommended carousels)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">PreferencePage</code> (restaurant search + selection)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">RecipePage</code> (detail view)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">SearchPage</code> (results grid)</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">ProfilePage</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="django-rest-framework-backend">Django REST Framework Backend</h3>
+
+<p><strong>4 Django models</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Key Fields</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Recipe</code></td>
+      <td>title, duration, ingredients, instructions, keywords, keyword_embedding, text_embedding (768-dim)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Restaurant</code></td>
+      <td>title, address, description, link, keywords, keyword_embedding, review_embedding (768-dim)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Profile</code></td>
+      <td>user (OneToOne→User), bio, dietary, food_prefs, restaurants, recipes, profile_embedding (768-dim)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">FoodImage</code></td>
+      <td>title, description, link</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>15+ REST API endpoints</strong> via DRF’s <code class="language-plaintext highlighter-rouge">DefaultRouter</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Endpoints</th>
+      <th>Key Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Recipes</strong></td>
+      <td>list, detail, recommend, add, remove, get_recipe</td>
+      <td>SearchFilter on title/instructions/keywords</td>
+    </tr>
+    <tr>
+      <td><strong>Restaurants</strong></td>
+      <td>list, search, add, remove, get_restaurant</td>
+      <td>SearchFilter on title/address/description/keywords</td>
+    </tr>
+    <tr>
+      <td><strong>Profiles</strong></td>
+      <td>get_profile, update_profile, update_preferences</td>
+      <td>Recompute profile embedding on preference change</td>
+    </tr>
+    <tr>
+      <td><strong>Auth</strong></td>
+      <td>login, register, logout</td>
+      <td>Token authentication, password validation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Dynamic serializer selection per action (<code class="language-plaintext highlighter-rouge">get_serializer_class()</code>) with separate list vs. detail serializers — list views exclude embedding fields for bandwidth efficiency.</p>
+
+<h2 id="yelp-web-scraping-pipeline">Yelp Web Scraping Pipeline</h2>
+
+<p>BeautifulSoup4-based scraper targeting Yelp restaurant pages:</p>
+
+<ul>
+  <li>
+<strong>Review text</strong> extraction via CSS class targeting (<code class="language-plaintext highlighter-rouge">raw__09f24__T4Ezm</code>)</li>
+  <li>
+<strong>Metadata</strong>: restaurant title, category tags (parsed from <code class="language-plaintext highlighter-rouge">/c</code> href anchors), star ratings</li>
+  <li>
+<strong>POS tagging</strong> via <code class="language-plaintext highlighter-rouge">nltk.pos_tag()</code> to categorize extracted keywords by part of speech (NN, JJ, etc.)</li>
+  <li>
+<strong>Multiprocessing</strong> with configurable chunk sizes for parallel scraping</li>
+  <li>
+<strong>Progress tracking</strong> via text files for resumable execution across 150+ restaurants</li>
+</ul>
+
+<h2 id="deployment-aws-ec2">Deployment (AWS EC2)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th style="text-align: center">Specification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cloud</td>
+      <td style="text-align: center">AWS EC2 (t2.micro, Ubuntu 20.04)</td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td style="text-align: center">Elastic IP for persistence</td>
+    </tr>
+    <tr>
+      <td>Reverse proxy</td>
+      <td style="text-align: center">Nginx</td>
+    </tr>
+    <tr>
+      <td>TLS</td>
+      <td style="text-align: center">HTTPS via SSL certificate</td>
+    </tr>
+    <tr>
+      <td>CORS</td>
+      <td style="text-align: center">Nginx header management</td>
+    </tr>
+    <tr>
+      <td>Memory</td>
+      <td style="text-align: center">2GB swap file for Node.js + Python</td>
+    </tr>
+    <tr>
+      <td>Database</td>
+      <td style="text-align: center">SQLite3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Data loading scripts (<code class="language-plaintext highlighter-rouge">save_recipes_to_database.py</code>, <code class="language-plaintext highlighter-rouge">save_restaurants_to_database.py</code>) read pre-computed embedding CSVs and populate the Django ORM, decoupling the expensive NLP pipeline from the real-time serving infrastructure.</p>
+
+<h2 id="tech-stack">Tech Stack</h2>
+
+<p>Python (3.8+), Django (3.1) + Django REST Framework (3.12), React (17.0.2), Material-UI (5.3), HuggingFace Transformers (BERT, DistilBERT), Sentence-Transformers, scikit-learn (KNN/KD-tree), KeyBERT, YAKE, RAKE-NLTK, NLTK, Gensim (GloVe), BeautifulSoup4, Pandas, NumPy, Axios, Nginx, AWS EC2</p>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    
+
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?v=a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?v=85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?v=2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?v=c15de51d4bb57887caa2c21988d97279"></script>
+<script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?v=d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?v=a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?v=2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?v=f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+
+
+
+  </body>
+</html>
