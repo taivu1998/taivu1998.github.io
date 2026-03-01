@@ -36,6 +36,13 @@ jobs:
           bundle lock --add-platform x86_64-linux
           bundle install --jobs 4 --retry 3
 
+      - name: Install build tools (ImageMagick + Jupyter)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick python3-pip
+          python3 -m pip install --user jupyter nbconvert
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: Build site
         env:
           JEKYLL_ENV: production
