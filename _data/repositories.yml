@@ -12,3 +12,22 @@ github_repos:
   - FortAwesome/Font-Awesome
   - mathjax/MathJax
   - jpswalsh/academicons
+
+# Open-source repositories I have contributed to (rendered on the Portfolio page)
+contributed_repos:
+  - marin-community/marin
+  - NovaSky-AI/SkyRL
+  - harbor-framework/harbor
+  - rllm-org/rllm
+  - allenai/OLMo-core
+  - allenai/open-instruct
+  - Physical-Intelligence/openpi
+  - huggingface/diffusers
+  - huggingface/lerobot
+  - NVIDIA-NeMo/RL
+  - ServiceNow/PipelineRL
+  - NousResearch/hermes-agent
+  - bytedance/Protenix
+  - aqlaboratory/openfold
+  - DeepCritical/DeepCritical
+  - Tomodovodoo/ParetoProof
